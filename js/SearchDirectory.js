@@ -24,89 +24,42 @@ $(document).ready(function() {
          ;
 
  	tableRef = $("#DataTable").dataTable();
-
+    $("img").unveil(200);
+    
 //	d3.json("data/PeopleDataTable_5-14-14.json", function(json){
 	d3.json("data/RAINIER_members_11-20-14.json", function(json){
 		 var DataTable=json
 		 tableRef.fnAddData(DataTable);
 	      
-        $("#SearchSpan").click(function(){ 
-           $("#HOMEdiv").attr("style", "display:none");
-           $("#TABLEdiv").attr("style", "display:none");
-           $("#SEARCHdiv").attr("style", "display:block") 
-           $("#PROFILEdiv").attr("style", "display:none");
-           $("#VISUALIZEdiv").attr("style", "display:none");
- 
-           if( document.getElementById("ProfileResults") == null){
-             SearchAndFilterResults()
-           }
-          
-           $("#SearchSpan").attr("class", "sidebar_nav_selected")
-           $("#TableSpan").attr("class", "sidebar_nav_not_selected")
-           $("#ProfileSpan").attr("class", "sidebar_nav_not_selected")
-           $("#VisualizeSpan").attr("class", "sidebar_nav_not_selected")
+       $("#SearchSpan").click(function(){ 
+             toggle_visibility("SearchSpan", "SEARCHdiv");
+             if( document.getElementById("ProfileResults") == null){
+                SearchAndFilterResults()
+             }
            });
         $("#TableSpan").click(function(){ 
-           $("#HOMEdiv").attr("style", "display:none");
-           $("#TABLEdiv").attr("style", "display:table");
-           $("#SEARCHdiv").attr("style", "display:none")
-           $("#PROFILEdiv").attr("style", "display:none");
-           $("#VISUALIZEdiv").attr("style", "display:none");
-           
-           $("#SearchSpan").attr("class", "sidebar_nav_not_selected")
-           $("#TableSpan").attr("class", "sidebar_nav_selected")
-           $("#ProfileSpan").attr("class", "sidebar_nav_not_selected")
-           $("#VisualizeSpan").attr("class", "sidebar_nav_not_selected")
+             toggle_visibility("TableSpan", "TABLEdiv");
            })
         $("#ProfileSpan").click(function(){ 
-           $("#HOMEdiv").attr("style", "display:none");
-           $("#TABLEdiv").attr("style", "display:none");
-           $("#SEARCHdiv").attr("style", "display:none")
-           $("#PROFILEdiv").attr("style", "display:block");
-           $("#VISUALIZEdiv").attr("style", "display:none");
-           
-           $("#SearchSpan").attr("class", "sidebar_nav_not_selected")
-           $("#TableSpan").attr("class", "sidebar_nav_not_selected")
-           $("#ProfileSpan").attr("class", "sidebar_nav_selected")
-           $("#VisualizeSpan").attr("class", "sidebar_nav_not_selected")
-           
-           createProfileTemplate();
+             toggle_visibility("ProfileSpan", "PROFILEdiv");           
+             createProfileTemplate();
            })
         $("#VisualizeSpan").click(function(){ 
-           $("#HOMEdiv").attr("style", "display:none");
-           $("#TABLEdiv").attr("style", "display:none");
-           $("#SEARCHdiv").attr("style", "display:none")
-           $("#PROFILEdiv").attr("style", "display:none");
-           $("#VISUALIZEdiv").attr("style", "display:block");
-           $('.SliderThumbnails').slick({
-             infinite: true,
-             slidesToShow: 3,
-             slidesToScroll: 1
-           });
+             toggle_visibility("VisualizeSpan", "VISUALIZEdiv");
 
-        
-           $("#SearchSpan").attr("class", "sidebar_nav_not_selected")
-           $("#TableSpan").attr("class", "sidebar_nav_not_selected")
-           $("#ProfileSpan").attr("class", "sidebar_nav_not_selected")
-           $("#VisualizeSpan").attr("class", "sidebar_nav_selected")
+             $('.SliderThumbnails').slick({
+               infinite: true,
+               slidesToShow: 3,
+               slidesToScroll: 1
+             });
+             
+//             $("#BarplotThumb").click(drawBarplot)
            })
        $("#HomeSpan").click(function(){ 
-           $("#HOMEdiv").attr("style", "display:block");
-           $("#TABLEdiv").attr("style", "display:none");
-           $("#SEARCHdiv").attr("style", "display:none")
-           $("#PROFILEdiv").attr("style", "display:none");
-        
-           $("#SearchSpan").attr("class", "sidebar_nav_not_selected")
-           $("#TableSpan").attr("class", "sidebar_nav_not_selected")
-           $("#ProfileSpan").attr("class", "sidebar_nav_not_selected")
-           $("#VisualizeSpan").attr("class", "sidebar_nav_not_selected")
+             toggle_visibility("", "HOMEdiv");
            })
-   
-           $("#HOMEdiv").attr("style", "display:block");
-           $("#TABLEdiv").attr("style", "display:none");
-           $("#SEARCHdiv").attr("style", "display:none");
-           $("#PROFILEdiv").attr("style", "display:none");
          
+       
         tableRef.fnSetColumnVis( 2, false );
         for(i=7;i<36;i++){
            tableRef.fnSetColumnVis( i, false );
@@ -141,6 +94,19 @@ $(document).ready(function() {
       }
    } //window.onload 
 	
+  //----------------------------------------------------------------------------------------------------	
+	function toggle_visibility(activeSpanID, activeDivID){
+        var els = document.getElementsByClassName('MainFrameDiv');
+        for(var i=0; i<els.length; ++i){     //set all displays to none
+            els[i].style.display =  'none';
+        };
+
+        $(".sidebar_nav_selected").attr("class", "sidebar_nav_not_selected")  //deselect active nav
+        
+        document.getElementById(activeDivID).style.display = 'block'  //then activate a single div
+        if(activeSpanID != "") document.getElementById(activeSpanID).className = "sidebar_nav_selected" //and select the navigation span
+
+    }
   //----------------------------------------------------------------------------------------------------
    function SearchTableByStrings(wordArray) {
         filterString = wordArray[0];
@@ -157,11 +123,6 @@ $(document).ready(function() {
       tableRef.fnFilter("", 24); // clear field filter
 
       tableRef.fnDraw()
-
-//        tableRef
-//          .search( '' )
-//          .columns().search( '' )
-//          .draw();
 
    }
   //----------------------------------------------------------------------------------------------------
@@ -216,7 +177,7 @@ $(document).ready(function() {
           
           var Bio = "Bio<textarea class='TemplateBioSearchbox' value='' type='text' name='Bio' style='width:90%;float:right; min-height:150px;margin-top:5px' placeholder='Dr. Hopper was an American computer scientist and invented the first compiler for a computer programming language.  She is credited for popularizing the term debugging for fixing computer glitches, inspired by an actual moth removed from the computer (from Wikipedia).'></textarea><br>"
            $("#Profile_template_Bio").append(Bio)
-            
+              
 
    }
 
@@ -233,7 +194,8 @@ $(document).ready(function() {
            ProfileResults.append("Your search did not match any profiles.")
            return;
         }
-
+        
+        //ALTER FOR LAZY LOADING or pagination
         for(var i=0; i < rows.length; i++){
           ProfileResults.append("<div id=Profile_"+ i+ " style='clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; width:100%;height:100%; overflow-x:auto  '>")
           $("#Profile_"+i).append("<div id=Profile_"+i+"_Picture style='float:left; min-width:10%;margin-left:5px;margin-right:5px;margin-top:5px';></div>")
@@ -259,6 +221,7 @@ $(document).ready(function() {
            $("#Profile_"+i+"_Bio").append(Bio)
             
         }
+        
       } // createProfilesFromTable
 
   //----------------------------------------------------------------------------------------------------
@@ -270,7 +233,7 @@ $(document).ready(function() {
                      $(ImageDiv).append("<img title='ProfilePicture' alt='ProfilePic' class='rsImg' style='max-height:125px; max-width:100px' src='/images/Photos/Photo Coming Soon.jpg'>")
              },
              success: function()  { //file exists
-                     $(ImageDiv).append("<img title='ProfilePicture' alt='ProfilePic' class='rsImg' style='max-height:125px; max-width:100px' src='/images/Photos/"+ file + "'>")
+                     $(ImageDiv).append("<img title='ProfilePicture' alt='ProfilePic' class='rsImg' style='max-height:125px; max-width:100px' src='/images/Photos/"+ file + "' data-src='/images/Photos/Photo Coming Soon.jpg'>")
              }
        });
       }
@@ -289,7 +252,6 @@ $(document).ready(function() {
 
   //----------------------------------------------------------------------------------------------------
     function FilterField_Selection(){
-        var rows = tableRef._('tr', {"filter":"applied"});   
 
        var selectedFieldarray = []
        var e = document.getElementById("FilterField");
@@ -321,7 +283,6 @@ $(document).ready(function() {
     }
   //----------------------------------------------------------------------------------------------------
     function FilterInstitution_Selection(){
-        var rows = tableRef._('tr', {"filter":"applied"});   
  
        var selectedInstitutionarray = []
        var e = document.getElementById("FilterInstitution");
@@ -352,3 +313,81 @@ $(document).ready(function() {
 
 }    
 
+ //----------------------------------------------------------------------------------------------------
+    function drawBarplot(){
+  
+        var margin = {top: 40, right: 20, bottom: 30, left: 40},
+             width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+        var formatPercent = d3.format(".0%");
+
+        var x = d3.scale.ordinal()
+                  .rangeRoundBands([0, width], .1);
+
+        var y = d3.scale.linear()
+                  .range([height, 0]);
+
+        var xAxis = d3.svg.axis()
+                      .scale(x)
+                      .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+                      .scale(y)
+                      .orient("left")
+                      .tickFormat(formatPercent);
+
+//        var tip = d3.tip()
+//                    .attr('class', 'd3-tip')
+//                    .offset([-10, 0])
+//                    .html(function(d) {
+//                    return "<strong>Frequency:</strong> <span style='color:red'>" + d.frequency + "</span>";
+//                  })
+
+        var svg = d3.select("MainGraph").append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+//           svg.call(tip);
+
+        var data = tableRef._('tr', {"filter":"applied"});   
+
+           x.domain(data.map(function(d) { return d.Degrees; }));
+           y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+
+           svg.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis);
+
+           svg.append("g")
+              .attr("class", "y axis")
+              .call(yAxis)
+              .append("text")
+              .attr("transform", "rotate(-90)")
+              .attr("y", 6)
+              .attr("dy", ".71em")
+              .style("text-anchor", "end")
+              .text("Frequency");
+
+           svg.selectAll(".bar")
+              .data(data)
+              .enter().append("rect")
+              .attr("class", "bar")
+              .attr("x", function(d) { return x(d.letter); })
+              .attr("width", x.rangeBand())
+              .attr("y", function(d) { return y(d.frequency); })
+              .attr("height", function(d) { return height - y(d.frequency); })
+//              .on('mouseover', tip.show)
+//              .on('mouseout', tip.hide)
+
+       
+
+      function type(d) {
+          d.frequency = +d.frequency;
+          return d;
+       }
+
+}

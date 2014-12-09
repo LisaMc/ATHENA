@@ -18,7 +18,6 @@
     <title>ATHENA</title>
 
     <link rel="stylesheet" href="css/clientlibs.min.css" type="text/css">
-    <link rel="stylesheet" href="css/royalslider.min.css" type="text/css">
 
     <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
 	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -30,10 +29,14 @@
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
     <link href="css/chosen.min.css" media="screen" rel="stylesheet" type="text/css">
-    <script src="js/chosen_v1.2.0/chosen.jquery.min.js" type="text/javascript"></script>
+    <script src="js/chosen.jquery.min.js" type="text/javascript"></script>
 
+    <script src="js/jquery.unveil.js"  type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="css/slick/slick.css"/>
     <script type="text/javascript" src="js/slick.min.js"></script>
+
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="js/d3.tip.v0.6.3.js"></script>
 
   <script src="js/SearchDirectory.js"></script>
   <link   rel="stylesheet" type="text/css" href="css/dataTable.css">
@@ -52,15 +55,16 @@
   <div class="body" id="body_element">
  
     <!--  body contents -->
-   <div class="body_contents">
+   <div class="body_contents"> 
  
-     <div id="SEARCH_BARdiv" style="overflow:visible; width:100%">
-       <div class="parsys mainPar"><div class="search section sitesearch">
+     <div id="SEARCH_BARdiv" style="overflow:visible; width:100%;">
+<!--       <div class="parsys mainPar"> -->
+       <div class="sitesearch">
             <form id="QueryFreeForm" record="'search', {'keyword': '', 'results':'', 'executionTime':''}" style="width:30%;float:left" >
  		 	<input class="searchbox" maxlength="2048" id="QueryFreeInput" name="QueryText" placeholder="SEARCH for..." value="" type="text"/>
     		<input class="searchbutton" value="&gt;" type="submit" style="float:left"/>    
   			</form>
-         <div style="float:left;width:250px" class="filter">
+         <div style="float:left;width:27%" class="filter">
                 <select multiple id="FilterInstitution" data-placeholder="from INSTITUTION...">
              		<option value="Fred Hutchinson">Fred Hutch</option>
             		<option value="University of Washington">U. of Washington</option>
@@ -71,7 +75,7 @@
                 </select>
                 <input class="searchbutton" value="&gt;" type="submit"/>   
 		 </div>	
-         <div style="float:left;width:200px" class="filter">
+         <div style="float:left;width:25%" class="filter">
                 <select multiple id="FilterField" data-placeholder="SPECIALIZING in...">
              		<optgroup label="Disease Type">
                		<option value="Brain">Brain</option>
@@ -113,11 +117,11 @@
          </div>
          
 	   </div> <!-- /sitesearch -->
-	   </div> <!-- /parsys mainPar -->
+<!--	   </div>  /parsys mainPar -->
     </div>  <!--/SEARCH_BARdiv -->
-</div> <!-- /body_contents -->
+ </div> <!--/body_contents -->
  
-    <div style="align:left; color:#fff;padding-top:15px;">
+    <div style="align:left;margin-left:auto; color:#fff;padding-top:15px;">
  
            <div style="float:left; color:#fff; position:fixed;margin-top:80px">
 	         <ul class="sidebar_nav" style="list-style-type: none;padding-left: 5px;  padding-top:10px;cursor:pointer">            
@@ -128,22 +132,22 @@
              </ul>
  		  </div>
 
-     <div class="body_contents" style="margin-top:15px; margin-left:120px;align:left">
+     <div class="body_contents" style="margin-top:15px; margin-left:auto">
     
-     <div id="HOMEdiv" style="display:block">
+     <div id="HOMEdiv" class="MainFrameDiv" style="display:block">
 			   <img src="images/wordCloud.png" alt="wordCloud" style="height:30%; width:90%;"/>
 	</div>
-	        <div id="SEARCHdiv" style="display:none">
+	        <div id="SEARCHdiv" class="MainFrameDiv" style="display:none">
               <div id="SearchResults"></div>
             </div>
 
-            <div id="TABLEdiv" style="display:none">
+            <div id="TABLEdiv" class="MainFrameDiv" style="display:none">
               <div id="DataTableDiv" style="width:100%; height:100%" >
                <table cellpadding="0" cellspacing="0" border="0" class="display" id="DataTable"></table>
               </div>
             </div>      <!-- /TABLEdiv -->
 
-	        <div id="PROFILEdiv" style="display:none">
+	        <div id="PROFILEdiv" class="MainFrameDiv" style="display:none">
               <div id="ProfileDivTitle" style="clear:both;text-align:center">
                  <h2 >Create or Edit your Profile</h2>
 <!--                 (Search for your name above to auto-populate the fields) -->
@@ -152,11 +156,11 @@
               </div>
 
 
-     <div id="VISUALIZEdiv" style="display:none;">
+     <div id="VISUALIZEdiv" class="MainFrameDiv" style="display:none;">
       <div id="MainGraph"></div>
       <div id="GraphThumbnails" class="SliderThumbnails" style="max-height:150px; text-align:center;">
          <h2>Choose a Plot Type:</h2>
-         <div id="BarplotThumb">Bar plot     <img src="images/graphStills/BarPlot.png" style="max-height:150px"/></div>
+         <div id="BarplotThumb">Bar plot (work in progress)    <img src="images/graphStills/BarPlot.png" style="max-height:150px"/></div>
          <div id="LineplotThumb" style="opacity:0.5">Line plot (coming soon)   <img src="images/graphStills/LinePlot.png" style="max-height:150px"/></div>
          <div id="PieChartThumb" style="opacity:0.5">Pie chart (coming soon)  <img src="images/graphStills/PieChart.png" style="max-height:150px"/> </div>
          <div id="VennThumb" style="opacity:0.5">Venn diagram (coming soon)   <img src="images/graphStills/VennDiagram.png" style="max-height:150px"/> </div>
