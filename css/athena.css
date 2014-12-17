@@ -1,15 +1,16 @@
 .body{margin-top:100px}
 
-div.filter {border:1px solid #ccc;margin:0;padding-left:.5em;padding-right:3em;position:relative;background-color:#fff}
-div.filter input.searchbutton{border:0 none;font-size:1.2em;height:2em;margin:0;padding:0}
-div.filter input.searchbutton{background-color:#459bfc;color:#fff;border-radius:0;width:2em;cursor:pointer;overflow:auto;-webkit-appearance:none;}
+div.filter {border:1px solid #ccc;margin:0;padding-left:.5em;padding-right:3em;position:relative;background-color:#fff; margin-left:15px}
+div.filter input.searchbutton{border:0 none;height:2em;margin:0;padding:0; border-radius:7px}
+div.filter input.searchbutton{background-color:#459bfc;color:#fff;width:2em;font-size: 13px;cursor:pointer;overflow:auto;-webkit-appearance:none;border-radius:7px}
 div.filter input.searchbutton{overflow:auto;position:absolute;right:0;top:0;width:2em;cursor:pointer}
 div.filter input.searchbutton:hover{background-color:#60a8fa}
+div.sitesearch form input.searchbox, div.sitesearch form input.searchbutton{font-size:13px;}
 
-div.filter .chosen-container{position:relative;display:inline-block;vertical-align:middle;font-size:1.2em;*display:inline;-webkit-user-select:none;-moz-user-select:none;user-select:none}
+div.filter .chosen-container{position:relative;display:inline-block;vertical-align:middle;*display:inline;-webkit-user-select:none;-moz-user-select:none;user-select:none; border-radius: 25px;}
 
-div.filter .chosen-container *{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
-div.filter .chosen-container-multi .chosen-choices{border:0 none;height:2em !important;overflow-y: auto; margin:0;padding:5px 5px;width:100% !important}
+div.filter .chosen-container *{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box; }
+div.filter .chosen-container-multi .chosen-choices{border:0 none;margin:0;width:100% !important; }
 div.filter .chosen-container-multi{width:100% !important}
 
 .sidebar_nav_not_selected{
@@ -21,6 +22,7 @@ div.filter .chosen-container-multi{width:100% !important}
 	z-index: 10;
 	height: 50px;
 	border-right: 1px solid #ddd;
+	color:white;
 }
 
 .sidebar_nav_selected{
@@ -32,7 +34,7 @@ div.filter .chosen-container-multi{width:100% !important}
 	z-index: 10;
 	height: 50px;
 	border-right: 1px solid #ddd;
-	background: rgba(225,239,240, 0.4);
+	background: #60a8fa;
 	font-size: 1.5em;
 }
 
@@ -88,12 +90,60 @@ div.filter .chosen-container-multi{width:100% !important}
 	top:1px;
 } 
 
-.runningHeader{color:#fff; float:left; padding-left:12px;padding-top:1em;font-family:sans-serif;font-weight:300;font-style:normal}
+.runningHeader{color:#fff; float:left; padding-left:12px;padding-top:1em;font-family:Cambria, "Trebuchet MS", Helvetica, sans-serif;font-weight:300;font-style:normal}
 
 .TemplateBioSearchbox{
  line-height:2em;
 }
 
+.slick-slide img{
+  display:inline;
+}
+
+.slick-prev{
+top:-10px;
+margin-bottom: 10px;
+  color: "black" !important;
+  display:inline !important;
+  left:auto; right:auto;
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(90deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(90deg);
+    /* Opera */
+    -o-transform:rotate(90deg);
+    /* IE9 */
+    -ms-transform:rotate(90deg);
+    /* IE6,IE7 */
+
+}
+.slick-next{
+bottom:-10px; top:100%;
+margin-top: 10px;
+  color: "black" !important;
+  display:inline !important;
+  left:auto; right:auto;
+      behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(90deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(90deg);
+    /* Opera */
+    -o-transform:rotate(90deg);
+    /* IE9 */
+    -ms-transform:rotate(90deg);
+    /* IE6,IE7 */
+
+}
+
+.slick-prev:before, .slick-next:before {
+color: black;
+}
+
+.slick-list.draggable{
+min-height:400px;
+}
 .barplot .axis path,
 .barplot .axis line {
   fill: none;

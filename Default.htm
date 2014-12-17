@@ -38,6 +38,11 @@
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="js/d3.tip.v0.6.3.js"></script>
 
+   <script src="js/jquery.dataTables.min.js"></script>
+   <link   rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
+	<script type="text/javascript" src="d3/d3.js"></script>
+
+
   <script src="js/SearchDirectory.js"></script>
   <link   rel="stylesheet" type="text/css" href="css/dataTable.css">
   <link   rel="stylesheet" type="text/css" href="css/athena.css">
@@ -52,7 +57,7 @@
   <a href="#section_navigation" title="Jump to navigation for this section"></a>
 
   <!-- START BODY ELEMENT -->
-  <div class="body" id="body_element">
+  <div class="body" id="body_element"> 
  
     <!--  body contents -->
    <div class="body_contents"> 
@@ -60,11 +65,11 @@
      <div id="SEARCH_BARdiv" style="overflow:visible; width:100%;">
 <!--       <div class="parsys mainPar"> -->
        <div class="sitesearch">
-            <form id="QueryFreeForm" record="'search', {'keyword': '', 'results':'', 'executionTime':''}" style="width:30%;float:left" >
+            <form id="QueryFreeForm" record="'search', {'keyword': '', 'results':'', 'executionTime':''}" style="width:25%;float:left;border-radius:7px" >
  		 	<input class="searchbox" maxlength="2048" id="QueryFreeInput" name="QueryText" placeholder="SEARCH for..." value="" type="text"/>
-    		<input class="searchbutton" value="&gt;" type="submit" style="float:left"/>    
+    		<input class="searchbutton" value="&gt;" type="submit" style="float:left;border-radius:7px"/>    
   			</form>
-         <div style="float:left;width:27%" class="filter">
+         <div style="float:left;width:15%;border-radius:7px" class="filter">
                 <select multiple id="FilterInstitution" data-placeholder="from INSTITUTION...">
              		<option value="Fred Hutchinson">Fred Hutch</option>
             		<option value="University of Washington">U. of Washington</option>
@@ -75,7 +80,7 @@
                 </select>
                 <input class="searchbutton" value="&gt;" type="submit"/>   
 		 </div>	
-         <div style="float:left;width:25%" class="filter">
+         <div style="float:left;width:15%;border-radius:7px" class="filter">
                 <select multiple id="FilterField" data-placeholder="SPECIALIZING in...">
              		<optgroup label="Disease Type">
                		<option value="Brain">Brain</option>
@@ -107,7 +112,10 @@
                 </select>
    		        <input class="searchbutton" value="&gt;" type="submit"/>     
          </div>
-         <div id="ReportSearchFilterDiv" style="clear:both; color:#fff;">
+         <div> <button id="VisualizeSpan" class="SubmitProfile" style="font-size:13px; padding:6px 23px; margin-left:15px">Visualize</button>
+
+         </div>
+         <div id="ReportSearchFilterDiv" style="clear:both; color:#fff;padding-bottom:10px; padding-top:5px; font-size:1.2em">
             <span id="NumberOfResultsDiv"></span>
             <span id="SearchStringDiv"></span>
             <span id="FilterStringDiv">
@@ -120,41 +128,43 @@
 <!--	   </div>  /parsys mainPar -->
     </div>  <!--/SEARCH_BARdiv -->
  </div> <!--/body_contents -->
+
+    <div id="mainContent" style="align:left;margin-left:auto;padding-top:5px;min-height:500px;">
  
-    <div style="align:left;margin-left:auto; color:#fff;padding-top:15px;">
- 
-           <div style="float:left; color:#fff; position:fixed;margin-top:80px">
-	         <ul class="sidebar_nav" style="list-style-type: none;padding-left: 5px;  padding-top:10px;cursor:pointer">            
+           <div id="SideNav" style="float:left; margin-top:15px;  z-index:100; ">
+             <div id="scroller-anchor"></div>
+             <div id="scroller" style="position:absolute; bottom:''">
+	         <ul class="sidebar_nav" style="list-style-type: none;padding-left: 40px;padding-right:20px; padding-top:10px;cursor:pointer">            
                <li><span id="SearchSpan" class="sidebar_nav_not_selected">Search</span></li>
                <li><span id="TableSpan" class="sidebar_nav_not_selected">Browse</span></li>
                <li><span id="ProfileSpan" class="sidebar_nav_not_selected">Profile</span></li>
-               <li><span id="VisualizeSpan" class="sidebar_nav_not_selected">Visualize</span></li>
-             </ul>
+               <li><span id="FAQSpan" class="sidebar_nav_not_selected">FAQ</span></li>
+             </ul> </div>
  		  </div>
 
-     <div class="body_contents" style="margin-top:15px; margin-left:auto">
+     <div class="body_contents" style="margin-top:15px; margin-left:140px;">
     
-     <div id="HOMEdiv" class="MainFrameDiv" style="display:block">
-			   <img src="images/wordCloud.png" alt="wordCloud" style="height:30%; width:90%;"/>
+     <div id="HOMEdiv" class="MainFrameDiv" style="display:block;   background:#000; color:#fff;margin-left:auto;margin-right:auto">
+ 			   <img src="images/wordle_BlueGreen_onBlack_roman_cropped.png" alt="wordCloud" style="height:30%; width:80%;display:inherit;margin-left:auto; margin-right:auto"/>
 	</div>
-	        <div id="SEARCHdiv" class="MainFrameDiv" style="display:none">
-              <div id="SearchResults"></div>
-            </div>
+	 <div id="SEARCHdiv" class="MainFrameDiv" style="display:none;">
+          <div id="SearchResults"></div>
+     </div>
 
-            <div id="TABLEdiv" class="MainFrameDiv" style="display:none">
-              <div id="DataTableDiv" style="width:100%; height:100%" >
+     <div id="TABLEdiv" class="MainFrameDiv" style="display:none; margin-bottom: 100px">
+          <div id="DataTableDiv" style="width:100%; height:100%" >
                <table cellpadding="0" cellspacing="0" border="0" class="display" id="DataTable"></table>
-              </div>
-            </div>      <!-- /TABLEdiv -->
+          </div>
+     </div>      <!-- /TABLEdiv -->
 
-	        <div id="PROFILEdiv" class="MainFrameDiv" style="display:none">
-              <div id="ProfileDivTitle" style="clear:both;text-align:center">
-                 <h2 >Create or Edit your Profile</h2>
+	 <div id="PROFILEdiv" class="MainFrameDiv" style="display:none">
+          <div id="ProfileDivTitle" style="clear:both;text-align:center">
+             <h2 >Create or Edit your Profile</h2>
                  (Requires email)
 <!--                 (Search for your name above to auto-populate the fields) -->
-              </div>
+          </div>
               <div id="ProfileTemplate">
-                <div id='TemplateBio' style='background:#fff;color:#000;height:100%; overflow-x:auto'>
+                <div id='TemplateBio' style='background:#fff;color:#000;height:100%;padding-bottom:100px;'>
                      <form id='Profile_template' action='MAILTO:lmcferri@fredhutch.org?subject=Updated ATHENA Profile' method='post' enctype='text/plain' style='clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; width:100%;height:100%; overflow-x:auto; line-height:2em  '>
  <!--                        <div id=Profile_template_Picture style='float:left; min-width:10%;margin-left:5px;margin-right:5px;margin-top:5px'>
                             <img title='ProfilePicture' alt='ProfilePic' class='rsImg' style='max-height:125px; max-width:100px' src='/images/Photos/Photo Coming Soon.jpg'>
@@ -171,36 +181,43 @@
                      </form>
                      </div>
                  </div>
-              </div>
-
+     </div>
 
      <div id="VISUALIZEdiv" class="MainFrameDiv" style="display:none;">
-      <div id="MainGraph"></div>
-      <div id="GraphThumbnails" class="SliderThumbnails" style="max-height:150px; text-align:center;">
-         <h2>Choose a Plot Type:</h2>
-         <div id="BarplotThumb">Bar plot (work in progress)    <img src="images/graphStills/BarPlot.png" style="max-height:150px"/></div>
-         <div id="LineplotThumb" style="opacity:0.5">Line plot (coming soon)   <img src="images/graphStills/LinePlot.png" style="max-height:150px"/></div>
-         <div id="PieChartThumb" style="opacity:0.5">Pie chart (coming soon)  <img src="images/graphStills/PieChart.png" style="max-height:150px"/> </div>
-         <div id="VennThumb" style="opacity:0.5">Venn diagram (coming soon)   <img src="images/graphStills/VennDiagram.png" style="max-height:150px"/> </div>
-         <div id="WordCloudThumb" style="opacity:0.5">Word cloud (coming soon)<img src="images/graphStills/WordCloud.png" style="max-height:150px"/> </div>
-         <div id="NetworkThumb" style="opacity:0.5">Network (coming soon)     <img src="images/graphStills/Network.png" style="max-height:150px"/> </div>
-         <div id="MapThumb" style="opacity:0.5">   Map (coming soon)  <img src="images/graphStills/Map.png" style="max-height:150px"/> </div>
+        <div id="MainGraph" style="float:left;width:60%; margin-left:auto; margin-top:auto; margin-right:auto">
+          <img src="images/graphStills/ATHENA_Survey_238_Fields_Barplot_12-2-14_cropped.png" style="max-height:450px"/>
+        </div>
+         <h2 style="float:right; width:30%; margin-left:auto; text-align:center; margin-top:0; margin-bottom:15px">Choose a Plot Type:</h2>
+        <div id="GraphThumbnails" class="SliderThumbnails" style="text-align:center;float:right; width:30%;max-height:450px;">
+         <div id="BarplotThumb" style="overflow:hidden;"><img src="images/graphStills/BarPlot.png" style="max-width:200px;max-height:150px;"/></div>
+         <div id="LineplotThumb" style="opacity:0.5; overflow:hidden;"><img src="images/graphStills/LinePlot.png" style="max-width:200px;max-height:150px;"/></div>
+         <div id="PieChartThumb" style="opacity:0.5; overflow:hidden;"><img src="images/graphStills/PieChart.png" style="max-width:200px;max-height:150px;"/> </div>
+         <div id="VennThumb" style="opacity:0.5; overflow:hidden;"><img src="images/graphStills/VennDiagram.png" style="max-width:200px;max-height:150px;"/> </div>
+         <div id="WordCloudThumb" style="opacity:0.5; overflow:hidden;"><img src="images/graphStills/WordCloud.png" style="max-width:200px;max-height:150px;"/> </div>
+         <div id="NetworkThumb" style="opacity:0.5; overflow:hidden;"><img src="images/graphStills/Network.png" style="max-width:200px;max-height:150px;"/> </div>
+         <div id="MapThumb" style="opacity:0.5; overflow:hidden;"><img src="images/graphStills/Map.png" style="max-width:200px;max-height:150px;"/> </div>
          
-      </div>
+      </div> <!-- /GraphThumbnails -->
 	
-     </div>
+     </div> <!-- VISUALIZEdiv -->
  
+     <div id="FAQdiv" class="MainFrameDiv" style="display:none;">
+        <h2>What is ATHENA?</h2>
+        A portal for finding local experts and resources within the computational, biological, or clinical fields of biomedical research.
+     
+        <h2>Who is listed in the database?</h2>
+        Over 400 STTR members specializing in solid tumor research, along with 400+ physicians and scientists in the area whose research focus involves "omics"
+     
+        <h2>How do I edit my profile?</h2>
+        Use the "Profile" link in the navigation side bar and enter your name along with any information you would like to add or edit.  Then simply send us this information, along with any other comments, via email by hitting "send".
+     
+     </div> <!--FAQ div -->
+
+
   </div> <!-- /body_contents -->
 
-  </div><!-- /page_content -->
-  
-   <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
-   <link   rel="stylesheet" type="text/css"
-           href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
-	<script type="text/javascript" src="d3/d3.js"></script>
-
- 
-
+    </div><!-- /mainContent -->
+ </div> <!-- body -->  
     <div id="header_element" class="header">
      <div class="header_contents">
 
@@ -227,17 +244,10 @@
      </div></nav><!-- /utility_nav -->
 
      <div class="runningHeader"> 
-     <span id="HomeSpan" style="font-size:2em;font-family:sans-serif;cursor:pointer"><b>ATHENA:</b> </span>Approaches to Translational Health Experiments, iNformatics, and Analyses
+     <span id="HomeSpan" style="font-size:2em;font-family:sans-serif;cursor:pointer"><text style="color:#60a8fa;">ATHENA</text></span><text style="font-size:0.8em; padding-bottom:10px"> APPROACHES TO TRANSLATIONAL HEALTH EXPERIMENTS, INFORMATICS, AND ANALYSES</text>
+     <text>Your guide to expert guidance<text>
      </div>
 
-<!--     <div class="logo">
-       <div class="logo_contents">
-         <a href="/en.html">
-          <img src="images/STTR_logo_240x67.jpg" alt="Solid Tumor Translational Research"/>
-         </a>
-       </div><!-- /logo_contents-->
-     </div>  <!-- /logo -->
--->
      </div><!-- /header_contents -->
    </div><!-- /header_element -->
 

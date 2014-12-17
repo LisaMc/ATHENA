@@ -1,5 +1,10 @@
 var tableRef;
-
+//DataTable columns: LastName:2, FirstName:3, Degree:4, Job Title, Organization Dept
+//Inst: 6 
+//Field: 25 (Organ Site) 41 (omics) 
+//Focus: 28, 42-45: specialty, keywords, software, contact
+//Picture: 31
+//Bio: 22
 //----------------------------------------------------------------------------------------------------
 // used to clean the search string of dubious characters or null text, eg ""
 Array.prototype.clean = function(deleteValue) {
@@ -13,10 +18,34 @@ Array.prototype.clean = function(deleteValue) {
 };
 
 //----------------------------------------------------------------------------------------------------
+function checkOffset() {
+       var b = $(window).scrollTop();
+        var d = $("#scroller-anchor").offset().top;
+        var f = $("#footer_element").offset().top;
+        var c = $("#scroller");
+        var h = $("#scroller").height() + 20; // margin
+
+        if (b > d) {
+            var myTop = b;
+            if (b > f - h) myTop = f - h;
+            c.css("top", myTop)
+
+        } else {
+          c.css("top", "")
+        }
+
+}
+
+//----------------------------------------------------------------------------------------------------
+
+$(document).ready(checkOffset);
+$(document).scroll(checkOffset);
+
 $(document).ready(function() {
 
 //     var ColumnTitle = [{"sTitle": "Name", "sWidth": '50px'}, {"sTitle": "Education", "sWidth": '50px'}, {"sTitle": "JobTitle", "sWidth": '50px'}, {"sTitle": "Institution", "sWidth": '50px'}, {"sTitle": "Department", "sWidth": '50px'}, {"sTitle": "Site", "sWidth": '25px'}, {"sTitle": "Tumor.Type.Disease", "sWidth": '50px'}, {"sTitle": "keywords", "sWidth": '200px'}, {"sTitle": "Field", "sWidth": '50px'}, {"sTitle": "Title", "sWidth": '50px'}, {"sTitle": "Notes", "sWidth": '1000px'}]
-	 var ColumnTitle = [{"sTitle":  "Last Name", "sWidth": '50px'}, {"sTitle": "First Name", "sWidth": '50px'}, {"sTitle": "Full Name", "sWidth": '50px'}, {"sTitle": "Degrees", "sWidth": '50px'}, {"sTitle": "Job Title 1", "sWidth": '50px'}, {"sTitle": "Primary Organization", "sWidth": '50px'}, {"sTitle": "Department 1", "sWidth": '50px'}, {"sTitle": "Job Title 2", "sWidth": '50px'}, {"sTitle": "Organization 2", "sWidth": '50px'}, {"sTitle": "Department 2", "sWidth": '50px'}, {"sTitle": "Job Title 3", "sWidth": '50px'}, {"sTitle": "Organization 3", "sWidth": '50px'}, {"sTitle": "Department 3", "sWidth": '50px'}, {"sTitle": "Job Title 4", "sWidth": '50px'}, {"sTitle": "Organization 4", "sWidth": '50px'}, {"sTitle": "Department 4", "sWidth": '50px'}, {"sTitle": "Job Title 5", "sWidth": '50px'}, {"sTitle": "Organization 5", "sWidth": '50px'}, {"sTitle": "Department 5", "sWidth": '50px'}, {"sTitle": "Phone Number", "sWidth": '50px'}, {"sTitle": "Email Address", "sWidth": '50px'}, {"sTitle": "", "sWidth": '50px'}, {"sTitle": "Websites", "sWidth": '50px'}, {"sTitle": "Videos", "sWidth": '50px'}, {"sTitle": "Organ Site", "sWidth": '50px'}, {"sTitle": "Designation", "sWidth": '50px'}, {"sTitle": "Institutional Affiliation", "sWidth": '50px'}, {"sTitle": "Focus Areas", "sWidth": '50px'}, {"sTitle": "Modified", "sWidth": '50px'}, {"sTitle": "Modified By", "sWidth": '50px'}, {"sTitle": "Member Photos", "sWidth": '50px'}, {"sTitle": "FH Primary", "sWidth": '50px'}, {"sTitle": "Departments and Divisions", "sWidth": '50px'}, {"sTitle": "Converis ID", "sWidth": '50px'}, {"sTitle": "Item Type", "sWidth": '50px'}, {"sTitle": "Path", "sWidth": '50px'}]
+//	   var ColumnTitle = [{"sTitle":  "Last Name", "sWidth": '50px'}, {"sTitle": "First Name", "sWidth": '50px'}, {"sTitle": "Full Name", "sWidth": '50px'}, {"sTitle": "Degrees", "sWidth": '50px'}, {"sTitle": "Job Title 1", "sWidth": '50px'}, {"sTitle": "Primary Organization", "sWidth": '50px'}, {"sTitle": "Department 1", "sWidth": '50px'}, {"sTitle": "Job Title 2", "sWidth": '50px'}, {"sTitle": "Organization 2", "sWidth": '50px'}, {"sTitle": "Department 2", "sWidth": '50px'}, {"sTitle": "Job Title 3", "sWidth": '50px'}, {"sTitle": "Organization 3", "sWidth": '50px'}, {"sTitle": "Department 3", "sWidth": '50px'}, {"sTitle": "Job Title 4", "sWidth": '50px'}, {"sTitle": "Organization 4", "sWidth": '50px'}, {"sTitle": "Department 4", "sWidth": '50px'}, {"sTitle": "Job Title 5", "sWidth": '50px'}, {"sTitle": "Organization 5", "sWidth": '50px'}, {"sTitle": "Department 5", "sWidth": '50px'}, {"sTitle": "Phone Number", "sWidth": '50px'}, {"sTitle": "Email Address", "sWidth": '50px'}, {"sTitle": "", "sWidth": '50px'}, {"sTitle": "Websites", "sWidth": '50px'}, {"sTitle": "Videos", "sWidth": '50px'}, {"sTitle": "Organ Site", "sWidth": '50px'}, {"sTitle": "Designation", "sWidth": '50px'}, {"sTitle": "Institutional Affiliation", "sWidth": '50px'}, {"sTitle": "Focus Areas", "sWidth": '50px'}, {"sTitle": "Modified", "sWidth": '50px'}, {"sTitle": "Modified By", "sWidth": '50px'}, {"sTitle": "Member Photos", "sWidth": '50px'}, {"sTitle": "FH Primary", "sWidth": '50px'}, {"sTitle": "Departments and Divisions", "sWidth": '50px'}, {"sTitle": "Converis ID", "sWidth": '50px'}, {"sTitle": "Item Type", "sWidth": '50px'}, {"sTitle": "Path", "sWidth": '50px'}]
+       var ColumnTitle = [ {"sTitle": "Index", "sWidth": '50px'}, {"sTitle": "Full.Name", "sWidth": '50px'}, {"sTitle": "Last.Name", "sWidth": '50px'}, {"sTitle": "First.Name", "sWidth": '50px'}, {"sTitle": "Degrees", "sWidth": '50px'}, {"sTitle": "Job.Title.1", "sWidth": '50px'}, {"sTitle": "Primary.Organization", "sWidth": '50px'}, {"sTitle": "Department.1", "sWidth": '50px'}, {"sTitle": "Job.Title.2", "sWidth": '50px'}, {"sTitle": "Organization.2", "sWidth": '50px'}, {"sTitle": "Department.2", "sWidth": '50px'}, {"sTitle": "Job.Title.3", "sWidth": '50px'}, {"sTitle": "Organization.3", "sWidth": '50px'}, {"sTitle": "Department.3", "sWidth": '50px'}, {"sTitle": "Job.Title.4", "sWidth": '50px'}, {"sTitle": "Organization.4", "sWidth": '50px'}, {"sTitle": "Department.4", "sWidth": '50px'}, {"sTitle": "Job.Title.5", "sWidth": '50px'}, {"sTitle": "Organization.5", "sWidth": '50px'}, {"sTitle": "Department.5", "sWidth": '50px'}, {"sTitle": "Phone.Number", "sWidth": '50px'}, {"sTitle": "Email.Address", "sWidth": '50px'}, {"sTitle": "Bio", "sWidth": '50px'}, {"sTitle": "Websites", "sWidth": '50px'}, {"sTitle": "Videos", "sWidth": '50px'}, {"sTitle": "Organ.Site", "sWidth": '50px'}, {"sTitle": "Designation", "sWidth": '50px'}, {"sTitle": "Institutional.Affiliation", "sWidth": '50px'}, {"sTitle": "Focus.Areas", "sWidth": '50px'}, {"sTitle": "Modified", "sWidth": '50px'}, {"sTitle": "Modified.By", "sWidth": '50px'}, {"sTitle": "Member.Photos", "sWidth": '50px'}, {"sTitle": "FH.Primary", "sWidth": '50px'}, {"sTitle": "Departments.and.Divisions", "sWidth": '50px'}, {"sTitle": "Converis.ID", "sWidth": '50px'}, {"sTitle": "Item.Type", "sWidth": '50px'}, {"sTitle": "Path", "sWidth": '50px'}, {"sTitle": "sttr", "sWidth": '50px'}, {"sTitle": "Notes", "sWidth": '50px'}, {"sTitle": "Send", "sWidth": '50px'}, {"sTitle": "Responded", "sWidth": '50px'}, {"sTitle": "omicsField", "sWidth": '50px'}, {"sTitle": "specialty", "sWidth": '50px'}, {"sTitle": "keywords", "sWidth": '50px'}, {"sTitle": "software", "sWidth": '50px'}, {"sTitle": "contact", "sWidth": '50px'}, {"sTitle": "comment", "sWidth": '50px'}]
  		 $("#DataTable").dataTable({
        		  "aoColumns": ColumnTitle,
          })   // dataTable
@@ -24,10 +53,12 @@ $(document).ready(function() {
          ;
 
  	tableRef = $("#DataTable").dataTable();
-    $("img").unveil(200);
+//    $("img").unveil(200);
     
 //	d3.json("data/PeopleDataTable_5-14-14.json", function(json){
-	d3.json("data/RAINIER_members_11-20-14.json", function(json){
+//	d3.json("data/RAINIER_members_11-20-14.json", function(json){
+	d3.json("data/ATHENA_forWebsite_FullTable_wSurvey_12-2-14.json", function(json){
+
 		 var DataTable=json
 		 tableRef.fnAddData(DataTable);
 	      
@@ -42,26 +73,44 @@ $(document).ready(function() {
            })
         $("#ProfileSpan").click(function(){ 
              toggle_visibility("ProfileSpan", "PROFILEdiv");           
-             createProfileTemplate();
+//             createProfileTemplate();
            })
         $("#VisualizeSpan").click(function(){ 
-             toggle_visibility("VisualizeSpan", "VISUALIZEdiv");
+             toggle_visibility("", "VISUALIZEdiv");
 
              $('.SliderThumbnails').slick({
+               slide: 'div',
                infinite: true,
                slidesToShow: 3,
-               slidesToScroll: 1
+               slidesToScroll: 1,
+               vertical: true,
+               focusOnSelect: true,
+               
              });
+//if(filtered === false) {
+//    $('.filtering').slickFilter(':even');
+//    $(this).text('Unfilter Slides');
+//    filtered = true;
+//  } else {
+//    $('.filtering').slickUnfilter();
+//    $(this).text('Filter Slides');
+//    filtered = false;
+//  }
              
 //             $("#BarplotThumb").click(drawBarplot)
            })
+      $("#FAQSpan").click(function(){ 
+             toggle_visibility("FAQSpan", "FAQdiv");
+           })
+
        $("#HomeSpan").click(function(){ 
              toggle_visibility("", "HOMEdiv");
            })
          
        
-        tableRef.fnSetColumnVis( 2, false );
-        for(i=7;i<36;i++){
+        tableRef.fnSetColumnVis( 0, false );
+        tableRef.fnSetColumnVis( 1, false );
+        for(i=9;i<47;i++){
            tableRef.fnSetColumnVis( i, false );
         }
         
@@ -89,6 +138,7 @@ $(document).ready(function() {
       //----------------------------------------------------------------------------------------------------
       FreeForm.onsubmit = function(e) {
         e.preventDefault();
+        toggle_visibility("SearchSpan", "SEARCHdiv");
         SearchAndFilterResults() 
         return false;
       }
@@ -104,7 +154,17 @@ $(document).ready(function() {
         $(".sidebar_nav_selected").attr("class", "sidebar_nav_not_selected")  //deselect active nav
         
         document.getElementById(activeDivID).style.display = 'block'  //then activate a single div
-        if(activeSpanID != "") document.getElementById(activeSpanID).className = "sidebar_nav_selected" //and select the navigation span
+        if(activeSpanID != ""){ //not the home page
+          document.getElementById(activeSpanID).className = "sidebar_nav_selected" //and select the navigation span
+             document.getElementById("mainContent").style.background = "#F1F1F1"
+             document.getElementById("mainContent").style.color = "#000"
+          $(".sidebar_nav_not_selected").css("color", "black")
+             
+         }else{
+             document.getElementById("mainContent").style.background = "#000"
+             document.getElementById("mainContent").style.color = "#F1F1F1"
+          $(".sidebar_nav_not_selected").css("color",  "white")
+         }
 
     }
   //----------------------------------------------------------------------------------------------------
@@ -119,8 +179,8 @@ $(document).ready(function() {
   //----------------------------------------------------------------------------------------------------
    function showAllRows() {
       tableRef.fnFilter("");
-      tableRef.fnFilter("", 5);  // clear Inst filter
-      tableRef.fnFilter("", 24); // clear field filter
+      tableRef.fnFilter("", 6);  // clear Inst filter
+      tableRef.fnFilter("", 25); // clear field filter
 
       tableRef.fnDraw()
 
@@ -154,38 +214,18 @@ $(document).ready(function() {
 
    }
 
-  //----------------------------------------------------------------------------------------------------
-   function createProfileTemplate(){
-   
-        $("#ProfileTemplate").append("<div id='TemplateBio' style='background:#fff;color:#000;height:100%; overflow-x:auto'></div>")
-        var TemplateBio = $("#TemplateBio")
-        TemplateBio.append("<form id='Profile_template' action='MAILTO:lmcferri@fredhutch.org?subject=Updated ATHENA Profile'' method='post' enctype='text/plain' style='clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; width:100%;height:100%; overflow-x:auto; line-height:2em  '>")
-          $("#Profile_template").append("<div id=Profile_template_Picture style='float:left; min-width:10%;margin-left:5px;margin-right:5px;margin-top:5px';></div>")
-          $("#Profile_template").append("<div id=Profile_template_Info style='float:left; width:25%;margin-top:5px'></div>")
-          $("#Profile_template").append("<div id=Profile_template_Bio style='float:right; width:60%; position:relative; text-align:justify; margin-right:10px; height:100%'></div>")
-          $("#Profile_template").append("<input type='submit' class='SubmitProfile' value='Send' style='float:right;margin-right:5px; margin-top:5px;margin-bottom:5px' >")
-          $("#Profile_template").append("<input type='reset' class='SubmitProfile' value='Reset' style='float:right;margin-right:5px; margin-top:5px;margin-bottom:5px' >")
-          TemplateBio.append("</form>")  //end individual profile
-
-          setProfilePicture("#Profile_template_Picture", "Photo Coming Soon.jpg")
-
-          var Name = "<b>First Name*<input value='' class='TemplateBioSearchbox' name='First name' required style='width:50%;float:right' placeholder='Grace'><br/> Last Name* <input value=''class='TemplateBioSearchbox' name='Last name' style='width:50%;float:right' required placeholder='Hopper'></b><br/>Degrees<input value='' class='TemplateBioSearchbox' name='Degrees'  style='width:50%;float:right' placeholder='PhD, MD'><br/>";
-          $("#Profile_template_Info").append(Name + "<br>")
-          
-          var Title = "Institution<input value='' class='TemplateBioSearchbox' name='Institution' style='width:50%;float:right' placeholder='Yale'><br/>Title<input value='' name='Title' class='TemplateBioSearchbox'  style='width:50%;float:right' placeholder='Associate Professor'>"
-          $("#Profile_template_Info").append(Title)
-          
-          var Bio = "Bio<textarea class='TemplateBioSearchbox' value='' type='text' name='Bio' style='width:90%;float:right; min-height:150px;margin-top:5px' placeholder='Dr. Hopper was an American computer scientist and invented the first compiler for a computer programming language.  She is credited for popularizing the term debugging for fixing computer glitches, inspired by an actual moth removed from the computer (from Wikipedia).'></textarea><br>"
-           $("#Profile_template_Bio").append(Bio)
-              
-
-   }
-
-  //----------------------------------------------------------------------------------------------------
+   //----------------------------------------------------------------------------------------------------
 	  function createProfilesFromTable(){
+//DataTable columns: LastName:2, FirstName:3, Degree:4, Job Title, Organization Dept
+//Inst: 6 
+//Field: 25 (Organ Site) 41 (omics) 
+//Focus: 28, 42-45: specialty, keywords, software, contact
+//Picture: 31
+//Bio: 22
+
         var rows = tableRef._('tr', {"filter":"applied"});   
         $('#SearchResults').html('')
-        $("#SearchResults").append("<div id='ProfileResults' style='background:#fff;color:#000;height:100%; overflow-x:auto'></div>")
+        $("#SearchResults").append("<div id='ProfileResults' style='background:#F1F1F1;color:#000;height:100%; overflow-x:auto'></div>")
         var ProfileResults = $("#ProfileResults")
       
         document.getElementById("NumberOfResultsDiv").innerHTML = rows.length
@@ -204,26 +244,25 @@ $(document).ready(function() {
      
           ProfileResults.append("</div>")  //end individual profile
 
-          setProfilePicture("#Profile_"+i+"_Picture", rows[i][30])
+          setProfilePicture("#Profile_"+i+"_Picture", rows[i][31])
 
-          var Name = "<b>" + rows[i][1]+ " " + rows[i][0] + "</b>";
-          if(rows[i][3] !== ""){ Name= Name.concat(", " + rows[i][3]); }
+          var Name = "<b>" + rows[i][3]+ " " + rows[i][2] + "</b>";
+          if(rows[i][4] !== ""){ Name= Name.concat(", " + rows[i][4]); }
           $("#Profile_"+i+"_Info").append(Name + "<br>")
           
           var Title = ""
-          if(rows[i][4] !== ""){ Title = rows[i][4] + "<br>"}
-          if(rows[i][5] !== ""){ Title = Title + rows[i][5] + "<br>"}
+          if(rows[i][5] !== ""){ Title = rows[i][5] + "<br>"}
+          if(rows[i][6] !== ""){ Title = Title + rows[i][6] + "<br>"}
           $("#Profile_"+i+"_Info").append(Title)
           
           var Bio = ""
-          if(rows[i][21] !== ""){
-             Bio = rows[i][21].replace(new RegExp('@', 'g'), "<br>") + "<br>";}
+          if(rows[i][22] !== ""){
+             Bio = rows[i][22].replace(new RegExp('@', 'g'), "<br>") + "<br>";}
            $("#Profile_"+i+"_Bio").append(Bio)
             
         }
-        
+       
       } // createProfilesFromTable
-
   //----------------------------------------------------------------------------------------------------
 	  function setProfilePicture(ImageDiv, file){
         $.ajax({
@@ -278,7 +317,7 @@ $(document).ready(function() {
 
       document.getElementById("ReportFieldFilterSpan").innerHTML = "<i> specializing in </i>" + printedString 
 
-      tableRef.fnFilter(filterField_String, 24, true, false);  //searches "Organ Site" column (24) using RegEx (true) without smart filtering (false)
+      tableRef.fnFilter(filterField_String, 25, true, false);  //searches "Organ Site" column (26) using RegEx (true) without smart filtering (false)
     
     }
   //----------------------------------------------------------------------------------------------------
@@ -309,7 +348,7 @@ $(document).ready(function() {
  
        document.getElementById("ReportInstFilterSpan").innerHTML = "<i> from </i>" + printedString 
 
-       tableRef.fnFilter(filterInstitution_String, 5, true, false);  //searches "Primary Institution" column (5) using RegEx (true) without smart filtering
+       tableRef.fnFilter(filterInstitution_String, 6, true, false);  //searches "Primary Institution" column (6) using RegEx (true) without smart filtering
 
 }    
 
