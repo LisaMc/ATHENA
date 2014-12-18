@@ -1,9 +1,21 @@
-.body{margin-top:100px}
+.body{margin-top:110px}
+div.body_contents{max-width:auto;padding:0 20px;word-wrap:break-word; margin-left:140px; margin-right:200px}
 
 div.filter {border:1px solid #ccc;margin:0;padding-left:.5em;padding-right:3em;position:relative;background-color:#fff; margin-left:15px}
 div.filter input.searchbutton{border:0 none;height:2em;margin:0;padding:0; border-radius:7px}
-div.filter input.searchbutton{background-color:#459bfc;color:#fff;width:2em;font-size: 13px;cursor:pointer;overflow:auto;-webkit-appearance:none;border-radius:7px}
-div.filter input.searchbutton{overflow:auto;position:absolute;right:0;top:0;width:2em;cursor:pointer}
+div.filter input.searchbutton{background-color:#fff;color:#A9A9A9;width:2em;font-size: 13px;cursor:pointer;overflow:auto;-webkit-appearance:none;border-radius:7px}
+div.filter input.searchbutton{overflow:auto;position:absolute;right:0;top:0;width:2em;cursor:pointer;
+      behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(90deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(90deg);
+    /* Opera */
+    -o-transform:rotate(90deg);
+    /* IE9 */
+    -ms-transform:rotate(90deg);
+    /* IE6,IE7 */
+}
 div.filter input.searchbutton:hover{background-color:#60a8fa}
 div.sitesearch form input.searchbox, div.sitesearch form input.searchbutton{font-size:13px;}
 
@@ -42,6 +54,20 @@ div.filter .chosen-container-multi{width:100% !important}
 	background: #B8B8B8;
 	font-size: 1.5em;
 }
+
+.hideContent{
+  overflow: hidden;
+    line-height: 1em;
+    height: 5em;
+}
+
+.showContent{
+    line-height: 1em;
+    height: auto;
+}
+
+.ActiveWords { text-decoration:none }
+.ActiveWords:hover { text-decoration:underline }
 
 .SubmitProfile{
   -moz-box-shadow:inset 0px -3px 7px 0px #29bbff;
@@ -90,7 +116,7 @@ div.filter .chosen-container-multi{width:100% !important}
 	top:1px;
 } 
 
-.runningHeader{color:#fff; float:left; padding-left:12px;padding-top:1em;font-family:Cambria, "Trebuchet MS", Helvetica, sans-serif;font-weight:300;font-style:normal}
+.runningHeader{color:#fff; float:left; padding-left:12px;font-family:Cambria, "Trebuchet MS", Helvetica, sans-serif;font-weight:300;font-style:normal}
 
 .TemplateBioSearchbox{
  line-height:2em;

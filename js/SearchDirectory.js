@@ -107,12 +107,28 @@ $(document).ready(function() {
              toggle_visibility("", "HOMEdiv");
            })
          
+         
        
         tableRef.fnSetColumnVis( 0, false );
         tableRef.fnSetColumnVis( 1, false );
-        for(i=9;i<47;i++){
-           tableRef.fnSetColumnVis( i, false );
+        var RemoveRows = []
+        for(var i=0;i<47;i++){
+           if(i<1 || i>8)
+              tableRef.fnSetColumnVis( i, false );
         }
+        for(var j=0;j<tableRef.fnSettings().fnRecordsTotal(); j++){ 
+           var contact = tableRef.fnGetData(j,45)
+           if(contact.match(/No, please keep my information private/i) != null) 
+               RemoveRows.push(j)
+           
+               contact = contact.replace(/New grant proposals/,"Grants");
+               contact = contact.replace(/Scientific collaboration/,"Collaboration");
+               contact = contact.replace(/Protocol\/Methods consultation/,"Consultation");
+               contact = contact.replace(/Co-mentoring students/,"Mentoring");
+           tableRef.fnUpdate( contact,j, 45, false );
+       }
+       var k = RemoveRows.length
+       while(k--) tableRef.fnDeleteRow(RemoveRows[k])
         
         document.getElementById("NumberOfResultsDiv").innerHTML = tableRef._('tr', {"filter":"applied"}).length
         document.getElementById("SearchStringDiv").innerHTML = " results for: " + "(all people)";
@@ -142,8 +158,28 @@ $(document).ready(function() {
         SearchAndFilterResults() 
         return false;
       }
+      
+ 
    } //window.onload 
 	
+  //----------------------------------------------------------------------------------------------------	
+     function toggleContent(elem){
+               
+//               var $content = elem.parent().prev("div.content");
+               var content = elem.parentNode.children[7];
+               var linkText = elem.innerText;    
+    
+               if(linkText === "...see more"){
+                  linkText = "show less";
+                  content.className= "showContent"
+               } else {
+                 linkText = "...see more";
+                 content.className= "hideContent";
+                } ;
+
+           elem.innerText= linkText;
+       };
+
   //----------------------------------------------------------------------------------------------------	
 	function toggle_visibility(activeSpanID, activeDivID){
         var els = document.getElementsByClassName('MainFrameDiv');
@@ -215,15 +251,47 @@ $(document).ready(function() {
    }
 
    //----------------------------------------------------------------------------------------------------
+      function ArrayToStringSpan(wordString, splitChar, cleanChar){
+         var wordArray = wordString.split(splitChar)
+         if(wordArray == null) wordArray = [""]
+        
+         var i = cleanChar.length
+         while(i--){ wordArray.clean(cleanChar[i]) }
+         var j = wordArray.length;
+         while(j--){  wordArray[j] = "<span style='padding:0px 3px; text-align:center; border-radius:10px' class='ActiveWords'>"+wordArray[j]+"; </span>";}
+         
+         return wordArray.join("")
+
+      }
+
+   //----------------------------------------------------------------------------------------------------
+      function EditProfile(elem){
+               toggle_visibility("ProfileSpan", "PROFILEdiv");           
+    
+      }
+
+   //----------------------------------------------------------------------------------------------------
 	  function createProfilesFromTable(){
 //DataTable columns: LastName:2, FirstName:3, Degree:4, Job Title, Organization Dept
 //Inst: 6 
+//website: 23
 //Field: 25 (Organ Site) 41 (omics) 
 //Focus: 28, 42-45: specialty, keywords, software, contact
 //Picture: 31
 //Bio: 22
+//sttr : 37
 
         var rows = tableRef._('tr', {"filter":"applied"});   
+        var TopRows = []  // either STTR or filled out Survey
+        var OtherRows = [] // not STTR and haven't filled out survey
+        
+        for(var i=0; i < rows.length; i++){
+           if(rows[i][37] == 1 || rows[i][43] != "NA") { 
+                  TopRows.push(rows[i]) }
+            else {OtherRows.push(rows[i])}
+        }
+        rows = TopRows.concat(OtherRows)
+                
         $('#SearchResults').html('')
         $("#SearchResults").append("<div id='ProfileResults' style='background:#F1F1F1;color:#000;height:100%; overflow-x:auto'></div>")
         var ProfileResults = $("#ProfileResults")
@@ -237,10 +305,18 @@ $(document).ready(function() {
         
         //ALTER FOR LAZY LOADING or pagination
         for(var i=0; i < rows.length; i++){
-          ProfileResults.append("<div id=Profile_"+ i+ " style='clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; width:100%;height:100%; overflow-x:auto  '>")
-          $("#Profile_"+i).append("<div id=Profile_"+i+"_Picture style='float:left; min-width:10%;margin-left:5px;margin-right:5px;margin-top:5px';></div>")
-          $("#Profile_"+i).append("<div id=Profile_"+i+"_Info style='float:left; width:25%;margin-top:5px'></div>")
-          $("#Profile_"+i).append("<div id=Profile_"+i+"_Bio style='float:right; width:60%; position:relative; text-align:justify; margin-right:10px'></div>")
+          var opacity = 1;
+        if(i>=TopRows.length){ opacity= 0.2 }
+          ProfileResults.append("<div id=Profile_"+ i+ " style='opacity:"+opacity+";position:relative;clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; width:100%;height:100%; overflow-x:auto; font-size:0.8em  '>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_edit style='float:right;border-radius:25px; background:#60a8fa;color:#F1F1F1;width:2%;right:5px;margin-top:5px; text-align:center; cursor:pointer' onclick='EditProfile(this)';><i>i</i><br></div>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_Picture style='float:left; min-width:5%;margin-left:5px;margin-right:5px;margin-top:5px';></div>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_Info style='float:left; width:40%;margin-top:5px'></div>")
+ //         $("#Profile_"+i).append("<div id=Profile_"+i+"_Groups style='float:left; width:50%;margin-top:5px'></div>")
+ //         $("#Profile_"+i).append("<div id=Profile_"+i+"_ContactFor style='float:left; width:50%;margin-top:5px'></div>")
+ //         $("#Profile_"+i).append("<div id=Profile_"+i+"_website style='float:left; width:50%;margin-top:5px'></div>")
+ //         $("#Profile_"+i).append("<div id=Profile_"+i+"_Specialty style='clear:both;float:left; width:90%;margin-top:5px'></div>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_Bio class='hideContent' style='float:left; width:50%; text-align:justify; margin-top:5px; margin-bottom:5px'></div>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_toggleContent onclick='toggleContent(this)' style='position:absolute;bottom:5px; right:5px;cursor:pointer;float:left; color:#60a8fa;line-height:1em;margin-top:5px; text-align:end'>...see more</div>")
      
           ProfileResults.append("</div>")  //end individual profile
 
@@ -250,13 +326,35 @@ $(document).ready(function() {
           if(rows[i][4] !== ""){ Name= Name.concat(", " + rows[i][4]); }
           $("#Profile_"+i+"_Info").append(Name + "<br>")
           
-          var Title = ""
+          var Title = "", Contact="";
           if(rows[i][5] !== ""){ Title = rows[i][5] + "<br>"}
           if(rows[i][6] !== ""){ Title = Title + rows[i][6] + "<br>"}
-          $("#Profile_"+i+"_Info").append(Title)
+          if(rows[i][20] !== ""){ Contact = rows[i][20] + "<br>"}
+          if(rows[i][21] !== ""){ Contact = Contact + rows[i][21] + "<br>"}
+          $("#Profile_"+i+"_Info").append(Title+Contact)
+          
+ //         var Groups = "<b>Groups </b>"
+ //         if(rows[i][25] !== "" & rows[i][25] !== "NA"){ Groups = Groups+ ArrayToStringSpan(rows[i][25], ";", ["", "#"])}
+ //         if(rows[i][41] !== "" & rows[i][41] !== "NA"){ Groups = Groups + ArrayToStringSpan(rows[i][41], ";", ["", "#"]) }
+ //           $("#Profile_"+i+"_Groups").append(Groups + "<br>")
+
+//          var ContactFor = "<b>Contact for </b>"
+//          if(rows[i][45] !== "" & rows[i][45] !== "NA"){ ContactFor = ContactFor + ArrayToStringSpan(rows[i][45], ";", ["", "#"])  }
+//            $("#Profile_"+i+"_ContactFor").append(ContactFor + "<br>")
+            
+ //         var Websites = ""
+ //         if(rows[i][23] !== "" & rows[i][23] !== "NA"){ Websites = ArrayToStringSpan(rows[i][23], ";", ["", "#"])  }
+ //           $("#Profile_"+i+"_website").append(Websites + "<br>")
+          
+ 
+//          var Specialty = "" 
+//          var Keywords = ""
+//          if(rows[i][28] !== "" & rows[i][28] !== "NA"){ Specialty = "<i style='padding-bottom:5px'>" + ArrayToStringSpan(rows[i][28], ";", ["", "#"])  + "</i><br>"}
+//          if(rows[i][43] !== "" & rows[i][43] !== "NA"){ Keywords = ArrayToStringSpan(rows[i][43], ";", ["", "#"])  + "<br>"}
+//            $("#Profile_"+i+"_Specialty").append(Specialty + Keywords)
           
           var Bio = ""
-          if(rows[i][22] !== ""){
+          if(rows[i][22] !== "" & rows[i][22] !== "NA"){
              Bio = rows[i][22].replace(new RegExp('@', 'g'), "<br>") + "<br>";}
            $("#Profile_"+i+"_Bio").append(Bio)
             
@@ -269,10 +367,10 @@ $(document).ready(function() {
              url:'/images/Photos/'+file,
              type:'HEAD',
              error: function()    { //file does not exist
-                     $(ImageDiv).append("<img title='ProfilePicture' alt='ProfilePic' class='rsImg' style='max-height:125px; max-width:100px' src='/images/Photos/Photo Coming Soon.jpg'>")
+                     $(ImageDiv).append("<img title='ProfilePicture' alt='ProfilePic' class='rsImg' style='max-height:75px; max-width:50px' src='/images/Photos/Photo Coming Soon.jpg'>")
              },
              success: function()  { //file exists
-                     $(ImageDiv).append("<img title='ProfilePicture' alt='ProfilePic' class='rsImg' style='max-height:125px; max-width:100px' src='/images/Photos/"+ file + "' data-src='/images/Photos/Photo Coming Soon.jpg'>")
+                     $(ImageDiv).append("<img title='ProfilePicture' alt='ProfilePic' class='rsImg' style='max-height:75px; max-width:50px' src='/images/Photos/"+ file + "' data-src='/images/Photos/Photo Coming Soon.jpg'>")
              }
        });
       }

@@ -65,12 +65,32 @@
      <div id="SEARCH_BARdiv" style="overflow:visible; width:100%;">
 <!--       <div class="parsys mainPar"> -->
        <div class="sitesearch">
-            <form id="QueryFreeForm" record="'search', {'keyword': '', 'results':'', 'executionTime':''}" style="width:25%;float:left;border-radius:7px" >
+            <form id="QueryFreeForm" record="'search', {'keyword': '', 'results':'', 'executionTime':''}" style="width:90%;float:left;border-radius:7px" >
  		 	<input class="searchbox" maxlength="2048" id="QueryFreeInput" name="QueryText" placeholder="SEARCH for..." value="" type="text"/>
     		<input class="searchbutton" value="&gt;" type="submit" style="float:left;border-radius:7px"/>    
   			</form>
-         <div style="float:left;width:15%;border-radius:7px" class="filter">
-                <select multiple id="FilterInstitution" data-placeholder="from INSTITUTION...">
+          <div id="ReportSearchFilterDiv" style="clear:both; color:#fff;padding-bottom:10px; padding-top:5px; font-size:1.2em">
+            <span id="NumberOfResultsDiv"></span>
+            <span id="SearchStringDiv"></span>
+            <span id="FilterStringDiv">
+               <span id="ReportInstFilterSpan"></span>
+               <span id="ReportFieldFilterSpan"></span>
+            </span>
+         </div>
+         
+	   </div> <!-- /sitesearch -->
+<!--	   </div>  /parsys mainPar -->
+    </div>  <!--/SEARCH_BARdiv -->
+ </div> <!--/body_contents -->
+
+    <div id="mainContent" style="align:left;margin-left:auto;padding-top:5px;min-height:500px;">
+ 
+           <div id="SideNav" style="float:left; margin-top:15px;  z-index:100; ">
+             <div id="scroller-anchor"></div>
+             <div id="scroller" style="position:absolute; bottom:''">
+              
+              <div style="float:left;width:80px;border-radius:7px" class="filter">
+                <select multiple id="FilterInstitution" data-placeholder="Institution">
              		<option value="Fred Hutchinson">Fred Hutch</option>
             		<option value="University of Washington">U. of Washington</option>
             		<option value="Seattle Children's">Seattle Children's</option>
@@ -79,9 +99,11 @@
             		<option value="Cancer Research and Biostatistics">Cancer Research and Biostatistics</option>
                 </select>
                 <input class="searchbutton" value="&gt;" type="submit"/>   
-		 </div>	
-         <div style="float:left;width:15%;border-radius:7px" class="filter">
-                <select multiple id="FilterField" data-placeholder="SPECIALIZING in...">
+		       </div>	
+		       
+		       
+               <div style="clear:both;float:left;width:80px;border-radius:7px" class="filter">
+                <select multiple id="FilterField" data-placeholder="Specialty">
              		<optgroup label="Disease Type">
                		<option value="Brain">Brain</option>
                		<option value="Breast">Breast</option>
@@ -111,36 +133,22 @@
              		<option value="Adopter">Adopter</option>
                 </select>
    		        <input class="searchbutton" value="&gt;" type="submit"/>     
-         </div>
-         <div> <button id="VisualizeSpan" class="SubmitProfile" style="font-size:13px; padding:6px 23px; margin-left:15px">Visualize</button>
+              </div>
 
-         </div>
-         <div id="ReportSearchFilterDiv" style="clear:both; color:#fff;padding-bottom:10px; padding-top:5px; font-size:1.2em">
-            <span id="NumberOfResultsDiv"></span>
-            <span id="SearchStringDiv"></span>
-            <span id="FilterStringDiv">
-               <span id="ReportInstFilterSpan"></span>
-               <span id="ReportFieldFilterSpan"></span>
-            </span>
-         </div>
-         
-	   </div> <!-- /sitesearch -->
-<!--	   </div>  /parsys mainPar -->
-    </div>  <!--/SEARCH_BARdiv -->
- </div> <!--/body_contents -->
 
-    <div id="mainContent" style="align:left;margin-left:auto;padding-top:5px;min-height:500px;">
- 
-           <div id="SideNav" style="float:left; margin-top:15px;  z-index:100; ">
-             <div id="scroller-anchor"></div>
-             <div id="scroller" style="position:absolute; bottom:''">
-	         <ul class="sidebar_nav" style="list-style-type: none;padding-left: 40px;padding-right:20px; padding-top:10px;cursor:pointer">            
+	         <ul class="sidebar_nav" style="clear:both;list-style-type: none;padding-left: 40px;padding-right:20px; padding-top:10px;cursor:pointer">            
                <li><span id="SearchSpan" class="sidebar_nav_not_selected">Search</span></li>
                <li><span id="TableSpan" class="sidebar_nav_not_selected">Browse</span></li>
-               <li><span id="ProfileSpan" class="sidebar_nav_not_selected">Profile</span></li>
+               <li><span id="ProfileSpan" class="sidebar_nav_not_selected">Join</span></li>
                <li><span id="FAQSpan" class="sidebar_nav_not_selected">FAQ</span></li>
-             </ul> </div>
+             </ul> 
+            </div>
  		  </div>
+
+     <div id="RightBar" style="float:right; margin-top:15px;margin-right:20px;  z-index:100;" > 
+        <button id="VisualizeSpan" class="SubmitProfile" style="font-size:13px; padding:6px 23px; margin-left:15px">Visualize</button>
+    </div>
+
 
      <div class="body_contents" style="margin-top:15px; margin-left:140px;">
     
@@ -244,8 +252,11 @@
      </div></nav><!-- /utility_nav -->
 
      <div class="runningHeader"> 
-     <span id="HomeSpan" style="font-size:2em;font-family:sans-serif;cursor:pointer"><text style="color:#60a8fa;">ATHENA</text></span><text style="font-size:0.8em; padding-bottom:10px"> APPROACHES TO TRANSLATIONAL HEALTH EXPERIMENTS, INFORMATICS, AND ANALYSES</text>
-     <text>Your guide to expert guidance<text>
+     <span id="HomeSpan" style="font-size:2.5em;font-family:sans-serif;cursor:pointer"><text style="color:#60a8fa;">ATHENA</text>     </span>
+     <h2 style="margin:5px;display:inline">Your guide to expert guidance</h2>
+
+     <div style="font-size:0.8em; padding-bottom:10px"> APPROACHES TO TRANSLATIONAL HEALTH EXPERIMENTS, INFORMATICS, AND ANALYSES</div>
+     
      </div>
 
      </div><!-- /header_contents -->
