@@ -1,5 +1,9 @@
 .body{margin-top:110px}
-div.body_contents{max-width:auto;padding:0 20px;word-wrap:break-word; margin-left:140px; margin-right:200px}
+div.body_contents{max-width:auto;padding:0 20px;word-wrap:break-word; margin-left:180px; margin-right:250px}
+
+.runningHeader{color:#fff; font-family:Cambria, "Trebuchet MS", Helvetica, sans-serif;font-weight:300;font-style:normal}
+.header .header_contents{margin:0 15px;max-width:auto;position:relative}
+
 
 div.filter {border:1px solid #ccc;margin:0;padding-left:.5em;padding-right:3em;position:relative;background-color:#fff; margin-left:15px}
 div.filter input.searchbutton{border:0 none;height:2em;margin:0;padding:0; border-radius:7px}
@@ -66,6 +70,33 @@ div.filter .chosen-container-multi{width:100% !important}
     height: auto;
 }
 
+.toExpand{
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(90deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(90deg);
+    /* Opera */
+    -o-transform:rotate(90deg);
+    /* IE9 */
+    -ms-transform:rotate(90deg);
+    /* IE6,IE7 */
+}
+
+.toContract{
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(-90deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(-90deg);
+    /* Opera */
+    -o-transform:rotate(-90deg);
+    /* IE9 */
+    -ms-transform:rotate(-90deg);
+    /* IE6,IE7 */
+}
+
+
 .ActiveWords { text-decoration:none }
 .ActiveWords:hover { text-decoration:underline }
 
@@ -115,8 +146,6 @@ div.filter .chosen-container-multi{width:100% !important}
 	position:relative;
 	top:1px;
 } 
-
-.runningHeader{color:#fff; float:left; padding-left:12px;font-family:Cambria, "Trebuchet MS", Helvetica, sans-serif;font-weight:300;font-style:normal}
 
 .TemplateBioSearchbox{
  line-height:2em;

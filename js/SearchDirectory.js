@@ -57,7 +57,7 @@ $(document).ready(function() {
     
 //	d3.json("data/PeopleDataTable_5-14-14.json", function(json){
 //	d3.json("data/RAINIER_members_11-20-14.json", function(json){
-	d3.json("data/ATHENA_forWebsite_FullTable_wSurvey_12-2-14.json", function(json){
+	d3.json("data/AthenaRainier_merged_byIndex_draft_12-18-14.json", function(json){
 
 		 var DataTable=json
 		 tableRef.fnAddData(DataTable);
@@ -116,26 +116,11 @@ $(document).ready(function() {
            if(i<1 || i>8)
               tableRef.fnSetColumnVis( i, false );
         }
-        for(var j=0;j<tableRef.fnSettings().fnRecordsTotal(); j++){ 
-           var contact = tableRef.fnGetData(j,45)
-           if(contact.match(/No, please keep my information private/i) != null) 
-               RemoveRows.push(j)
-           
-               contact = contact.replace(/New grant proposals/,"Grants");
-               contact = contact.replace(/Scientific collaboration/,"Collaboration");
-               contact = contact.replace(/Protocol\/Methods consultation/,"Consultation");
-               contact = contact.replace(/Co-mentoring students/,"Mentoring");
-           tableRef.fnUpdate( contact,j, 45, false );
-       }
-       var k = RemoveRows.length
-       while(k--) tableRef.fnDeleteRow(RemoveRows[k])
-        
+         
         document.getElementById("NumberOfResultsDiv").innerHTML = tableRef._('tr', {"filter":"applied"}).length
         document.getElementById("SearchStringDiv").innerHTML = " results for: " + "(all people)";
         
 	});  //end json
-	
-
 		
 }); //document.ready
 
@@ -143,12 +128,18 @@ $(document).ready(function() {
  window.onload = function() {
  
       var FreeForm = document.getElementById("QueryFreeForm");
-      var FieldForm = $("#FilterField");
+      var DiseaseForm = $("#FilterDisease");
+      var OmicsForm = $("#FilterOmics");
+      var ContactForForm = $("#FilterContactFor");
       var InstitutionForm = $("#FilterInstitution");
     
-      FieldForm.chosen({max_selected_options: 17});
-      FieldForm.chosen().change(SearchAndFilterResults);
-      InstitutionForm.chosen({max_selected_options: 3});
+      DiseaseForm.chosen({max_selected_options: 8});
+      DiseaseForm.chosen().change(SearchAndFilterResults);
+      OmicsForm.chosen({max_selected_options: 17});
+      OmicsForm.chosen().change(SearchAndFilterResults);
+      ContactForForm.chosen({max_selected_options: 6});
+      ContactForForm.chosen().change(SearchAndFilterResults);
+      InstitutionForm.chosen({max_selected_options: 6});
       InstitutionForm.chosen().change(SearchAndFilterResults);
 
       //----------------------------------------------------------------------------------------------------
@@ -159,25 +150,23 @@ $(document).ready(function() {
         return false;
       }
       
- 
    } //window.onload 
 	
   //----------------------------------------------------------------------------------------------------	
      function toggleContent(elem){
                
 //               var $content = elem.parent().prev("div.content");
-               var content = elem.parentNode.children[7];
-               var linkText = elem.innerText;    
+               var content = elem.parentNode.children[4];
     
-               if(linkText === "...see more"){
-                  linkText = "show less";
+               if(content.className== "hideContent"){
                   content.className= "showContent"
+                  elem.className = "toContract";
                } else {
-                 linkText = "...see more";
                  content.className= "hideContent";
+                  elem.className = "toExpand";
                 } ;
 
-           elem.innerText= linkText;
+
        };
 
   //----------------------------------------------------------------------------------------------------	
@@ -243,8 +232,11 @@ $(document).ready(function() {
            SearchTableByStrings(wordArray); 
         }  
         
-        FilterInstitution_Selection();
-        FilterField_Selection();
+        Filter_Selection("FilterInstitution", "ReportInstFilterSpan",6, "<i> from </i>")
+        Filter_Selection("FilterDisease", "ReportDiseaseFilterSpan",25, "<i> specializing in </i>")
+        Filter_Selection("FilterOmics", "ReportOmicsFilterSpan",41, "<i> specializing in </i>")
+        Filter_Selection("FilterContactFor", "ReportContactForFilterSpan",45, "<i> for </i>")
+
   
         createProfilesFromTable();
 
@@ -307,16 +299,16 @@ $(document).ready(function() {
         for(var i=0; i < rows.length; i++){
           var opacity = 1;
         if(i>=TopRows.length){ opacity= 0.2 }
-          ProfileResults.append("<div id=Profile_"+ i+ " style='opacity:"+opacity+";position:relative;clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; width:100%;height:100%; overflow-x:auto; font-size:0.8em  '>")
-          $("#Profile_"+i).append("<div id=Profile_"+i+"_edit style='float:right;border-radius:25px; background:#60a8fa;color:#F1F1F1;width:2%;right:5px;margin-top:5px; text-align:center; cursor:pointer' onclick='EditProfile(this)';><i>i</i><br></div>")
+          ProfileResults.append("<div id=Profile_"+ i+ " style='opacity:"+opacity+";position:relative;clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; border-bottom:none; width:100%;height:100%; overflow-x:auto; font-size:0.8em  '>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_edit          onclick='EditProfile(this)'   style='float:right;border-radius:25px; background:#60a8fa;color:#F1F1F1;width:2%;right:5px;margin-top:5px; text-align:center; cursor:pointer' ;><i>i</i><br></div>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_toggleContent onclick='toggleContent(this)' class='toExpand' style='float:left; position:absolute;top:5px; right:20px; color:#60a8fa;text-align:end;cursor:pointer;'>&gt</div>")
           $("#Profile_"+i).append("<div id=Profile_"+i+"_Picture style='float:left; min-width:5%;margin-left:5px;margin-right:5px;margin-top:5px';></div>")
-          $("#Profile_"+i).append("<div id=Profile_"+i+"_Info style='float:left; width:40%;margin-top:5px'></div>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_Info style='float:left; width:30%;margin-top:5px'></div>")
  //         $("#Profile_"+i).append("<div id=Profile_"+i+"_Groups style='float:left; width:50%;margin-top:5px'></div>")
  //         $("#Profile_"+i).append("<div id=Profile_"+i+"_ContactFor style='float:left; width:50%;margin-top:5px'></div>")
  //         $("#Profile_"+i).append("<div id=Profile_"+i+"_website style='float:left; width:50%;margin-top:5px'></div>")
  //         $("#Profile_"+i).append("<div id=Profile_"+i+"_Specialty style='clear:both;float:left; width:90%;margin-top:5px'></div>")
           $("#Profile_"+i).append("<div id=Profile_"+i+"_Bio class='hideContent' style='float:left; width:50%; text-align:justify; margin-top:5px; margin-bottom:5px'></div>")
-          $("#Profile_"+i).append("<div id=Profile_"+i+"_toggleContent onclick='toggleContent(this)' style='position:absolute;bottom:5px; right:5px;cursor:pointer;float:left; color:#60a8fa;line-height:1em;margin-top:5px; text-align:end'>...see more</div>")
      
           ProfileResults.append("</div>")  //end individual profile
 
@@ -329,7 +321,8 @@ $(document).ready(function() {
           var Title = "", Contact="";
           if(rows[i][5] !== ""){ Title = rows[i][5] + "<br>"}
           if(rows[i][6] !== ""){ Title = Title + rows[i][6] + "<br>"}
-          if(rows[i][20] !== ""){ Contact = rows[i][20] + "<br>"}
+          if(rows[i][7] !== ""){ Title = Title + rows[i][7] + "<br>"}
+//          if(rows[i][20] !== ""){ Contact = rows[i][20] + "<br>"}
           if(rows[i][21] !== ""){ Contact = Contact + rows[i][21] + "<br>"}
           $("#Profile_"+i+"_Info").append(Title+Contact)
           
@@ -386,12 +379,44 @@ $(document).ready(function() {
 
       } // currentSelectedIDS
 
-
-  //----------------------------------------------------------------------------------------------------
-    function FilterField_Selection(){
+//----------------------------------------------------------------------------------------------------
+  
+    function Filter_Selection(ElementID, ReportSpan, TableColumn, connectingHTML){
 
        var selectedFieldarray = []
-       var e = document.getElementById("FilterField");
+       var e = document.getElementById(ElementID);
+       for (var i = 0; i < e.options.length; i++) {
+           if(e.options[i].selected ==true){
+               selectedFieldarray.push(e.options[i].value)
+             }
+        }
+  
+        if(selectedFieldarray.length == 0){
+         document.getElementById(ReportSpan).innerHTML = "";
+         return;
+        }
+        
+        var filterField_String = selectedFieldarray.join("|");
+        var printedString = "";
+        if(selectedFieldarray.length == 1){
+           printedString = selectedFieldarray.pop()
+        }else{
+           var lastWord= selectedFieldarray.pop()
+           printedString = selectedFieldarray.join(", ")
+           printedString += ", or " + lastWord
+        } 
+
+      document.getElementById("ReportFieldFilterSpan").innerHTML = connectingHTML + printedString 
+
+      tableRef.fnFilter(filterField_String, TableColumn, true, false);  //searches "Organ Site" column (26) using RegEx (true) without smart filtering (false)
+    
+    }
+ 
+  //----------------------------------------------------------------------------------------------------
+    function FilterDisease_Selection(){
+
+       var selectedFieldarray = []
+       var e = document.getElementById("FilterDisease");
        for (var i = 0; i < e.options.length; i++) {
            if(e.options[i].selected ==true){
                selectedFieldarray.push(e.options[i].value)
@@ -418,6 +443,8 @@ $(document).ready(function() {
       tableRef.fnFilter(filterField_String, 25, true, false);  //searches "Organ Site" column (26) using RegEx (true) without smart filtering (false)
     
     }
+ 
+
   //----------------------------------------------------------------------------------------------------
     function FilterInstitution_Selection(){
  

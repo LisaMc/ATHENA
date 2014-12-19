@@ -58,41 +58,17 @@
 
   <!-- START BODY ELEMENT -->
   <div class="body" id="body_element"> 
- 
-    <!--  body contents -->
-   <div class="body_contents"> 
- 
-     <div id="SEARCH_BARdiv" style="overflow:visible; width:100%;">
-<!--       <div class="parsys mainPar"> -->
-       <div class="sitesearch">
-            <form id="QueryFreeForm" record="'search', {'keyword': '', 'results':'', 'executionTime':''}" style="width:90%;float:left;border-radius:7px" >
- 		 	<input class="searchbox" maxlength="2048" id="QueryFreeInput" name="QueryText" placeholder="SEARCH for..." value="" type="text"/>
-    		<input class="searchbutton" value="&gt;" type="submit" style="float:left;border-radius:7px"/>    
-  			</form>
-          <div id="ReportSearchFilterDiv" style="clear:both; color:#fff;padding-bottom:10px; padding-top:5px; font-size:1.2em">
-            <span id="NumberOfResultsDiv"></span>
-            <span id="SearchStringDiv"></span>
-            <span id="FilterStringDiv">
-               <span id="ReportInstFilterSpan"></span>
-               <span id="ReportFieldFilterSpan"></span>
-            </span>
-         </div>
-         
-	   </div> <!-- /sitesearch -->
-<!--	   </div>  /parsys mainPar -->
-    </div>  <!--/SEARCH_BARdiv -->
- </div> <!--/body_contents -->
 
     <div id="mainContent" style="align:left;margin-left:auto;padding-top:5px;min-height:500px;">
  
-           <div id="SideNav" style="float:left; margin-top:15px;  z-index:100; ">
+           <div id="SideNav" style="float:left; margin-top:15px;margin-left:15px;margin-right:15px;min-width:170px;  z-index:100; ">
              <div id="scroller-anchor"></div>
              <div id="scroller" style="position:absolute; bottom:''">
-              
-              <div style="float:left;width:80px;border-radius:7px" class="filter">
+              <h2> Filter </h2>
+              <div style="float:left;width:80px;border-radius:7px; margin-top:15px" class="filter">
                 <select multiple id="FilterInstitution" data-placeholder="Institution">
              		<option value="Fred Hutchinson">Fred Hutch</option>
-            		<option value="University of Washington">U. of Washington</option>
+            		<option value="University of Washington">UW</option>
             		<option value="Seattle Children's">Seattle Children's</option>
             		<option value="Sage">Sage</option>
             		<option value="ISB">ISB</option>
@@ -101,11 +77,21 @@
                 <input class="searchbutton" value="&gt;" type="submit"/>   
 		       </div>	
 		       
-		       
-               <div style="clear:both;float:left;width:80px;border-radius:7px" class="filter">
-                <select multiple id="FilterField" data-placeholder="Specialty">
-             		<optgroup label="Disease Type">
-               		<option value="Brain">Brain</option>
+		       <div style="clear:both;float:left;width:80px;border-radius:7px; margin-top:15px" class="filter">
+                <select multiple id="FilterContactFor" data-placeholder="Interaction">
+             	 	<option value="Grants">Grants</option>
+               		<option value="Collaboration">Collaboration</option>
+               		<option value="Consult">Consult</option>
+               		<option value="Programs">Programmatic ideas</option>
+               		<option value="Presentations">Presentations</option>
+               		<option value="Mentoring">Mentoring</option>             		
+                </select>
+   		        <input class="searchbutton" value="&gt;" type="submit"/>     
+              </div>
+
+		       <div style="clear:both;float:left;width:80px;border-radius:7px; margin-top:15px" class="filter">
+                <select multiple id="FilterDisease" data-placeholder="Disease Type">
+             	 	<option value="Brain">Brain</option>
                		<option value="Breast">Breast</option>
                		<option value="Colon">Colon</option>
                		<option value="Head & Neck">Head & Neck</option>
@@ -113,7 +99,13 @@
                		<option value="Ovary">Ovary</option>
                		<option value="Pancreas">Pancreas</option>
                		<option value="Prostate">Prostate</option>
-             		<optgroup label="-omics">
+             		
+                </select>
+   		        <input class="searchbutton" value="&gt;" type="submit"/>     
+              </div>
+
+               <div style="clear:both;float:left;width:80px;border-radius:7px; margin-top:15px" class="filter">
+                <select multiple id="FilterOmics" data-placeholder="omics Field">
              		<option value="Computational Biology">Computational Biology</option>
             		<option value="Bioinformatics">Bioinformatics</option>
             		<option value="Biostatistics">Biostatistics</option>
@@ -136,7 +128,7 @@
               </div>
 
 
-	         <ul class="sidebar_nav" style="clear:both;list-style-type: none;padding-left: 40px;padding-right:20px; padding-top:10px;cursor:pointer">            
+	         <ul class="sidebar_nav" style="clear:both;list-style-type: none;padding-left: 40px;padding-right:20px; padding-top:10px;cursor:pointer;display:none;">            
                <li><span id="SearchSpan" class="sidebar_nav_not_selected">Search</span></li>
                <li><span id="TableSpan" class="sidebar_nav_not_selected">Browse</span></li>
                <li><span id="ProfileSpan" class="sidebar_nav_not_selected">Join</span></li>
@@ -145,12 +137,12 @@
             </div>
  		  </div>
 
-     <div id="RightBar" style="float:right; margin-top:15px;margin-right:20px;  z-index:100;" > 
+     <div id="RightBar" style="float:right; margin-top:15px;margin-right:20px;min-width:220px;  z-index:100;" > 
         <button id="VisualizeSpan" class="SubmitProfile" style="font-size:13px; padding:6px 23px; margin-left:15px">Visualize</button>
     </div>
 
 
-     <div class="body_contents" style="margin-top:15px; margin-left:140px;">
+     <div class="body_contents" style="margin-top:15px; margin-left:170px;margin-right:220px;">
     
      <div id="HOMEdiv" class="MainFrameDiv" style="display:block;   background:#000; color:#fff;margin-left:auto;margin-right:auto">
  			   <img src="images/wordle_BlueGreen_onBlack_roman_cropped.png" alt="wordCloud" style="height:30%; width:80%;display:inherit;margin-left:auto; margin-right:auto"/>
@@ -252,11 +244,33 @@
      </div></nav><!-- /utility_nav -->
 
      <div class="runningHeader"> 
-     <span id="HomeSpan" style="font-size:2.5em;font-family:sans-serif;cursor:pointer"><text style="color:#60a8fa;">ATHENA</text>     </span>
-     <h2 style="margin:5px;display:inline">Your guide to expert guidance</h2>
+    <span id="HomeSpan" style="font-size:2.5em;font-family:sans-serif;cursor:pointer; position:relative;top:30px; left:10px; float:left; margin-right:25px"><text style="color:#60a8fa;">ATHENA</text>     </span>
+     <div id="SEARCH_BARdiv" style="overflow:visible; width:70%;float:left;">
+<!--       <div class="parsys mainPar"> -->
+       <div class="sitesearch">
+            <form id="QueryFreeForm" record="'search', {'keyword': '', 'results':'', 'executionTime':''}" style="width:90%;float:left;border-radius:7px" >
+ 		 	<input class="searchbox" maxlength="2048" id="QueryFreeInput" name="QueryText" placeholder="SEARCH for..." value="" type="text"/>
+    		<input class="searchbutton" value="&gt;" type="submit" style="float:left;border-radius:7px"/>    
+  			</form>
+          <div id="ReportSearchFilterDiv" style="clear:both; color:#fff;padding-bottom:10px; padding-top:5px; font-size:1.2em">
+            <span id="NumberOfResultsDiv"></span>
+            <span id="SearchStringDiv"></span>
+            <span id="FilterStringDiv">
+               <span id="ReportInstFilterSpan"></span>
+               <span id="ReportDiseaseFilterSpan"></span>
+               <span id="ReportOmicsFilterSpan"></span>
+               <span id="ReportContactForFilterSpan"></span>
+            </span>
+         </div>
+         
+	   </div> <!-- /sitesearch -->
+<!--	   </div>  /parsys mainPar -->
+    </div>  <!--/SEARCH_BARdiv -->
 
+<!--     <span id="HomeSpan" style="font-size:2.5em;font-family:sans-serif;cursor:pointer"><text style="color:#60a8fa;">ATHENA</text>     </span>
+     <h2 style="margin:5px;display:inline">Your guide to expert guidance</h2>
      <div style="font-size:0.8em; padding-bottom:10px"> APPROACHES TO TRANSLATIONAL HEALTH EXPERIMENTS, INFORMATICS, AND ANALYSES</div>
-     
+-->     
      </div>
 
      </div><!-- /header_contents -->
