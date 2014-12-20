@@ -122,25 +122,18 @@ $(document).ready(function() {
         
 	});  //end json
 		
+	$('.filterOptions :checkbox').click(function(){ 
+	    toggle_selection(this.className); });	
+		
+	$(".toExpand").click(function(){toggleContent(this, this.parentNode) })
+    $(".toContract").click(function(){toggleContent(this, this.parentNode) })
+		
 }); //document.ready
 
 //----------------------------------------------------------------------------------------------------
  window.onload = function() {
  
       var FreeForm = document.getElementById("QueryFreeForm");
-      var DiseaseForm = $("#FilterDisease");
-      var OmicsForm = $("#FilterOmics");
-      var ContactForForm = $("#FilterContactFor");
-      var InstitutionForm = $("#FilterInstitution");
-    
-      DiseaseForm.chosen({max_selected_options: 8});
-      DiseaseForm.chosen().change(SearchAndFilterResults);
-      OmicsForm.chosen({max_selected_options: 17});
-      OmicsForm.chosen().change(SearchAndFilterResults);
-      ContactForForm.chosen({max_selected_options: 6});
-      ContactForForm.chosen().change(SearchAndFilterResults);
-      InstitutionForm.chosen({max_selected_options: 6});
-      InstitutionForm.chosen().change(SearchAndFilterResults);
 
       //----------------------------------------------------------------------------------------------------
       FreeForm.onsubmit = function(e) {
@@ -153,21 +146,69 @@ $(document).ready(function() {
    } //window.onload 
 	
   //----------------------------------------------------------------------------------------------------	
-     function toggleContent(elem){
+     function toggleContent(elem, content){
                
 //               var $content = elem.parent().prev("div.content");
-               var content = elem.parentNode.children[4];
+//               var content = elem.parentNode.children[4];
     
-               if(content.className== "hideContent"){
-                  content.className= "showContent"
+               if(content.className.match("hideContent") != null){
+                  content.className = content.className.replace("hideContent", "showContent")
                   elem.className = "toContract";
                } else {
-                 content.className= "hideContent";
+                  content.className= content.className.replace("showContent", "hideContent");
                   elem.className = "toExpand";
                 } ;
 
 
        };
+
+ //----------------------------------------------------------------------------------------------------	
+	function toggle_selection(group){
+	
+        if(group == "fil_inst"){
+           tableRef.fnFilter("", 6);  // clear Inst filter
+           Filter_Selection("FilterInstitution", "ReportInstFilterSpan",6, "<i> from </i>")
+        } else if(group == "fil_disease"){        
+           tableRef.fnFilter("", 25); // clear field filter
+           Filter_Selection("FilterDisease", "ReportDiseaseFilterSpan",25, "<i> researching </i>")
+        } else if(group == "fil_omics"){
+           Filter_Selection("FilterOmics", "ReportOmicsFilterSpan",41, "<i> specializing in </i>")
+        } else if (group == "fil_contact"){
+           Filter_Selection("FilterContactFor", "ReportContactForFilterSpan",45, "<i> available for </i>")
+        }
+        
+        createProfilesFromTable();
+
+    }
+//----------------------------------------------------------------------------------------------------
+  
+    function Filter_Selection(ElementID, ReportSpan, TableColumn, connectingHTML){
+
+       var selectedFieldarray = []
+       $("#"+ElementID+" :checkbox:checked").each(function() 
+       	{ selectedFieldarray.push($(this).val())  });
+        
+        if(selectedFieldarray.length == 0){
+         document.getElementById(ReportSpan).innerHTML = "";
+         return;
+        }
+        
+        var filterField_String = selectedFieldarray.join("|");
+        var printedString = "";
+        if(selectedFieldarray.length == 1){
+           printedString = selectedFieldarray.pop()
+        }else{
+           var lastWord= selectedFieldarray.pop()
+           printedString = selectedFieldarray.join(", ")
+           printedString += ", or " + lastWord
+        } 
+
+      document.getElementById(ReportSpan).innerHTML = connectingHTML + printedString 
+
+      tableRef.fnFilter(filterField_String, TableColumn, true, false);  //searches "Organ Site" column (26) using RegEx (true) without smart filtering (false)
+    
+    }
+
 
   //----------------------------------------------------------------------------------------------------	
 	function toggle_visibility(activeSpanID, activeDivID){
@@ -223,7 +264,6 @@ $(document).ready(function() {
 //          console.log(wordArray)
         
         showAllRows();
-         var rows = tableRef._('tr', {"filter":"applied"});   
        
         if(wordArray.length == 0){
            document.getElementById("SearchStringDiv").innerHTML = " results for: " + "(all people)";
@@ -243,14 +283,14 @@ $(document).ready(function() {
    }
 
    //----------------------------------------------------------------------------------------------------
-      function ArrayToStringSpan(wordString, splitChar, cleanChar){
+      function ArrayToStringSpan(wordString, splitChar, cleanChar, sepChar){
          var wordArray = wordString.split(splitChar)
          if(wordArray == null) wordArray = [""]
         
          var i = cleanChar.length
          while(i--){ wordArray.clean(cleanChar[i]) }
          var j = wordArray.length;
-         while(j--){  wordArray[j] = "<span style='padding:0px 3px; text-align:center; border-radius:10px' class='ActiveWords'>"+wordArray[j]+"; </span>";}
+         while(j--){  wordArray[j] = "<span style='padding:0px 3px;border-radius:10px' class='ActiveWords'>"+wordArray[j]+sepChar+"</span>";}
          
          return wordArray.join("")
 
@@ -260,6 +300,24 @@ $(document).ready(function() {
       function EditProfile(elem){
                toggle_visibility("ProfileSpan", "PROFILEdiv");           
     
+      }
+      
+    //----------------------------------------------------------------------------------------------------
+     function FullProfile(elem){
+      
+      if(elem.className == "toExpand"){
+          var els = elem.parentNode.children
+          for(var i=0; i<els.length; ++i){     //set all displays to none
+            els[i].style.display =  'block';
+        };
+      }else{
+          var els = elem.parentNode.children
+          for(var i=0; i<els.length; ++i){     //set all displays to none
+            if(els[i].className.match("fullProfile") != null){
+              els[i].style.display =  'none'; }
+        };
+      }
+         toggleContent(elem, elem.parentNode.children[4])
       }
 
    //----------------------------------------------------------------------------------------------------
@@ -299,16 +357,18 @@ $(document).ready(function() {
         for(var i=0; i < rows.length; i++){
           var opacity = 1;
         if(i>=TopRows.length){ opacity= 0.2 }
-          ProfileResults.append("<div id=Profile_"+ i+ " style='opacity:"+opacity+";position:relative;clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; border-bottom:none; width:100%;height:100%; overflow-x:auto; font-size:0.8em  '>")
+          ProfileResults.append("<div id=Profile_"+ i+ " style='opacity:"+opacity+";position:relative;clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; border-bottom:none; width:100%;height:100%; font-size:0.8em  '>")
           $("#Profile_"+i).append("<div id=Profile_"+i+"_edit          onclick='EditProfile(this)'   style='float:right;border-radius:25px; background:#60a8fa;color:#F1F1F1;width:2%;right:5px;margin-top:5px; text-align:center; cursor:pointer' ;><i>i</i><br></div>")
-          $("#Profile_"+i).append("<div id=Profile_"+i+"_toggleContent onclick='toggleContent(this)' class='toExpand' style='float:left; position:absolute;top:5px; right:20px; color:#60a8fa;text-align:end;cursor:pointer;'>&gt</div>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_toggleContent onclick='FullProfile(this)' class='toExpand' style='float:left; position:absolute;top:5px; right:20px; color:#60a8fa;text-align:end;cursor:pointer;'>&gt</div>")
           $("#Profile_"+i).append("<div id=Profile_"+i+"_Picture style='float:left; min-width:5%;margin-left:5px;margin-right:5px;margin-top:5px';></div>")
           $("#Profile_"+i).append("<div id=Profile_"+i+"_Info style='float:left; width:30%;margin-top:5px'></div>")
- //         $("#Profile_"+i).append("<div id=Profile_"+i+"_Groups style='float:left; width:50%;margin-top:5px'></div>")
- //         $("#Profile_"+i).append("<div id=Profile_"+i+"_ContactFor style='float:left; width:50%;margin-top:5px'></div>")
- //         $("#Profile_"+i).append("<div id=Profile_"+i+"_website style='float:left; width:50%;margin-top:5px'></div>")
- //         $("#Profile_"+i).append("<div id=Profile_"+i+"_Specialty style='clear:both;float:left; width:90%;margin-top:5px'></div>")
-          $("#Profile_"+i).append("<div id=Profile_"+i+"_Bio class='hideContent' style='float:left; width:50%; text-align:justify; margin-top:5px; margin-bottom:5px'></div>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_Bio class='hideContent' style='float:left; width:55%; text-align:justify; margin-top:5px; margin-bottom:5px'></div>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_addtlPos  class='fullProfile' style='clear:both;float:left;margin-top:5px; width:90%;display:none'></div>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_website  class='fullProfile' style='clear:both;float:left;margin-top:5px; width:90%;display:none'></div>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_Disease class='fullProfile hangingIndent' style='clear:both;float:left; width:82%;display:none'></div>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_Omics class='fullProfile hangingIndent' style='clear:both;float:left; width:82%;display:none'></div>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_Specialty  class='fullProfile hangingIndent' style='clear:both;clear:both;float:left; width:82%;display:none'></div>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_ContactFor  class='fullProfile hangingIndent' style='clear:both;float:left; width:82%;display:none'></div>")
      
           ProfileResults.append("</div>")  //end individual profile
 
@@ -326,24 +386,57 @@ $(document).ready(function() {
           if(rows[i][21] !== ""){ Contact = Contact + rows[i][21] + "<br>"}
           $("#Profile_"+i+"_Info").append(Title+Contact)
           
- //         var Groups = "<b>Groups </b>"
- //         if(rows[i][25] !== "" & rows[i][25] !== "NA"){ Groups = Groups+ ArrayToStringSpan(rows[i][25], ";", ["", "#"])}
- //         if(rows[i][41] !== "" & rows[i][41] !== "NA"){ Groups = Groups + ArrayToStringSpan(rows[i][41], ";", ["", "#"]) }
- //           $("#Profile_"+i+"_Groups").append(Groups + "<br>")
-
-//          var ContactFor = "<b>Contact for </b>"
-//          if(rows[i][45] !== "" & rows[i][45] !== "NA"){ ContactFor = ContactFor + ArrayToStringSpan(rows[i][45], ";", ["", "#"])  }
-//            $("#Profile_"+i+"_ContactFor").append(ContactFor + "<br>")
-            
- //         var Websites = ""
- //         if(rows[i][23] !== "" & rows[i][23] !== "NA"){ Websites = ArrayToStringSpan(rows[i][23], ";", ["", "#"])  }
- //           $("#Profile_"+i+"_website").append(Websites + "<br>")
+          var addtlPos = [8,11,14,17];
+          var AddedPos = ""
+          for(var j=0; j<addtlPos.length; j++){
+             if(rows[i][addtlPos[j]] != "" & rows[i][addtlPos[j]] != "NA"){
+                AddedPos = AddedPos + rows[i][addtlPos[j]] + ", " + rows[i][addtlPos[j]+1] + ": " + rows[i][addtlPos[j]+2] + ";"
+             }           
+          }
+          if(AddedPos != ""){
+             AddedPos = "<b>Additional Positions </b><br>" + ArrayToStringSpan(AddedPos, ";", ["", "#"], "<br>") 
+             $("#Profile_"+i+"_addtlPos").append(AddedPos)
+             $("#Profile_"+i+"_addtlPos").css("margin-bottom","5px")
+          }
+ 
+          if(rows[i][25] !== "" & rows[i][25] !== "NA"){ 
+             var Disease = "<b style='min-width:50px'>Disease type </b>"
+             Disease = Disease+ ArrayToStringSpan(rows[i][25].replace(/#/g,""), ";", ["", "#"], "; ")
+             $("#Profile_"+i+"_Disease").append(Disease + "<br>")
+             $("#Profile_"+i+"_Disease").css("margin-bottom","5px")
+          }
+          if(rows[i][41] !== "" & rows[i][41] !== "NA"){ 
+             var Omics = "<b style='padding-right:8px'>-omics field </b>"
+             Omics = Omics + ArrayToStringSpan(rows[i][41], ";", ["", "#"], "; ") 
+             $("#Profile_"+i+"_Omics").append(Omics + "<br>")
+             $("#Profile_"+i+"_Omics").css("margin-bottom","5px")
+          }
           
+          if(rows[i][45] !== "" & rows[i][45] !== "NA"){ 
+             var ContactFor = "<b style='padding-right:9px'>Contact for </b>"
+             ContactFor = ContactFor + ArrayToStringSpan(rows[i][45], ";", ["", "#"], "; ")  
+             $("#Profile_"+i+"_ContactFor").append(ContactFor + "<br>")
+             $("#Profile_"+i+"_ContactFor").css("margin-bottom","5px")
+         }
+          var Websites = ""
+          if(rows[i][23] !== "" & rows[i][23] !== "NA"){ 
+            var webPrefix = ["UW1: ", "UW2: ", "UW3: ", "UW4: ", "UW5: ","UW6: ","UW Lab: ", "FH1: ", "FH2: ","FH Lab: ", "SCCA: ", "SCCA1: ", "SCH1: ", "No profile page: Rostomily lab member: "];
+            var j=webPrefix.length; var sites= rows[i][23]
+            while(j--){ sites = sites.replace(webPrefix[j],"")}  //<a href:'url'>link text</a>") }
+            var siteArray = sites.split(";"); 
+            if(siteArray != null){
+              j=siteArray.length;
+              while(j--){ siteArray[j] = "<a href='"+siteArray[j]+"' target='_blank'>"+siteArray[j]+"</a><br>"}
+              Websites = siteArray.join("")
+            }
+//            Websites = ArrayToStringSpan(sites, ";", ["", "#"], "<br>")  }
+            $("#Profile_"+i+"_website").append(Websites + "<br>")
+          }
  
 //          var Specialty = "" 
 //          var Keywords = ""
-//          if(rows[i][28] !== "" & rows[i][28] !== "NA"){ Specialty = "<i style='padding-bottom:5px'>" + ArrayToStringSpan(rows[i][28], ";", ["", "#"])  + "</i><br>"}
-//          if(rows[i][43] !== "" & rows[i][43] !== "NA"){ Keywords = ArrayToStringSpan(rows[i][43], ";", ["", "#"])  + "<br>"}
+//          if(rows[i][28] !== "" & rows[i][28] !== "NA"){ Specialty = "<i style='padding-bottom:5px'>" + ArrayToStringSpan(rows[i][28], ";", ["", "#"], "; ")  + "</i><br>"}
+//          if(rows[i][43] !== "" & rows[i][43] !== "NA"){ Keywords = ArrayToStringSpan(rows[i][43], ";", ["", "#"], "; ")  + "<br>"}
 //            $("#Profile_"+i+"_Specialty").append(Specialty + Keywords)
           
           var Bio = ""
@@ -379,104 +472,7 @@ $(document).ready(function() {
 
       } // currentSelectedIDS
 
-//----------------------------------------------------------------------------------------------------
-  
-    function Filter_Selection(ElementID, ReportSpan, TableColumn, connectingHTML){
-
-       var selectedFieldarray = []
-       var e = document.getElementById(ElementID);
-       for (var i = 0; i < e.options.length; i++) {
-           if(e.options[i].selected ==true){
-               selectedFieldarray.push(e.options[i].value)
-             }
-        }
-  
-        if(selectedFieldarray.length == 0){
-         document.getElementById(ReportSpan).innerHTML = "";
-         return;
-        }
-        
-        var filterField_String = selectedFieldarray.join("|");
-        var printedString = "";
-        if(selectedFieldarray.length == 1){
-           printedString = selectedFieldarray.pop()
-        }else{
-           var lastWord= selectedFieldarray.pop()
-           printedString = selectedFieldarray.join(", ")
-           printedString += ", or " + lastWord
-        } 
-
-      document.getElementById("ReportFieldFilterSpan").innerHTML = connectingHTML + printedString 
-
-      tableRef.fnFilter(filterField_String, TableColumn, true, false);  //searches "Organ Site" column (26) using RegEx (true) without smart filtering (false)
-    
-    }
  
-  //----------------------------------------------------------------------------------------------------
-    function FilterDisease_Selection(){
-
-       var selectedFieldarray = []
-       var e = document.getElementById("FilterDisease");
-       for (var i = 0; i < e.options.length; i++) {
-           if(e.options[i].selected ==true){
-               selectedFieldarray.push(e.options[i].value)
-             }
-        }
-  
-        if(selectedFieldarray.length == 0){
-         document.getElementById("ReportFieldFilterSpan").innerHTML = "";
-         return;
-        }
-        
-        var filterField_String = selectedFieldarray.join("|");
-        var printedString = "";
-        if(selectedFieldarray.length == 1){
-           printedString = selectedFieldarray.pop()
-        }else{
-           var lastWord= selectedFieldarray.pop()
-           printedString = selectedFieldarray.join(", ")
-           printedString += ", or " + lastWord
-        } 
-
-      document.getElementById("ReportFieldFilterSpan").innerHTML = "<i> specializing in </i>" + printedString 
-
-      tableRef.fnFilter(filterField_String, 25, true, false);  //searches "Organ Site" column (26) using RegEx (true) without smart filtering (false)
-    
-    }
- 
-
-  //----------------------------------------------------------------------------------------------------
-    function FilterInstitution_Selection(){
- 
-       var selectedInstitutionarray = []
-       var e = document.getElementById("FilterInstitution");
-        for (var i = 0; i < e.options.length; i++) {
-           if(e.options[i].selected ==true){
-               selectedInstitutionarray.push(e.options[i].value)
-             }
-        }
-
-        if(selectedInstitutionarray.length == 0){
-         document.getElementById("ReportInstFilterSpan").innerHTML = "";
-         return;
-        }
-        
-        var filterInstitution_String = selectedInstitutionarray.join("|");
-        var printedString = "";
-        if(selectedInstitutionarray.length == 1){
-           printedString = selectedInstitutionarray.pop()
-        }else{
-           var lastWord= selectedInstitutionarray.pop()
-           printedString = selectedInstitutionarray.join(", ")
-           printedString += ", or " + lastWord
-        } 
- 
-       document.getElementById("ReportInstFilterSpan").innerHTML = "<i> from </i>" + printedString 
-
-       tableRef.fnFilter(filterInstitution_String, 6, true, false);  //searches "Primary Institution" column (6) using RegEx (true) without smart filtering
-
-}    
-
  //----------------------------------------------------------------------------------------------------
     function drawBarplot(){
   

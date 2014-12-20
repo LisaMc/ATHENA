@@ -61,71 +61,76 @@
 
     <div id="mainContent" style="align:left;margin-left:auto;padding-top:5px;min-height:500px;">
  
-           <div id="SideNav" style="float:left; margin-top:15px;margin-left:15px;margin-right:15px;min-width:170px;  z-index:100; ">
+           <div id="SideNav" style="float:left; margin-top:15px;margin-left:15px;margin-right:15px;min-width:200px;  z-index:100; position:fixed; top:120px">
              <div id="scroller-anchor"></div>
              <div id="scroller" style="position:absolute; bottom:''">
-              <h2> Filter </h2>
-              <div style="float:left;width:80px;border-radius:7px; margin-top:15px" class="filter">
-                <select multiple id="FilterInstitution" data-placeholder="Institution">
-             		<option value="Fred Hutchinson">Fred Hutch</option>
-            		<option value="University of Washington">UW</option>
-            		<option value="Seattle Children's">Seattle Children's</option>
-            		<option value="Sage">Sage</option>
-            		<option value="ISB">ISB</option>
-            		<option value="Cancer Research and Biostatistics">Cancer Research and Biostatistics</option>
-                </select>
-                <input class="searchbutton" value="&gt;" type="submit"/>   
+<!--              <h2 style="margin: 3px auto"> Filters </h2>  -->
+ 		       <div style="clear:both;float:left;min-width:200px;border-radius:7px; margin-top:5px" class="filter">
+                <ul id="FilterContactFor" class="filterOptions hideContent" style="list-style: none;padding-left:0;width:100%; font-size:0.7em; position:relative">
+             	 <h2 style="margin-bottom:auto; margin-top:auto"><b> Contact for </b></h2>
+                 <div class='toExpand' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt</b></div>
+             	  	<li style="padding-top:5px"><input class="fil_contact" type="checkbox" value="Grants">Grants</li>
+               		<li><input class="fil_contact" type="checkbox" value="Collaboration">Collaboration</li>
+               		<li><input class="fil_contact" type="checkbox" value="Consult">Consult</li>
+               		<li><input class="fil_contact" type="checkbox" value="Programs">Programmatic ideas</li>
+               		<li><input class="fil_contact" type="checkbox" value="Presentations">Presentations</li>
+               		<li><input class="fil_contact" type="checkbox" value="Mentoring">Mentoring</li>             		
+                </ul>
+              </div>
+
+              <div style="clear:both;float:left;border-radius:7px;min-width:200px; margin-top:5px" class="filter">
+                <ul id="FilterInstitution" class="filterOptions showContent" style="list-style: none;padding-left:0;width:100%; font-size:0.7em; position:relative">
+                <h2 style="margin-bottom:auto; margin-top:auto"><b> Institution </b> </h2>
+                <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt</b></div>
+             		<li style="padding-top:5px"><input class="fil_inst" type="checkbox" value="Fred Hutch">Fred Hutch</li>
+            		<li><input class="fil_inst" type="checkbox" value="UW">UW</li>
+            		<li><input class="fil_inst" type="checkbox" value="Seattle Children's">Seattle Children's</li>
+            		<li><input class="fil_inst" type="checkbox" value="Sage">Sage</li>
+            		<li><input class="fil_inst" type="checkbox" value="ISB">ISB</li>
+            		<li><input class="fil_inst" type="checkbox" value="Cancer Research and Biostatistics">Cancer Research and Biostatistics</li>
+                </ul>
 		       </div>	
 		       
-		       <div style="clear:both;float:left;width:80px;border-radius:7px; margin-top:15px" class="filter">
-                <select multiple id="FilterContactFor" data-placeholder="Interaction">
-             	 	<option value="Grants">Grants</option>
-               		<option value="Collaboration">Collaboration</option>
-               		<option value="Consult">Consult</option>
-               		<option value="Programs">Programmatic ideas</option>
-               		<option value="Presentations">Presentations</option>
-               		<option value="Mentoring">Mentoring</option>             		
-                </select>
-   		        <input class="searchbutton" value="&gt;" type="submit"/>     
-              </div>
 
-		       <div style="clear:both;float:left;width:80px;border-radius:7px; margin-top:15px" class="filter">
-                <select multiple id="FilterDisease" data-placeholder="Disease Type">
-             	 	<option value="Brain">Brain</option>
-               		<option value="Breast">Breast</option>
-               		<option value="Colon">Colon</option>
-               		<option value="Head & Neck">Head & Neck</option>
-               		<option value="Lung">Lung</option>
-               		<option value="Ovary">Ovary</option>
-               		<option value="Pancreas">Pancreas</option>
-               		<option value="Prostate">Prostate</option>
+		       <div style="clear:both;float:left;min-width:200px;border-radius:7px; margin-top:5px" class="filter">
+                <ul id="FilterDisease" class="filterOptions showContent" style="list-style: none;padding-left:0;width:100%; font-size:0.7em; position:relative">
+             	 <h2 style="margin-bottom:auto; margin-top:auto"><b> Disease type </b></h2>
+                 <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt</b></div>
+             	  	<li style="padding-top:5px"><input class="fil_disease" type="checkbox" value="Brain">Brain</li>
+               		<li><input class="fil_disease" type="checkbox" value="Breast">Breast</li>
+               		<li><input class="fil_disease" type="checkbox" value="Colon">Colon</li>
+               		<li><input class="fil_disease" type="checkbox" value="Head & Neck">Head & Neck</li>
+               		<li><input class="fil_disease" type="checkbox" value="Lung">Lung</li>
+               		<li><input class="fil_disease" type="checkbox" value="Ovary">Ovary</li>
+               		<li><input class="fil_disease" type="checkbox" value="Pancreas">Pancreas</li>
+               		<li><input class="fil_disease" type="checkbox" value="Prostate">Prostate</li>
              		
-                </select>
-   		        <input class="searchbutton" value="&gt;" type="submit"/>     
+                </ul> 
               </div>
 
-               <div style="clear:both;float:left;width:80px;border-radius:7px; margin-top:15px" class="filter">
-                <select multiple id="FilterOmics" data-placeholder="omics Field">
-             		<option value="Computational Biology">Computational Biology</option>
-            		<option value="Bioinformatics">Bioinformatics</option>
-            		<option value="Biostatistics">Biostatistics</option>
-            		<option value="Applied Math">Applied Math</option>
-             		<option value="Systems Biology">Systems Biology</option>
-             		<option value="Structural Biology">Structural Biology</option>
-             		<option value="Artificial Intelligence">NLP/Machine learning</option>
-             		<option value="Computer Science">CS</option>
-             		<option value="Bioengineering">Bioengineering</option>
-             		<option value="Clinical Informatics">Clinical (Research) Informatics</option>
-             		<option value="Epidemiology">Epidemiology</option>
-             		<option value="Imaging">Imaging</option>
-             		<option value="Public Health Informatics">Public Health Informatics</option>
-             		<option value="Consumer Health Informatics">Consumer Health Informatics</option>
-             		<option value="Health Informatics">Health Informatics</option>
-             		<option value="Translational Bioinformatics">Translational Bioinformatics</option>
-             		<option value="Adopter">Adopter</option>
-                </select>
-   		        <input class="searchbutton" value="&gt;" type="submit"/>     
-              </div>
+               <div style="clear:both;float:left;min-width:200px;border-radius:7px; margin-top:5px" class="filter">
+                <ul id="FilterOmics" class="filterOptions showContent" style="list-style: none;padding-left:0;width:100%; font-size:0.7em; position:relative">
+             	 <h2 style="margin-bottom:auto; margin-top:auto"><b> -omics field </b></h2>
+                 <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt</b></div>
+             		<li style="padding-top:5px"><input class="fil_omcs" type="checkbox" value="Computational Biology">Computational Biology</li>
+            		<li><input class="fil_omics" type="checkbox" value="Bioinformatics">Bioinformatics</li>
+            		<li><input class="fil_omics" type="checkbox" value="Biostatistics">Biostatistics</li>
+            		<li><input class="fil_omics" type="checkbox" value="Applied Math">Applied Math</li>
+             		<li><input class="fil_omics" type="checkbox" value="Systems Biology">Systems Biology</li>
+             		<li><input class="fil_omics" type="checkbox" value="Structural Biology">Structural Biology</li>
+             		<li><input class="fil_omics" type="checkbox" value="Artificial Intelligence">NLP/Machine learning</li>
+             		<li><input class="fil_omics" type="checkbox" value="Computer Science">CS</li>
+             		<li><input class="fil_omics" type="checkbox" value="Bioengineering">Bioengineering</li>
+             		<li><input class="fil_omics" type="checkbox" value="Clinical Informatics">Clinical (Research) Informatics</li>
+             		<li><input class="fil_omics" type="checkbox" value="Epidemiology">Epidemiology</li>
+             		<li><input class="fil_omics" type="checkbox" value="Imaging">Imaging</li>
+             		<li><input class="fil_omics" type="checkbox" value="Public Health Informatics">Public Health Informatics</li>
+             		<li><input class="fil_omics" type="checkbox" value="Consumer Health Informatics">Consumer Health Informatics</li>
+             		<li><input class="fil_omics" type="checkbox" value="Health Informatics">Health Informatics</li>
+             		<li><input class="fil_omics" type="checkbox" value="Translational Bioinformatics">Translational Bioinformatics</li>
+             		<li><input class="fil_omics" type="checkbox" value="Adopter">Adopter</li>
+                </ul>
+   		        </div>
 
 
 	         <ul class="sidebar_nav" style="clear:both;list-style-type: none;padding-left: 40px;padding-right:20px; padding-top:10px;cursor:pointer;display:none;">            
@@ -142,7 +147,7 @@
     </div>
 
 
-     <div class="body_contents" style="margin-top:15px; margin-left:170px;margin-right:220px;">
+     <div class="body_contents" style="margin-top:15px; ">
     
      <div id="HOMEdiv" class="MainFrameDiv" style="display:block;   background:#000; color:#fff;margin-left:auto;margin-right:auto">
  			   <img src="images/wordle_BlueGreen_onBlack_roman_cropped.png" alt="wordCloud" style="height:30%; width:80%;display:inherit;margin-left:auto; margin-right:auto"/>
@@ -218,7 +223,7 @@
 
     </div><!-- /mainContent -->
  </div> <!-- body -->  
-    <div id="header_element" class="header">
+    <div id="header_element" class="header" style="position:fixed">
      <div class="header_contents">
 
        <nav><div class="utility_nav noprint">
@@ -244,8 +249,8 @@
      </div></nav><!-- /utility_nav -->
 
      <div class="runningHeader"> 
-    <span id="HomeSpan" style="font-size:2.5em;font-family:sans-serif;cursor:pointer; position:relative;top:30px; left:10px; float:left; margin-right:25px"><text style="color:#60a8fa;">ATHENA</text>     </span>
-     <div id="SEARCH_BARdiv" style="overflow:visible; width:70%;float:left;">
+    <span id="HomeSpan" style="text-align:center;min-width:200px;font-size:2.5em;font-family:sans-serif;cursor:pointer; position:relative;top:30px; left:10px; float:left; margin-right:25px"><text style="color:#60a8fa;">ATHENA</text>     </span>
+     <div id="SEARCH_BARdiv" style="overflow:visible; width:60%;float:left;">
 <!--       <div class="parsys mainPar"> -->
        <div class="sitesearch">
             <form id="QueryFreeForm" record="'search', {'keyword': '', 'results':'', 'executionTime':''}" style="width:90%;float:left;border-radius:7px" >

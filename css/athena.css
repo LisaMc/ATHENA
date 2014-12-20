@@ -1,11 +1,11 @@
 .body{margin-top:110px}
-div.body_contents{max-width:auto;padding:0 20px;word-wrap:break-word; margin-left:180px; margin-right:250px}
+div.body_contents{max-width:auto;padding:0 20px;word-wrap:break-word; margin-left:250px; margin-right:250px}
 
 .runningHeader{color:#fff; font-family:Cambria, "Trebuchet MS", Helvetica, sans-serif;font-weight:300;font-style:normal}
-.header .header_contents{margin:0 15px;max-width:auto;position:relative}
+.header .header_contents{margin:0 15px;max-width:initial;position:relative}
 
 
-div.filter {border:1px solid #ccc;margin:0;padding-left:.5em;padding-right:3em;position:relative;background-color:#fff; margin-left:15px}
+div.filter {border:1px solid #ccc;margin:0;padding-left:.5em;position:relative;background-color:#fff;}
 div.filter input.searchbutton{border:0 none;height:2em;margin:0;padding:0; border-radius:7px}
 div.filter input.searchbutton{background-color:#fff;color:#A9A9A9;width:2em;font-size: 13px;cursor:pointer;overflow:auto;-webkit-appearance:none;border-radius:7px}
 div.filter input.searchbutton{overflow:auto;position:absolute;right:0;top:0;width:2em;cursor:pointer;
@@ -28,6 +28,7 @@ div.filter .chosen-container{position:relative;display:inline-block;vertical-ali
 div.filter .chosen-container *{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box; }
 div.filter .chosen-container-multi .chosen-choices{border:0 none;margin:0;width:100% !important; }
 div.filter .chosen-container-multi{width:100% !important}
+
 
 .sidebar_nav_not_selected{
 	display: block;
@@ -61,13 +62,20 @@ div.filter .chosen-container-multi{width:100% !important}
 
 .hideContent{
   overflow: hidden;
-    line-height: 1em;
-    height: 5em;
+    height: 6em;
 }
 
 .showContent{
-    line-height: 1em;
     height: auto;
+}
+.filter .hideContent{
+    line-height: 1.5em;
+    height: 1.5em;
+} 
+
+.hangingIndent {
+  padding-left: 80px ;
+  text-indent: -80px ;
 }
 
 .toExpand{
