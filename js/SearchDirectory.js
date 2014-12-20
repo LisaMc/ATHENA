@@ -127,6 +127,7 @@ $(document).ready(function() {
 		
 	$(".toExpand").click(function(){toggleContent(this, this.parentNode) })
     $(".toContract").click(function(){toggleContent(this, this.parentNode) })
+
 		
 }); //document.ready
 
@@ -142,7 +143,7 @@ $(document).ready(function() {
         SearchAndFilterResults() 
         return false;
       }
-      
+     
    } //window.onload 
 	
   //----------------------------------------------------------------------------------------------------	
@@ -166,14 +167,16 @@ $(document).ready(function() {
 	function toggle_selection(group){
 	
         if(group == "fil_inst"){
-           tableRef.fnFilter("", 6);  // clear Inst filter
+           tableRef.fnFilter("", 6);  
            Filter_Selection("FilterInstitution", "ReportInstFilterSpan",6, "<i> from </i>")
         } else if(group == "fil_disease"){        
-           tableRef.fnFilter("", 25); // clear field filter
+           tableRef.fnFilter("", 25); 
            Filter_Selection("FilterDisease", "ReportDiseaseFilterSpan",25, "<i> researching </i>")
         } else if(group == "fil_omics"){
+           tableRef.fnFilter("", 41); 
            Filter_Selection("FilterOmics", "ReportOmicsFilterSpan",41, "<i> specializing in </i>")
         } else if (group == "fil_contact"){
+           tableRef.fnFilter("", 45);
            Filter_Selection("FilterContactFor", "ReportContactForFilterSpan",45, "<i> available for </i>")
         }
         
@@ -247,6 +250,8 @@ $(document).ready(function() {
       tableRef.fnFilter("");
       tableRef.fnFilter("", 6);  // clear Inst filter
       tableRef.fnFilter("", 25); // clear field filter
+      tableRef.fnFilter("", 41);  // clear omics filter
+      tableRef.fnFilter("", 45); // clear contact filter
 
       tableRef.fnDraw()
 
