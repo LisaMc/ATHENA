@@ -35,11 +35,28 @@ function checkOffset() {
         }
 
 }
+//----------------------------------------------------------------------------------------------------
+function checkOffset2() {
+       var b = $(window).scrollTop();
+       var c = $("#SideNav").height()
+        var f = $("#footer_element").offset().top;
+        
+        if (f-b<700) {
+           $("#SideNav").css("height", f-b -150)
+        } else {
+           $("#SideNav").css("height", $(window).height() - 150)
+        }
+
+}
 
 //----------------------------------------------------------------------------------------------------
 
-$(document).ready(checkOffset);
-$(document).scroll(checkOffset);
+//$(document).ready(checkOffset);
+$(document).scroll(checkOffset2);
+
+window.onresize = function() {
+    $("#SideNav").css("height", $(window).height() - 150)
+};	
 
 $(document).ready(function() {
 
@@ -75,7 +92,7 @@ $(document).ready(function() {
              toggle_visibility("ProfileSpan", "PROFILEdiv");           
 //             createProfileTemplate();
            })
-        $("#VisualizeSpan").click(function(){ 
+        $(".VisualizeSpan").click(function(){ 
              toggle_visibility("", "VISUALIZEdiv");
 
              $('.SliderThumbnails').slick({
@@ -104,7 +121,7 @@ $(document).ready(function() {
            })
 
        $("#HomeSpan").click(function(){ 
-             toggle_visibility("", "HOMEdiv");
+             toggle_visibility("Home", "HOMEdiv");
            })
          
          
@@ -127,6 +144,27 @@ $(document).ready(function() {
 		
 	$(".toExpand").click(function(){toggleContent(this, this.parentNode) })
     $(".toContract").click(function(){toggleContent(this, this.parentNode) })
+
+    $(".barPlot").click(function(){
+      drawBarplot() })
+
+
+	$("#SideNav").css("height", $(window).height() - 150)
+
+    $("#SideNav").mCustomScrollbar({
+					theme:"minimal",
+					scrollInertia: 10,
+					autoExpandScrollbar: true,
+					mouseWheel:{ preventDefault: true }
+				});
+
+   $("#RightBar").mCustomScrollbar({
+					theme:"minimal",
+					scrollInertia: 10,
+					autoExpandScrollbar: true,
+					mouseWheel:{ preventDefault: true }
+				});
+
 
 		
 }); //document.ready
@@ -220,19 +258,19 @@ $(document).ready(function() {
             els[i].style.display =  'none';
         };
 
-        $(".sidebar_nav_selected").attr("class", "sidebar_nav_not_selected")  //deselect active nav
+//        $(".sidebar_nav_selected").attr("class", "sidebar_nav_not_selected")  //deselect active nav
         
         document.getElementById(activeDivID).style.display = 'block'  //then activate a single div
-        if(activeSpanID != ""){ //not the home page
-          document.getElementById(activeSpanID).className = "sidebar_nav_selected" //and select the navigation span
+        if(activeSpanID != "Home"){ //not the home page
+//          document.getElementById(activeSpanID).className = "sidebar_nav_selected" //and select the navigation span
              document.getElementById("mainContent").style.background = "#F1F1F1"
              document.getElementById("mainContent").style.color = "#000"
-          $(".sidebar_nav_not_selected").css("color", "black")
+//          $(".sidebar_nav_not_selected").css("color", "black")
              
          }else{
              document.getElementById("mainContent").style.background = "#000"
              document.getElementById("mainContent").style.color = "#F1F1F1"
-          $(".sidebar_nav_not_selected").css("color",  "white")
+//          $(".sidebar_nav_not_selected").css("color",  "white")
          }
 
     }
@@ -348,7 +386,7 @@ $(document).ready(function() {
         rows = TopRows.concat(OtherRows)
                 
         $('#SearchResults').html('')
-        $("#SearchResults").append("<div id='ProfileResults' style='background:#F1F1F1;color:#000;height:100%; overflow-x:auto'></div>")
+        $("#SearchResults").append("<div id='ProfileResults' style='line-height:normal;background:#F1F1F1;color:#000;height:100%; overflow-x:auto'></div>")
         var ProfileResults = $("#ProfileResults")
       
         document.getElementById("NumberOfResultsDiv").innerHTML = rows.length
@@ -363,8 +401,8 @@ $(document).ready(function() {
           var opacity = 1;
         if(i>=TopRows.length){ opacity= 0.2 }
           ProfileResults.append("<div id=Profile_"+ i+ " style='opacity:"+opacity+";position:relative;clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; border-bottom:none; width:100%;height:100%; font-size:0.8em  '>")
-          $("#Profile_"+i).append("<div id=Profile_"+i+"_edit          onclick='EditProfile(this)'   style='float:right;border-radius:25px; background:#60a8fa;color:#F1F1F1;width:2%;right:5px;margin-top:5px; text-align:center; cursor:pointer' ;><i>i</i><br></div>")
-          $("#Profile_"+i).append("<div id=Profile_"+i+"_toggleContent onclick='FullProfile(this)' class='toExpand' style='float:left; position:absolute;top:5px; right:20px; color:#60a8fa;text-align:end;cursor:pointer;'>&gt</div>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_edit          onclick='EditProfile(this)'   style='float:right; color:#60a8fa;right:5px;margin-top:5px; text-align:center; cursor:pointer' ;><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span><br></div>")
+          $("#Profile_"+i).append("<div id=Profile_"+i+"_toggleContent onclick='FullProfile(this)' class='toExpand' style='float:left; position:absolute;font-size:1.5em; right:20px; color:#60a8fa;text-align:end;cursor:pointer;'>&gt</div>")
           $("#Profile_"+i).append("<div id=Profile_"+i+"_Picture style='float:left; min-width:5%;margin-left:5px;margin-right:5px;margin-top:5px';></div>")
           $("#Profile_"+i).append("<div id=Profile_"+i+"_Info style='float:left; width:30%;margin-top:5px'></div>")
           $("#Profile_"+i).append("<div id=Profile_"+i+"_Bio class='hideContent' style='float:left; width:55%; text-align:justify; margin-top:5px; margin-bottom:5px'></div>")
@@ -481,14 +519,13 @@ $(document).ready(function() {
  //----------------------------------------------------------------------------------------------------
     function drawBarplot(){
   
-        var margin = {top: 40, right: 20, bottom: 30, left: 40},
-             width = 960 - margin.left - margin.right,
+        var margin = {top: 40, right: 20, bottom: 30, left: 40, leftY:30},
+             width = $(window).width() - 550 - margin.left - margin.right - margin.leftY,
             height = 500 - margin.top - margin.bottom;
 
         var formatPercent = d3.format(".0%");
 
-        var x = d3.scale.ordinal()
-                  .rangeRoundBands([0, width], .1);
+        var x = d3.scale.linear().range([0, width]);
 
         var y = d3.scale.linear()
                   .range([height, 0]);
@@ -500,7 +537,6 @@ $(document).ready(function() {
         var yAxis = d3.svg.axis()
                       .scale(y)
                       .orient("left")
-                      .tickFormat(formatPercent);
 
 //        var tip = d3.tip()
 //                    .attr('class', 'd3-tip')
@@ -509,18 +545,43 @@ $(document).ready(function() {
 //                    return "<strong>Frequency:</strong> <span style='color:red'>" + d.frequency + "</span>";
 //                  })
 
-        var svg = d3.select("MainGraph").append("svg")
-                    .attr("width", width + margin.left + margin.right)
+        var svg = d3.select("#MainGraph").append("svg")
+                    .attr("width", width + margin.left + margin.right + margin.leftY)
                     .attr("height", height + margin.top + margin.bottom)
                     .append("g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                    .attr("transform", "translate(" + (margin.left + margin.leftY) + "," + margin.top + ")");
 
 //           svg.call(tip);
 
         var data = tableRef._('tr', {"filter":"applied"});   
 
-           x.domain(data.map(function(d) { return d.Degrees; }));
-           y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+        var values = data.map(function(d){
+                          return d[6]})
+                                  
+        function getCounts(array) {
+             var frequency = {};
+
+             array.forEach(function(value) { frequency[value] = 0; });
+
+             var uniques = array.filter(function(value) {
+               return ++frequency[value] == 1; })
+           
+           
+               var CountMap = [];
+               uniques.forEach(function(name){
+                 CountMap.push({Name: name, count: frequency[name]});
+              })
+               return CountMap
+          //   return uniques.sort(function(a, b) {
+         //       return frequency[b] - frequency[a];
+         //   });
+        };
+        
+        var groups = getCounts(values)
+         var maxFreq = d3.max(groups, function(d){return d.count});
+
+           x.domain([0,groups.length]);
+           y.domain([0, maxFreq]);
 
            svg.append("g")
               .attr("class", "x axis")
@@ -532,26 +593,27 @@ $(document).ready(function() {
               .call(yAxis)
               .append("text")
               .attr("transform", "rotate(-90)")
-              .attr("y", 6)
-              .attr("dy", ".71em")
+              .attr("y", -1*margin.leftY)
+              .attr("x", -1*(height-margin.top)/2)
+              .attr("dy", "-.71em")
               .style("text-anchor", "end")
-              .text("Frequency");
+              .text("counts");
 
            svg.selectAll(".bar")
-              .data(data)
+              .data(groups)
               .enter().append("rect")
               .attr("class", "bar")
-              .attr("x", function(d) { return x(d.letter); })
-              .attr("width", x.rangeBand())
-              .attr("y", function(d) { return y(d.frequency); })
-              .attr("height", function(d) { return height - y(d.frequency); })
+              .attr("x", function(d,i) { return x(i); })
+              .attr("width", width/groups.length - 2)
+              .attr("y", function(d) { return y(d.count); })
+              .attr("height", function(d) { return height - y(d.count); })
 //              .on('mouseover', tip.show)
 //              .on('mouseout', tip.hide)
 
        
 
       function type(d) {
-          d.frequency = +d.frequency;
+          d.count = +d.count;
           return d;
        }
 

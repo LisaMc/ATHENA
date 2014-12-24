@@ -17,12 +17,16 @@
 
     <title>ATHENA</title>
 
+    <link rel="stylesheet" href="css/bootstrap.min.css">  
+    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css" />
     <link rel="stylesheet" href="css/clientlibs.min.css" type="text/css">
 
     <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
 	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
-	<script type="text/javascript" src="js/clientlibs.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script type="text/javascript" src="js/clientlibs.min.js"></script>
 
     <!-- Typekit -->
     <script type="text/javascript" src="//use.typekit.net/ead0eor.js"></script>
@@ -31,7 +35,6 @@
     <link href="css/chosen.min.css" media="screen" rel="stylesheet" type="text/css">
     <script src="js/chosen.jquery.min.js" type="text/javascript"></script>
 
-    <script src="js/jquery.unveil.js"  type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="css/slick/slick.css"/>
     <script type="text/javascript" src="js/slick.min.js"></script>
 
@@ -41,7 +44,7 @@
    <script src="js/jquery.dataTables.min.js"></script>
    <link   rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
 	<script type="text/javascript" src="d3/d3.js"></script>
-
+<script src="http://d3js.org/d3.v3.min.js"></script>
 
   <script src="js/SearchDirectory.js"></script>
   <link   rel="stylesheet" type="text/css" href="css/dataTable.css">
@@ -61,13 +64,13 @@
 
     <div id="mainContent" style="align:left;margin-left:auto;padding-top:5px;min-height:700px;">
  
-           <div id="SideNav" style="float:left; margin-top:15px;margin-left:15px;margin-right:15px;min-width:200px;  z-index:100; position:fixed; top:120px">
-             <div id="scroller-anchor"></div>
+           <div id="SideNav" class="mCustomScrollbar" style="float:left; margin-top:15px;margin-left:15px;margin-right:15px;min-width:200px; position:fixed">
+<!--             <div id="scroller-anchor"></div>
              <div id="scroller" style="position:absolute; bottom:''">
-<!--              <h2 style="margin: 3px auto"> Filters </h2>  -->
- 		       <div style="clear:both;float:left;min-width:200px;border-radius:7px; margin-top:5px" class="filter">
-                <ul id="FilterContactFor" class="filterOptions hideContent" style="list-style: none;padding-left:0;width:100%; font-size:0.7em; position:relative">
-             	 <h2 style="margin-bottom:auto; margin-top:auto"><b> Contact for </b></h2>
+--><!--              <h2 style="margin: 3px auto"> Filters </h2>  -->
+ 		       <div style="min-width:200px;border-radius:7px; margin-top:5px" class="filter">
+                <ul id="FilterContactFor" class="filterOptions hideContent" style="list-style: none;margin-top:1em; margin-bottom:1em;padding-left:0;width:100%; font-size:0.7em; position:relative">
+             	 <h2 style="margin-bottom:auto; margin-top:auto; font-size:1.5em"><b> Contact for </b></h2>
                  <div class='toExpand' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt</b></div>
              	  	<li style="padding-top:5px"><input class="fil_contact" type="checkbox" value="Grants">Grants</li>
                		<li><input class="fil_contact" type="checkbox" value="Collaboration">Collaboration</li>
@@ -78,9 +81,9 @@
                 </ul>
               </div>
 
-              <div style="clear:both;float:left;border-radius:7px;min-width:200px; margin-top:5px" class="filter">
-                <ul id="FilterInstitution" class="filterOptions showContent" style="list-style: none;padding-left:0;width:100%; font-size:0.7em; position:relative">
-                <h2 style="margin-bottom:auto; margin-top:auto"><b> Institution </b> </h2>
+              <div style="border-radius:7px;min-width:200px; margin-top:5px" class="filter">
+                <ul id="FilterInstitution" class="filterOptions showContent" style="list-style: none;margin-top:1em; margin-bottom:1em;padding-left:0;width:100%; font-size:0.7em; position:relative">
+                <h2 style="margin-bottom:auto; margin-top:auto; font-size:1.5em"><b> Institution </b> </h2>
                 <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt</b></div>
              		<li style="padding-top:5px"><input class="fil_inst" type="checkbox" value="Fred Hutch">Fred Hutch</li>
             		<li><input class="fil_inst" type="checkbox" value="UW">UW</li>
@@ -92,9 +95,9 @@
 		       </div>	
 		       
 
-		       <div style="clear:both;float:left;min-width:200px;border-radius:7px; margin-top:5px" class="filter">
-                <ul id="FilterDisease" class="filterOptions showContent" style="list-style: none;padding-left:0;width:100%; font-size:0.7em; position:relative">
-             	 <h2 style="margin-bottom:auto; margin-top:auto"><b> Disease type </b></h2>
+		       <div style="min-width:200px;border-radius:7px; margin-top:5px" class="filter">
+                <ul id="FilterDisease" class="filterOptions showContent" style="list-style: none;margin-top:1em; margin-bottom:1em;padding-left:0;width:100%; font-size:0.7em; position:relative">
+             	 <h2 style="margin-bottom:auto; margin-top:auto; font-size:1.5em"><b> Disease type </b></h2>
                  <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt</b></div>
              	  	<li style="padding-top:5px"><input class="fil_disease" type="checkbox" value="Brain">Brain</li>
                		<li><input class="fil_disease" type="checkbox" value="Breast">Breast</li>
@@ -108,9 +111,9 @@
                 </ul> 
               </div>
 
-               <div style="clear:both;float:left;min-width:200px;border-radius:7px; margin-top:5px" class="filter">
-                <ul id="FilterOmics" class="filterOptions showContent" style="list-style: none;padding-left:0;width:100%; font-size:0.7em; position:relative">
-             	 <h2 style="margin-bottom:auto; margin-top:auto"><b> -omics field </b></h2>
+               <div style="min-width:200px;border-radius:7px; margin-top:5px" class="filter">
+                <ul id="FilterOmics" class="filterOptions showContent" style="list-style: none;margin-top:1em; margin-bottom:1em;padding-left:0;width:100%; font-size:0.7em; position:relative">
+             	 <h2 style="margin-bottom:auto; margin-top:auto; font-size:1.5em"><b> -omics field </b></h2>
                  <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt</b></div>
              		<li style="padding-top:5px"><input class="fil_omcs" type="checkbox" value="Computational Biology">Computational Biology</li>
             		<li><input class="fil_omics" type="checkbox" value="Bioinformatics">Bioinformatics</li>
@@ -139,11 +142,18 @@
                <li><span id="ProfileSpan" class="sidebar_nav_not_selected">Join</span></li>
                <li><span id="FAQSpan" class="sidebar_nav_not_selected">FAQ</span></li>
              </ul> 
-            </div>
+ <!--           </div> -->
  		  </div>
 
-     <div id="RightBar" style="float:right; margin-top:15px;margin-right:20px;min-width:220px;  z-index:100;" > 
-        <button id="VisualizeSpan" class="SubmitProfile" style="font-size:13px; padding:6px 23px; margin-left:15px">Visualize</button>
+     <div id="RightBar" class="mCustomScrollbar" style="right:15px; margin-top:15px;margin-right:15px;min-width:280px;  z-index:100; position:fixed; " > 
+<!--        <button id="VisualizeSpan" class="SubmitProfile" style="font-size:13px; padding:6px 23px; margin-left:15px">Visualize</button>  -->
+        <div style="min-width:200px; border-top:thick solid #60a8fa;border-radius:2px;padding-left:5px; margin-top:5px; padding-bottom:10px"> <b>Visualize</b><br>
+           <div style="clear:both;float:right;  opacity:0.2" /*class="VisualizeSpan"*/> <img src="images/graphStills/PieChart.png" style="max-width:125px;max-height:150px;"/> </div>
+           <div style="float:right;"  class="VisualizeSpan barPlot"><img src="images/graphStills/BarPlot_cropped2.png" style="max-width:125px;max-height:150px;"/> </div>
+           <div style="clear:both; float:right;  opacity:0.2"  /*class="VisualizeSpan"*/><img src="images/graphStills/VennDiagram.png" style="max-width:125px;max-height:150px;"/>  </div>
+           <div style="float:right;  opacity:0.2"  /*class="VisualizeSpan"*/><img src="images/graphStills/Network.png" style="max-width:125px;max-height:150px;"/> </div>
+
+       </div> <!-- /vizplots -->
     </div>
 
 
@@ -189,12 +199,12 @@
      </div>
 
      <div id="VISUALIZEdiv" class="MainFrameDiv" style="display:none;">
-        <div id="MainGraph" style="float:left;width:60%; margin-left:auto; margin-top:auto; margin-right:auto">
-          <img src="images/graphStills/ATHENA_Survey_238_Fields_Barplot_12-2-14_cropped.png" style="max-height:450px"/>
+        <div id="MainGraph" style=" margin-left:auto; margin-top:auto; margin-right:auto">
+ <!--         <img src="images/graphStills/ATHENA_Survey_238_Fields_Barplot_12-2-14_cropped.png" style="max-height:450px"/>  -->
         </div>
-         <h2 style="float:right; width:30%; margin-left:auto; text-align:center; margin-top:0; margin-bottom:15px">Choose a Plot Type:</h2>
+ <!--        <h2 style="float:right; width:30%; margin-left:auto; text-align:center; margin-top:0; margin-bottom:15px">Choose a Plot Type:</h2>
         <div id="GraphThumbnails" class="SliderThumbnails" style="text-align:center;float:right; width:30%;max-height:450px;">
-         <div id="BarplotThumb" style="overflow:hidden;"><img src="images/graphStills/BarPlot.png" style="max-width:200px;max-height:150px;"/></div>
+         <div id="BarplotThumb" style="overflow:hidden;"><img src="images/graphStills/BarPlot_cropped2.png" style="max-width:200px;max-height:150px;"/></div>
          <div id="LineplotThumb" style="opacity:0.5; overflow:hidden;"><img src="images/graphStills/LinePlot.png" style="max-width:200px;max-height:150px;"/></div>
          <div id="PieChartThumb" style="opacity:0.5; overflow:hidden;"><img src="images/graphStills/PieChart.png" style="max-width:200px;max-height:150px;"/> </div>
          <div id="VennThumb" style="opacity:0.5; overflow:hidden;"><img src="images/graphStills/VennDiagram.png" style="max-width:200px;max-height:150px;"/> </div>
@@ -202,7 +212,7 @@
          <div id="NetworkThumb" style="opacity:0.5; overflow:hidden;"><img src="images/graphStills/Network.png" style="max-width:200px;max-height:150px;"/> </div>
          <div id="MapThumb" style="opacity:0.5; overflow:hidden;"><img src="images/graphStills/Map.png" style="max-width:200px;max-height:150px;"/> </div>
          
-      </div> <!-- /GraphThumbnails -->
+-->   <!--   </div>  /GraphThumbnails -->
 	
      </div> <!-- VISUALIZEdiv -->
  
@@ -229,13 +239,13 @@
        <nav><div class="utility_nav noprint">
        <ul>
         <li class="utility_home"><a href="/en.html">Home</a></li>
-        <li><a href="/en/about-sttr.html">About <span class="droptext">STTR</span></a></li>
-        <li><a href="/en/education-training.html">Training</a></li>
-        <li><a href="/en/diseases-we-treat.html">Diseases <span class="droptext">We Treat</span></a></li>
-        <li><a href="/en/donate.html">Donate</a></li>
+        <li><a href="http://sttrcancer.org/en/about-sttr.html">About <span class="droptext">STTR</span></a></li>
+        <li><a href="http://sttrcancer.org/en/education-training.html">Training</a></li>
+        <li><a href="http://sttrcancer.org/en/diseases-we-treat.html">Diseases <span class="droptext">We Treat</span></a></li>
+        <li><a href="http://sttrcancer.org/en/donate.html">Donate</a></li>
         <li><a href="https://share.fhcrc.org/sites/cancer-center/sttr/" target="_blank" title="Link to the members site opens in a new browser window">Members</a></li>
-        <li><a href="/en/contact-us.html">Contact <span class="droptext">Us</span></a></li>
-        <li class="search"> <a id="utility_nav_search_icon" href="/en/util/search.html">Search</a></li>      
+        <li><a href="http://sttrcancer.org/en/contact-us.html">Contact <span class="droptext">Us</span></a></li>
+        <li class="search"> <a id="utility_nav_search_icon" href="http://sttrcancer.org/en/util/search.html">Search STTR</a></li>      
        </ul>
     
        <div id="utility_search" class="utility_search">
