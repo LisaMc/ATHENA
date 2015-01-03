@@ -1,4 +1,4 @@
-.body{margin-top:110px}
+.body{margin-top:85px}
 div.body_contents{max-width:auto;padding:0 20px; padding-left:2px;word-wrap:break-word; margin-left:250px; margin-right:300px}
 div.utility_nav ul{ font-size:13px}
 
@@ -30,6 +30,34 @@ div.filter .chosen-container *{-webkit-box-sizing:border-box;-moz-box-sizing:bor
 div.filter .chosen-container-multi .chosen-choices{border:0 none;margin:0;width:100% !important; }
 div.filter .chosen-container-multi{width:100% !important}
 
+
+.dropdown-menu {
+	min-width: 150px;
+}
+.dropdown-menu.columns-2 {
+	min-width: 200px;
+}
+.dropdown-menu li a {
+	padding: 5px 10px;
+	font-weight: 300;
+}
+.multi-column-dropdown {
+	list-style: none;
+}
+.multi-column-dropdown li a {
+	display: block;
+	clear: both;
+	color: #333;
+	white-space: normal;
+}
+.multi-column-dropdown li a:hover {
+	text-decoration: none;
+	color: #262626;
+	background-color: #f5f5f5;
+}
+.navbar-nav>li>a{
+padding:0;
+}
 
 .hiddenScrollbar {
     overflow: hidden;
@@ -109,6 +137,19 @@ opacity:1
   text-indent: -80px ;
 }
 
+.downArrow{
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(90deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(90deg);
+    /* Opera */
+    -o-transform:rotate(90deg);
+    /* IE9 */
+    -ms-transform:rotate(90deg);
+    /* IE6,IE7 */
+}
+
 .toExpand{
     behavior:url(-ms-transform.htc);
     /* Firefox */
@@ -183,10 +224,7 @@ opacity:1
 
 }
 
-.SubmitProfile:active {
-	position:relative;
-	top:1px;
-} 
+
 
 .TemplateBioSearchbox{
  line-height:normal;

@@ -1,5 +1,5 @@
 var tableRef;
-var activeContent = "SEARCHdiv";
+var activeContent = "SearchSpan";
 //DataTable columns: LastName:2, FirstName:3, Degree:4, Job Title, Organization Dept
 //Inst: 6 
 //Field: 25 (Organ Site) 41 (omics) 
@@ -85,7 +85,7 @@ $(document).ready(function() {
 
 //    $("img.lazy").unveil();
     
-	d3.json("data/AthenaRainier_merged_byIndex_draft_12-18-14.json", function(json){
+	d3.json("data/AthenaRainier_merged_byIndex_draft_1-2-15.json", function(json){
 
 		 var DataTable=json
 		 tableRef.fnAddData(DataTable);
@@ -93,6 +93,7 @@ $(document).ready(function() {
         document.getElementById("NumberOfResultsDiv").innerHTML = tableRef._('tr', {"filter":"applied"}).length
         document.getElementById("SearchStringDiv").innerHTML = " results for: " + "(all people)";
 
+        $('#SearchResults').html('Loading profiles...')
         createProfilesFromTable()
 
 	});  //end json
@@ -100,8 +101,7 @@ $(document).ready(function() {
    	$(".toExpand").click(function(){toggleContent(this, this.parentNode) })
     $(".toContract").click(function(){toggleContent(this, this.parentNode) })
      		
-    $("#PlotType").chosen().change()
-    $("#PlotFeature").chosen().change(updateActiveContent())
+    $(".plotOption").change(updateActiveContent);
 
         $("#SearchSpan").click(function(){ 
              toggle_visibility("SearchSpan", "SEARCHdiv");
@@ -129,7 +129,8 @@ $(document).ready(function() {
 
 	$('.filterOptions :checkbox').click(function(){ 
 	    toggle_selection(this.className); });	
-		
+
+	$("#DisplaySettingsDiv").click(function(){})
 
     $(".barPlot").click(function(){
       toggle_visibility("barplot", "VISUALIZEdiv") })
@@ -171,7 +172,24 @@ $(document).ready(function() {
       }
      
    } //window.onload 
-	
+
+ //----------------------------------------------------------------------------------------------------	
+     function updateDisplay(elem){
+     
+         activeContent =  elem.innerText;
+         if(activeContent == "profiles"){
+           activeContent = "SearchSpan"
+           toggle_visibility("SearchSpan", "SEARCHdiv");
+         } else if (activeContent == "barplot"){
+           toggle_visibility("barplot", "VISUALIZEdiv")
+         } 
+         
+  }	
+
+ //----------------------------------------------------------------------------------------------------	
+     function exportResults(){
+
+  }	
   //----------------------------------------------------------------------------------------------------	
      function toggleContent(elem, content){
                
@@ -221,9 +239,11 @@ $(document).ready(function() {
         
        if(activeContent == "SearchSpan"){
 //          createProfilesFromTable();
+          $("#DisplaySettings").text("profiles")
           getProfilesFromTable();
         }
         else if (activeContent == "barplot"){
+          $("#DisplaySettings").text("barplot")
             drawBarplot();
         }
        
@@ -289,12 +309,12 @@ $(document).ready(function() {
     }
   //----------------------------------------------------------------------------------------------------
    function SearchTableByStrings(wordArray) {
-        filterString = wordArray[0];
+        var filterString = wordArray[0];
         for(var i=1; i < wordArray.length; i++){
            filterString += "|" + wordArray[i]
         } // if more than one search word
 
-      tableRef.fnFilter(filterString, null, true); //searches all columns (null) using RegEx (true)
+      tableRef.fnFilter(filterString, null, true, false); //searches all columns (null) using RegEx (true)
    }
   //----------------------------------------------------------------------------------------------------
    function showAllRows() {
@@ -468,21 +488,21 @@ $(document).ready(function() {
         var RowIdx = rows[i][0]
           ProfileResults.append("<div id=Profile_"+RowIdx+ " class='ActiveProfileContent' style='opacity:"+opacity+";position:relative;clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; border-bottom:none; width:100%;height:100%; font-size:0.8em  '>")
           $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_edit          onclick='EditProfile(this)'   style='float:right; color:#60a8fa;right:10px;margin-top:5px; text-align:center; cursor:pointer' ;><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span><br></div>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_toggleContent onclick='FullProfile(this)' class='toExpand' style='float:left; position:absolute;font-size:1.5em; right:25px; color:#60a8fa;text-align:end;cursor:pointer;'>&gt</div>")
+          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_toggleContent onclick='FullProfile(this)' class='toExpand' style='float:left; position:absolute;font-size:1.5em; right:15px; color:#60a8fa;text-align:end;cursor:pointer;'>&gt</div>")
           $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Picture style='float:left; min-width:5%;margin-left:5px;margin-right:5px;margin-top:5px';></div>")
           $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Info style='float:left; width:30%;margin-top:5px'></div>")
           $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Bio class='hideContent' style='float:left; width:55%; text-align:justify; margin-top:5px; margin-bottom:5px'></div>")
           $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_addtlPos  class='fullProfile' style='clear:both;float:left;margin-top:5px; width:90%;display:none'></div>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_website  class='fullProfile' style='clear:both;float:left;margin-top:5px; width:90%;display:none'></div>")
+          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_ContactFor  class='fullProfile hangingIndent' style='clear:both;float:left; width:82%;display:none'></div>")
           $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Disease class='fullProfile hangingIndent' style='clear:both;float:left; width:82%;display:none'></div>")
           $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Omics class='fullProfile hangingIndent' style='clear:both;float:left; width:82%;display:none'></div>")
           $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Specialty  class='fullProfile hangingIndent' style='clear:both;clear:both;float:left; width:82%;display:none'></div>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_ContactFor  class='fullProfile hangingIndent' style='clear:both;float:left; width:82%;display:none'></div>")
+          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_website  class='fullProfile' style='clear:both;float:left;margin-top:5px; width:90%;display:none'></div>")
      
           ProfileResults.append("</div>")  //end individual profile
 
           var picFile = rows[i][31]
-          if(picFile == "NA") picFile = "Photo Coming Soon.jpg"
+          if(picFile == "NA" | picFile == "Yes" | picFile == "No") picFile = "Photo Coming Soon.jpg"
           setProfilePicture("#Profile_"+RowIdx+"_Picture", picFile)
 
           var Name = "<b>" + rows[i][3]+ " " + rows[i][2] + "</b>";
@@ -596,7 +616,38 @@ $(document).ready(function() {
 
  
  //----------------------------------------------------------------------------------------------------
-    function drawBarplot(){
+         function getCounts(arrayList, required) {
+             var frequency = {};
+
+            for (var i=0;i<arrayList.length; i++) {
+               frequency[arrayList[i]] = 0; };
+
+             var uniques = arrayList.filter(function(value) {
+               return ++frequency[value] == 1; })
+           
+           
+               var CountMap = [];
+               for (var i=0;i<uniques.length; i++) {
+                 CountMap.push({Name: uniques[i], count: frequency[uniques[i]]});
+              }
+               required.forEach(function(d) {
+               if(uniques.indexOf(d) == -1) { CountMap.push({Name: d, count: 0})  } });
+        
+               return CountMap
+          //   return uniques.sort(function(a, b) {
+         //       return frequency[b] - frequency[a];
+         //   });
+        };
+//----------------------------------------------------------------------------------------------------
+function ascending_groupName(a,b) {
+  if (a.Name < b.Name)
+     return -1;
+  if (a.Name > b.Name)
+    return 1;
+  return 0;
+}
+ //----------------------------------------------------------------------------------------------------
+   function drawBarplot(){
   
         d3.select("#MainGraph").select("svg").remove();
         var margin = {top: 40, right: 20, bottom: 300, left: 40, leftY:30},
@@ -632,50 +683,60 @@ $(document).ready(function() {
 
 //           svg.call(tip);
 
-        var data = tableRef._('tr', {"filter":"applied"});   
-
-//        var values = data.map(function(d){
-//                          return d[6]})
-
-        var temp = $("#PlotFeature")
-
-          var Insts = [6,9,12,15,18]
-          var values = []
-       for (var row=0;row<data.length;row++){
-          var Appts = []
-          for(var i=0;i<Insts.length;i++){
-            var inst = data[row][Insts[i]]
-            if(inst != "" &  inst != "NA"){
-              if(Appts.indexOf(inst) == -1) Appts.push(inst)
-            }
-          }
-          if(Appts.length) values= values.concat(Appts)  
-       }
+        var data = tableRef._('tr', {"filter":"applied"}); 
+        
+        if(data.length == 0){
+           svg.append("Your search did not match any profiles.")
+           return;
+        }
+          
+        var e = document.getElementById("PlotFeature");
+        var Feature = e.options[e.selectedIndex].text;
+        var values = [], reqd = [];
       
-        function getCounts(arrayList) {
-             var frequency = {};
-
-            for (var i=0;i<arrayList.length; i++) {
-               frequency[arrayList[i]] = 0; };
-
-             var uniques = arrayList.filter(function(value) {
-               return ++frequency[value] == 1; })
-           
-           
-               var CountMap = [];
-               for (var i=0;i<uniques.length; i++) {
-                 CountMap.push({Name: uniques[i], count: frequency[uniques[i]]});
+      if(Feature == "Institute"){
+          var Insts = [6,9,12,15,18]
+          for (var row=0;row<data.length;row++){
+            var Appts = []
+            for(var i=0;i<Insts.length;i++){
+              var inst = data[row][Insts[i]]
+              if(inst != "" &  inst != "NA"){
+                 if(Appts.indexOf(inst) == -1) Appts.push(inst)
               }
-               $("#FilterInstitution :checkbox:checked").each(function() {
-               if(uniques.indexOf($(this).val()) == -1) { CountMap.push({Name: $(this).val(), count: 0})  } });
-        
-               return CountMap
-          //   return uniques.sort(function(a, b) {
-         //       return frequency[b] - frequency[a];
-         //   });
-        };
-        
-        var groups = getCounts(values)
+            }
+          if(Appts.length) values= values.concat(Appts)  
+         }
+         $("#FilterInstitution :checkbox:checked").each(function() {
+            reqd.push($(this).val()) })
+
+      } else if(Feature == "Contact for"){
+           for(var row=0;row<data.length; row++){
+            var featType = data[row][45]
+            if(featType == "" |  featType == "NA") featType = "not reported"
+            var featArray = featType.split(";")
+            if(featArray.length) values= values.concat(featArray)  }
+         $("#FilterContactFor :checkbox:checked").each(function() {
+            reqd.push($(this).val()) })
+      } else if(Feature == "DiseaseType"){
+         for(var row=0;row<data.length; row++){
+            var disType = data[row][25]
+            if(disType == "" |  disType == "NA") disType = "not reported"
+            var disArray = disType.split(";#")
+            if(disArray.length) values= values.concat(disArray)  }
+         $("#FilterDisease :checkbox:checked").each(function() {
+            reqd.push($(this).val()) })
+      } else if(Feature == "omics Field"){   
+          for(var row=0;row<data.length; row++){
+            var featType = data[row][41]
+            if(featType == "" |  featType == "NA") featType = "not reported"
+            var featArray = featType.split(";")
+            if(featArray.length) values= values.concat(featArray)  }
+         $("#FilterOmics :checkbox:checked").each(function() {
+            reqd.push($(this).val()) })
+      }
+      
+        var groups = getCounts(values, reqd)
+        groups.sort(ascending_groupName )
         
          var maxFreq = d3.max(groups, function(d){return d.count});
 
