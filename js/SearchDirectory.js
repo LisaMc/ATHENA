@@ -85,7 +85,7 @@ $(document).ready(function() {
 
 //    $("img.lazy").unveil();
     
-	d3.json("data/AthenaRainier_merged_byIndex_draft_1-2-15.json", function(json){
+	d3.json("data/AthenaRainier_merged_byIndex_draft_1-2-15.txt", function(json){
 
 		 var DataTable=json
 		 tableRef.fnAddData(DataTable);
@@ -109,10 +109,7 @@ $(document).ready(function() {
                 SearchAndFilterResults()
              }
            });
-        $("#TableSpan").click(function(){ 
-             toggle_visibility("TableSpan", "TABLEdiv");
-           })
-        $("#ProfileSpan").click(function(){ 
+         $("#ProfileSpan").click(function(){ 
              toggle_visibility("ProfileSpan", "PROFILEdiv");           
            })
         $(".VisualizeSpan").click(function(){ 
@@ -189,7 +186,133 @@ $(document).ready(function() {
  //----------------------------------------------------------------------------------------------------	
      function exportResults(){
 
+        var specialElementHandlers = {
+//        '#editor': function (element,renderer) {
+//            return true;
+//          }
+       };
+       var margins = {
+    top: 80,
+    bottom: 60,
+    left: 40,
+    width: 522
+       };
+        var doc;
+        if(activeContent == "SearchSpan"){
+         sendProfilesToPDF()
+//         doc.fromHTML($("#Profile_1_Info")[0].innerHTML, 15, 15);
+//         doc.fromHTML(, margins.left,margins.top, {'width': margins.width}, margins)
+        }else {
+ //       var doc = new jsPDF(); doc.fromHTML($('#MainGraph')[0].innerHTML, 15, 15);
+        }
+        
+       
+ 
   }	
+  
+     //----------------------------------------------------------------------------------------------------
+	  function sendProfilesToPDF(){
+
+          var rows = tableRef._('tr', {"filter":"applied"});   
+          var doc = new jsPDF('p','in'), 
+          size = 12, lines, verticalOffset = 0.8; // inches on a 8.5 x 11 inch sheet.
+
+           //----------------------------------------------------------------------------------------------------
+            var centeredText = function(text, y) {
+                 var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                 var textOffset = (doc.internal.pageSize.width - textWidth) / 2;
+                 doc.text(textOffset, y, text);
+            }
+            //----------------------------------------------------------------------------------------------------
+            function addPDFcontent(content){
+                 
+               lines = doc.splitTextToSize(content, 7.5)
+		       var testOffset = verticalOffset + (lines.length *1.15) * size / 72
+               if (testOffset >= 11){
+                   doc.addPage();
+                   verticalOffset = 0.5 // Restart height position
+               }
+
+		       doc.text(0.5, verticalOffset + size / 72, lines)
+		       verticalOffset += (lines.length *1.15) * size / 72
+            }
+           //----------------------------------------------------------------------------------------------------
+
+         doc.setFontSize(34);
+         doc.setTextColor(96,168,250)
+         doc.setFontType("bold");
+//         doc.text(0.5, verticalOffset, 'STTRconnect');
+         centeredText("STTRconnect", 0.8)
+         doc.setFontType("normal");
+
+         doc.setFontSize(size);
+         doc.setTextColor(0,0,0)
+         
+	     doc.setLineWidth(0.05);
+         doc.line( 0.5,0.9, 8,0.9); // horizontal line
+
+         lines = doc.splitTextToSize($("#ReportSearchFilterDiv")[0].innerText, 7.5)
+		 doc.text(0.5, verticalOffset+0.1 + size / 72, lines)
+		 verticalOffset += (lines.length + 0.5 ) * size / 72
+
+
+         for(var i=0; i < rows.length; i++){   // then reveals ones that haven't been filtered
+            var RowIdx = rows[i][0]
+//            doc.text(20, 40 + (i*30),$("#Profile_"+RowIdx+"_Info")[0].innerText)
+//            doc.fromHTML($("#Profile_"+RowIdx+"_Info")[0].innerText, 20, 15)
+
+ 
+            var Name = rows[i][3] + " " + rows[i][2] + ", " + rows[i][4]
+            var Title = rows[i][5] + ", " + rows[i][6]
+            var Bio = rows[i][22] 
+            var AddtlPos   = $("#Profile_"+RowIdx+"_addtlPos")[0].innerText.replace(/[\r|\n]$/,"")
+            var ContactFor = $("#Profile_"+RowIdx+"_ContactFor")[0].innerText.replace(/\r|\n/g,"")
+            var Disease    = $("#Profile_"+RowIdx+"_Disease")[0].innerText.replace(/\r|\n/g,"").replace(/; $/,"")
+            var Omics      = $("#Profile_"+RowIdx+"_Omics")[0].innerText.replace(/\r|\n/g,"").replace(/; $/,"")
+                     
+            verticalOffset += 0.2
+            doc.setFontType("bold");
+            addPDFcontent(Name)
+            
+            doc.setFontType("italic");
+            addPDFcontent(Title)
+            if(AddtlPos != ""){
+               AddtlPos = AddtlPos.replace(/Additional Positions [\r\n]/, "")
+                addPDFcontent(AddtlPos)
+            }
+
+           doc.setFontType("normal"); doc.setTextColor(150);
+           var previousText = false; var CategoryText = ""
+            if(ContactFor != ""){  
+               ContactFor = ContactFor.replace(/Contact for /, "")
+               CategoryText = ContactFor.replace(/; $/,"")
+               previousText = true;
+            }
+            if(Disease != ""){  
+               Disease = Disease.replace(/Disease type /, "")
+               if(previousText) Disease = " / " + Disease
+//               addPDFcontent(Disease)
+               CategoryText  = CategoryText + Disease
+               previousText = true;
+            }if(Omics != ""){  
+               Omics = Omics.replace(/-omics field /, "")
+               if(previousText) Omics = " / " + Omics
+//               addPDFcontent(Omics)
+               CategoryText  = CategoryText + Omics
+            }
+           if(CategoryText != "")
+               addPDFcontent(CategoryText)
+
+           doc.setFontType("normal");doc.setTextColor(0,0,0);
+            verticalOffset += 0.1
+           addPDFcontent(Bio)
+
+        }
+//            doc.fromHTML(PDFhtml, 40, 15)
+  
+       doc.save('STTRconnect.pdf');
+    }
+
   //----------------------------------------------------------------------------------------------------	
      function toggleContent(elem, content){
                
@@ -237,13 +360,23 @@ $(document).ready(function() {
 
         document.getElementById("NumberOfResultsDiv").innerHTML =  tableRef._('tr', {"filter":"applied"}).length
         
+        var els = document.getElementsByClassName('selectedDisplay');
+        for(var i=0; i<els.length; ++i){     //set all displays to none
+            els[i].className =  'unselectedDisplay';
+        };
+
+        
        if(activeContent == "SearchSpan"){
 //          createProfilesFromTable();
           $("#DisplaySettings").text("profiles")
+          document.getElementById("selectedDisplayProfiles").className = "selectedDisplay"
+//          $('.ActiveProfileContent').toggleClass("FilteredProfileContent", true)
+
           getProfilesFromTable();
         }
         else if (activeContent == "barplot"){
           $("#DisplaySettings").text("barplot")
+          document.getElementById("selectedDisplayBarplot").className = "selectedDisplay"
             drawBarplot();
         }
        
@@ -448,6 +581,8 @@ $(document).ready(function() {
         }
     
     }
+
+
    //----------------------------------------------------------------------------------------------------
 	  function createProfilesFromTable(){
 //DataTable columns: LastName:2, FirstName:3, Degree:4, Job Title, Organization Dept
@@ -646,14 +781,63 @@ function ascending_groupName(a,b) {
     return 1;
   return 0;
 }
+
+ //----------------------------------------------------------------------------------------------------
+ function FilterByPlot(FieldName, FieldType){
+ 
+  return;
+
+//   function Filter_Selection(ElementID, ReportSpan, TableColumn, connectingHTML)
+
+       var selectedFieldarray = [FieldName]
+       $("#"+FieldType+" :checkbox:checked").each(function() 
+       	{ if($(this).val() == FieldName){
+       	    var t = $(this)
+       	 } else{
+       	    var t = $(this)
+       	 }  });
+        
+        if(selectedFieldarray.length == 0){
+         document.getElementById(ReportSpan).innerHTML = "";
+         return;
+        }
+        
+        var filterField_String = selectedFieldarray.join("|");
+        var printedString = "";
+        if(selectedFieldarray.length == 1){
+           printedString = selectedFieldarray.pop()
+        }else{
+           var lastWord= selectedFieldarray.pop()
+           printedString = selectedFieldarray.join(", ")
+           printedString += ", or " + lastWord
+        } 
+
+//      document.getElementById(ReportSpan).innerHTML = connectingHTML + printedString 
+
+//      if(TableColumn)
+//         tableRef.fnFilter(filterField_String, TableColumn, true, false); 
+         //searches for filter String in column (TableColumn) using RegEx (true) without smart filtering (false)
+
+    
+    }
+
  //----------------------------------------------------------------------------------------------------
    function drawBarplot(){
   
-        d3.select("#MainGraph").select("svg").remove();
-        var margin = {top: 40, right: 20, bottom: 300, left: 40, leftY:30},
-             width = $(window).width() - 550 - margin.left - margin.right - margin.leftY,
-            height = 700 - margin.top - margin.bottom;
 
+        d3.select("#MainGraph").select("svg").remove();
+        $("#MainGraph")[0].innerText = "";
+
+        var data = tableRef._('tr', {"filter":"applied"}); 
+        var margin  = {top: 70, right: 20, bottom: 300, left: 40, leftY:30},
+             width  = $(window).width() - 550 - margin.left - margin.right - margin.leftY,
+             height = 700 - margin.top - margin.bottom;
+        
+        if(data.length == 0){
+           $("#MainGraph").append("<p><br/>Your search did not match any profiles.</p>")
+           return;
+        }
+ 
         var formatPercent = d3.format(".0%");
 
         var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);        
@@ -667,6 +851,7 @@ function ascending_groupName(a,b) {
         var yAxis = d3.svg.axis()
                       .scale(y)
                       .orient("left")
+                      .tickFormat(d3.format("d"))
 
 //        var tip = d3.tip()
 //                    .attr('class', 'd3-tip')
@@ -683,12 +868,6 @@ function ascending_groupName(a,b) {
 
 //           svg.call(tip);
 
-        var data = tableRef._('tr', {"filter":"applied"}); 
-        
-        if(data.length == 0){
-           svg.append("Your search did not match any profiles.")
-           return;
-        }
           
         var e = document.getElementById("PlotFeature");
         var Feature = e.options[e.selectedIndex].text;
@@ -743,6 +922,24 @@ function ascending_groupName(a,b) {
            x.domain(groups.map(function(d) { return d.Name; }))
            y.domain([0, maxFreq]);
 
+           var legend = svg.selectAll('.legend')
+                            .data([{Name:"Filtered by", color:"lightblue"},{Name: "Additional", color:"steelblue"}])
+                            .enter()
+                            .append('g')
+                            .attr('class', 'legend')
+                            .attr('transform', function(d, i) {
+                               return 'translate(' + (width-100) + ','+ (i*15-40)+')';
+                            });
+legend.append('rect')
+  .attr('width', 10)
+  .attr('height', 10)
+  .style('fill', function(d){ return d.color})
+  .style('stroke', function(d){ return d.color});
+legend.append('text')
+  .attr('x', 12)
+  .attr('y', 10)
+  .text(function(d) { return d.Name; });
+
            svg.append("g")
               .attr("class", "x axis")
               .attr("transform", "translate(0," + height + ")")
@@ -774,8 +971,14 @@ function ascending_groupName(a,b) {
               .attr("width", x.rangeBand())
               .attr("y", function(d) { return y(d.count); })
               .attr("height", function(d) { return height - y(d.count); })
+              .attr("fill", function(d){ 
+                 if(reqd.indexOf(d.Name) != -1){ 
+                   return "lightblue"}
+                 return "steelblue";
+                })
 //              .on('mouseover', tip.show)
 //              .on('mouseout', tip.hide)
+                .on('click', function(d){ FilterByPlot(d)})
 
        
 
