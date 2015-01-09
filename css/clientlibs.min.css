@@ -60,7 +60,7 @@ div.breadcrumbs ul li{color:#23282b;display:inline;list-style:none outside none;
 div.breadcrumbs ul li a{color:#23282b;margin-right:.6em;text-decoration:underline}
 div.breadcrumbs ul li a:hover{color:#888}
 body.landingpage div.breadcrumbs{display:none}
-.header{position:absolute;top:0;width:100%;background:#000 url(img/header_bg.gif) repeat-x left bottom}
+.header{position:absolute;top:0;width:100%;background:#000 repeat-x left bottom}
 .header .header_contents{margin:0 auto;max-width:1024px;position:relative}
 .header_contents .utility_nav{float:right}
 div.utility_nav ul{display:block;font-size:13px;font-size:.8rem;letter-spacing:.06em;margin:0;padding:0}

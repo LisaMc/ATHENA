@@ -17,7 +17,14 @@ Array.prototype.clean = function(deleteValue) {
   }
   return this;
 };
-
+//----------------------------------------------------------------------------------------------------
+$.fn.scrollView = function () {
+    return this.each(function () {
+        $('html, body').animate({
+            scrollTop: $(this).offset().top - 85
+        }, 500);
+    });
+}
 //----------------------------------------------------------------------------------------------------
 function checkOffset() {
        var b = $(window).scrollTop();
@@ -49,8 +56,9 @@ $(document).ready(function() {
 
     document.getElementById("mainContent").style.background = "#F1F1F1"
     document.getElementById("mainContent").style.color = "#000"
+	checkOffset(); 
 	      
-    var ColumnTitle = [ {"sTitle": "Index", "sWidth": '50px'}, {"sTitle": "Full.Name", "sWidth": '50px'}, {"sTitle": "Last.Name", "sWidth": '50px'}, {"sTitle": "First.Name", "sWidth": '50px'}, {"sTitle": "Degrees", "sWidth": '50px'}, {"sTitle": "Job.Title.1", "sWidth": '50px'}, {"sTitle": "Primary.Organization", "sWidth": '50px'}, {"sTitle": "Department.1", "sWidth": '50px'}, {"sTitle": "Job.Title.2", "sWidth": '50px'}, {"sTitle": "Organization.2", "sWidth": '50px'}, {"sTitle": "Department.2", "sWidth": '50px'}, {"sTitle": "Job.Title.3", "sWidth": '50px'}, {"sTitle": "Organization.3", "sWidth": '50px'}, {"sTitle": "Department.3", "sWidth": '50px'}, {"sTitle": "Job.Title.4", "sWidth": '50px'}, {"sTitle": "Organization.4", "sWidth": '50px'}, {"sTitle": "Department.4", "sWidth": '50px'}, {"sTitle": "Job.Title.5", "sWidth": '50px'}, {"sTitle": "Organization.5", "sWidth": '50px'}, {"sTitle": "Department.5", "sWidth": '50px'}, {"sTitle": "Phone.Number", "sWidth": '50px'}, {"sTitle": "Email.Address", "sWidth": '50px'}, {"sTitle": "Bio", "sWidth": '50px'}, {"sTitle": "Websites", "sWidth": '50px'}, {"sTitle": "Videos", "sWidth": '50px'}, {"sTitle": "Organ.Site", "sWidth": '50px'}, {"sTitle": "Designation", "sWidth": '50px'}, {"sTitle": "Institutional.Affiliation", "sWidth": '50px'}, {"sTitle": "Focus.Areas", "sWidth": '50px'}, {"sTitle": "Modified", "sWidth": '50px'}, {"sTitle": "Modified.By", "sWidth": '50px'}, {"sTitle": "Member.Photos", "sWidth": '50px'}, {"sTitle": "FH.Primary", "sWidth": '50px'}, {"sTitle": "Departments.and.Divisions", "sWidth": '50px'}, {"sTitle": "Converis.ID", "sWidth": '50px'}, {"sTitle": "Item.Type", "sWidth": '50px'}, {"sTitle": "Path", "sWidth": '50px'}, {"sTitle": "sttr", "sWidth": '50px'}, {"sTitle": "Notes", "sWidth": '50px'}, {"sTitle": "Send", "sWidth": '50px'}, {"sTitle": "Responded", "sWidth": '50px'}, {"sTitle": "omicsField", "sWidth": '50px'}, {"sTitle": "specialty", "sWidth": '50px'}, {"sTitle": "keywords", "sWidth": '50px'}, {"sTitle": "software", "sWidth": '50px'}, {"sTitle": "contact", "sWidth": '50px'}, {"sTitle": "comment", "sWidth": '50px'}]
+    var ColumnTitle = [ {"sTitle": "Index", "sWidth": '50px'}, {"sTitle": "Full.Name", "sWidth": '50px'}, {"sTitle": "Last.Name", "sWidth": '50px'}, {"sTitle": "First.Name", "sWidth": '50px'}, {"sTitle": "Degrees", "sWidth": '50px'}, {"sTitle": "Job.Title.1", "sWidth": '50px'}, {"sTitle": "Primary.Organization", "sWidth": '50px'}, {"sTitle": "Department.1", "sWidth": '50px'}, {"sTitle": "Job.Title.2", "sWidth": '50px'}, {"sTitle": "Organization.2", "sWidth": '50px'}, {"sTitle": "Department.2", "sWidth": '50px'}, {"sTitle": "Job.Title.3", "sWidth": '50px'}, {"sTitle": "Organization.3", "sWidth": '50px'}, {"sTitle": "Department.3", "sWidth": '50px'}, {"sTitle": "Job.Title.4", "sWidth": '50px'}, {"sTitle": "Organization.4", "sWidth": '50px'}, {"sTitle": "Department.4", "sWidth": '50px'}, {"sTitle": "Job.Title.5", "sWidth": '50px'}, {"sTitle": "Organization.5", "sWidth": '50px'}, {"sTitle": "Department.5", "sWidth": '50px'}, {"sTitle": "Phone.Number", "sWidth": '50px'}, {"sTitle": "Email.Address", "sWidth": '50px'}, {"sTitle": "Bio", "sWidth": '50px'}, {"sTitle": "Websites", "sWidth": '50px'}, {"sTitle": "Videos", "sWidth": '50px'}, {"sTitle": "Organ.Site", "sWidth": '50px'}, {"sTitle": "Designation", "sWidth": '50px'}, {"sTitle": "Institutional.Affiliation", "sWidth": '50px'}, {"sTitle": "Focus.Areas", "sWidth": '50px'}, {"sTitle": "Modified", "sWidth": '50px'}, {"sTitle": "Modified.By", "sWidth": '50px'}, {"sTitle": "Member.Photos", "sWidth": '50px'}, {"sTitle": "FH.Primary", "sWidth": '50px'}, {"sTitle": "Departments.and.Divisions", "sWidth": '50px'}, {"sTitle": "Converis.ID", "sWidth": '50px'}, {"sTitle": "Item.Type", "sWidth": '50px'}, {"sTitle": "Path", "sWidth": '50px'}, {"sTitle": "sttr", "sWidth": '50px'}, {"sTitle": "Notes", "sWidth": '50px'}, {"sTitle": "Send", "sWidth": '50px'}, {"sTitle": "Responded", "sWidth": '50px'}, {"sTitle": "omicsField", "sWidth": '50px'}, {"sTitle": "specialty", "sWidth": '50px'}, {"sTitle": "keywords", "sWidth": '50px'}, {"sTitle": "software", "sWidth": '50px'}, {"sTitle": "contact", "sWidth": '50px'}]
  		 $("#DataTable").dataTable({
        		  "aoColumns": ColumnTitle,
          })   // dataTable
@@ -91,9 +99,8 @@ $(document).ready(function() {
 		 tableRef.fnAddData(DataTable);
 
         document.getElementById("NumberOfResultsDiv").innerHTML = tableRef._('tr', {"filter":"applied"}).length
-        document.getElementById("SearchStringDiv").innerHTML = " results for: " + "(all people)";
+        document.getElementById("SearchStringDiv").innerHTML = "(all people)";
 
-        $('#SearchResults').html('Loading profiles...')
         createProfilesFromTable()
 
 	});  //end json
@@ -102,12 +109,17 @@ $(document).ready(function() {
     $(".toContract").click(function(){toggleContent(this, this.parentNode) })
      		
     $(".plotOption").change(updateActiveContent);
-
-        $("#SearchSpan").click(function(){ 
-             toggle_visibility("SearchSpan", "SEARCHdiv");
+    $(".PopularSearch").click(function(){
+        document.getElementById("QueryFreeInput").value = "\""+this.innerText+"\"";
+        SearchAndFilterResults()
+        updateActiveContent();
+     })
+    
+        $("#SearchSpan").click(function(){            
              if( document.getElementById("ProfileResults") == null){
                 SearchAndFilterResults()
              }
+             toggle_visibility("SearchSpan", "SEARCHdiv");
            });
          $("#ProfileSpan").click(function(){ 
              toggle_visibility("ProfileSpan", "PROFILEdiv");           
@@ -117,15 +129,17 @@ $(document).ready(function() {
 
         $("#HomeSpan").click(function(){ 
 //             toggle_visibility("Home", "HOMEdiv");
-             toggle_visibility("SearchSpan", "SEARCHdiv");
+             
              if( document.getElementById("ProfileResults") == null){
                 SearchAndFilterResults()
              }
+             toggle_visibility("SearchSpan", "SEARCHdiv");
 
            })
 
-	$('.filterOptions :checkbox').click(function(){ 
-	    toggle_selection(this.className); });	
+	$('.filterOptions :checkbox').click(function(){ toggle_selection(this.className); });	
+    $(".toClear").click(function(){clearSelection(this, this.parentNode) })
+    $(".toSelectAll").click(function(){selectAll(this, this.parentNode) })
 
 	$("#DisplaySettingsDiv").click(function(){})
 
@@ -186,29 +200,71 @@ $(document).ready(function() {
  //----------------------------------------------------------------------------------------------------	
      function exportResults(){
 
-        var specialElementHandlers = {
-//        '#editor': function (element,renderer) {
-//            return true;
-//          }
-       };
-       var margins = {
-    top: 80,
-    bottom: 60,
-    left: 40,
-    width: 522
-       };
-        var doc;
-        if(activeContent == "SearchSpan"){
-         sendProfilesToPDF()
-//         doc.fromHTML($("#Profile_1_Info")[0].innerHTML, 15, 15);
-//         doc.fromHTML(, margins.left,margins.top, {'width': margins.width}, margins)
+         if(activeContent == "SearchSpan"){
+             sendProfilesToPDF()
         }else {
- //       var doc = new jsPDF(); doc.fromHTML($('#MainGraph')[0].innerHTML, 15, 15);
+//           submit_download_form("PDF")
+
+           var canvas = document.getElementById('MainGraphCanvas');
+           var content = $('#MainGraph').html().trim();
+           canvg(canvas,content);      // Draw svg on canvas
+           var theImage = canvas.toDataURL('image/jpg');      // Change img be SVG representation
+           
+           sendImageToPDF(theImage);
+           
         }
-        
-       
- 
   }	
+  
+    //----------------------------------------------------------------------------------------------------
+       function sendImageToPDF(ImageURL){
+
+           //----------------------------------------------------------------------------------------------------
+            var centeredText = function(text, y) {
+                 var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                 var textOffset = (doc.internal.pageSize.width - textWidth) / 2;
+                 doc.text(textOffset, y, text);
+            }
+          //----------------------------------------------------------------------------------------------------
+          var getImageFromUrl = function(url, callback) {
+	         var img = new Image();
+             img.onError = function() {
+                alert('Cannot load image: "'+url+'"');
+             };
+             img.onload = function() {
+                callback(img);
+             };
+             img.src = url;
+         }
+         //----------------------------------------------------------------------------------------------------
+         var createPDF = function(imgData) {
+	         
+
+             doc.addImage(imgData, 'JPEG',0.3, 0.9, 7.5, 7.5); // Cache the image using the alias 'monkey'
+//             doc.addImage('monkey', 70, 10, 100, 120); // use the cached 'monkey' image, JPEG is optional regardless
+//	         doc.addImage({imageData : imgData})
+
+             doc.save('STTRconnect.pdf');
+	     };
+
+         var doc = new jsPDF('p','in'), size= 12, verticalOffset = 0.8; 
+         doc.setFontSize(34);
+         doc.setTextColor(96,168,250)
+         doc.setFontType("bold");
+         centeredText("STTRconnect", 0.8)
+         doc.setFontType("normal");
+
+         doc.setFontSize(size);
+         doc.setTextColor(0,0,0)
+         
+	     doc.setLineWidth(0.05);
+         doc.line( 0.5,0.9, 8,0.9); // horizontal line
+
+         lines = doc.splitTextToSize($("#ReportSearchFilterDiv")[0].innerText, 7.5)
+		 doc.text(0.5, verticalOffset+0.1 + size / 72, lines)
+		 verticalOffset += (lines.length + 0.5 ) * size / 72
+
+         getImageFromUrl(ImageURL, createPDF);
+       }
   
      //----------------------------------------------------------------------------------------------------
 	  function sendProfilesToPDF(){
@@ -263,8 +319,9 @@ $(document).ready(function() {
 
  
             var Name = rows[i][3] + " " + rows[i][2] + ", " + rows[i][4]
+            var email = rows[i][21]
             var Title = rows[i][5] + ", " + rows[i][6]
-            var Bio = rows[i][22] 
+            var Bio = rows[i][22].replace(/@/g,"\r\n")
             var AddtlPos   = $("#Profile_"+RowIdx+"_addtlPos")[0].innerText.replace(/[\r|\n]$/,"")
             var ContactFor = $("#Profile_"+RowIdx+"_ContactFor")[0].innerText.replace(/\r|\n/g,"")
             var Disease    = $("#Profile_"+RowIdx+"_Disease")[0].innerText.replace(/\r|\n/g,"").replace(/; $/,"")
@@ -273,6 +330,8 @@ $(document).ready(function() {
             verticalOffset += 0.2
             doc.setFontType("bold");
             addPDFcontent(Name)
+            doc.setFontType("normal");
+            addPDFcontent(email)
             
             doc.setFontType("italic");
             addPDFcontent(Title)
@@ -312,6 +371,22 @@ $(document).ready(function() {
   
        doc.save('STTRconnect.pdf');
     }
+  //----------------------------------------------------------------------------------------------------	
+   function submit_download_form(output_format){
+    
+	// Get the d3js SVG element
+	var tmp = document.getElementById("MainGraph");
+	var svg = tmp.getElementsByTagName("svg")[0];
+	// Extract the data as SVG text string
+	var svg_xml = (new XMLSerializer).serializeToString(svg);
+
+	// Submit the <FORM> to the server.
+	// The result will be an attachment file to download.
+	var form = document.getElementById("svgform");
+	form['output_format'].value = output_format;
+	form['data'].value = svg_xml ;
+	form.submit();
+}
 
   //----------------------------------------------------------------------------------------------------	
      function toggleContent(elem, content){
@@ -355,11 +430,38 @@ $(document).ready(function() {
         
 
     }
+ //----------------------------------------------------------------------------------------------------	
+    
+    function clearSelection(elem, parent){
+    
+        var className = ""
+         $("#"+parent.id+" :checkbox:checked").each(function() {
+          $(this)[0].checked = false;
+          className = $(this)[0].className
+         })
+   
+       toggle_selection(className)
+    
+    }
+ //----------------------------------------------------------------------------------------------------	
+    
+    function selectAll(elem, parent){
+    
+        var className = ""
+         $("#"+parent.id+" :checkbox").each(function() {
+          $(this)[0].checked = true;
+          className = $(this)[0].className
+         })
+   
+       toggle_selection(className)
+    
+    }
+
 //----------------------------------------------------------------------------------------------------
     function updateActiveContent(){
 
         document.getElementById("NumberOfResultsDiv").innerHTML =  tableRef._('tr', {"filter":"applied"}).length
-        
+
         var els = document.getElementsByClassName('selectedDisplay');
         for(var i=0; i<els.length; ++i){     //set all displays to none
             els[i].className =  'unselectedDisplay';
@@ -379,34 +481,39 @@ $(document).ready(function() {
           document.getElementById("selectedDisplayBarplot").className = "selectedDisplay"
             drawBarplot();
         }
-       
+           
+        checkOffset(); 
+
     }
 //----------------------------------------------------------------------------------------------------  
     function Filter_Selection(ElementID, ReportSpan, TableColumn, connectingHTML){
 
        var selectedFieldarray = []
        $("#"+ElementID+" :checkbox:checked").each(function() 
-       	{ selectedFieldarray.push($(this).val())  });
+       	{ selectedFieldarray.push($(this).val())  });         // get all selected options within group
         
-        if(selectedFieldarray.length == 0){
+        if(selectedFieldarray.length == 0){                   // set Report Output to blank & remove "clear" link from sidebar
          document.getElementById(ReportSpan).innerHTML = "";
+         $("#"+ElementID)[0].children[1].style.display = "none";
          return;
         }
+
+         $("#"+ElementID)[0].children[1].style.display = "block";  // show "clear" link from sidebar
         
         var filterField_String = selectedFieldarray.join("|");
         var printedString = "";
         if(selectedFieldarray.length == 1){
-           printedString = selectedFieldarray.pop()
+           printedString = "<span class='removableWord'>" + selectedFieldarray.pop() + "<span class='hide-button'><a href='#'><sup>x</sup></a></span></span>"
         }else{
            var lastWord= selectedFieldarray.pop()
-           printedString = selectedFieldarray.join(", ")
-           printedString += ", or " + lastWord
-        } 
+           printedString = "<span class='removableWord'>" + selectedFieldarray.join("<span class='hide-button'><a href='#'><sup>x</sup></a></span></span>, <span class='removableWord'>") + "<span class='hide-button'><a href='#'><sup>x</sup></a></span></span>"
+           printedString += ", or <span class='removableWord'>" + lastWord + "<span class='hide-button'><a href='#'><sup>x</sup></a></span></span>"
+        }                                                    // use OR grammar in Report Output, with connecting HTML phrase, e.g. "available for"
 
       document.getElementById(ReportSpan).innerHTML = connectingHTML + printedString 
 
-      if(TableColumn)
-         tableRef.fnFilter(filterField_String, TableColumn, true, false); 
+      if(TableColumn)                                       // Filter Institution uses table filter prototype defined in document ready
+         tableRef.fnFilter(filterField_String, TableColumn, true, false);    
          //searches for filter String in column (TableColumn) using RegEx (true) without smart filtering (false)
 
     
@@ -477,9 +584,9 @@ $(document).ready(function() {
         showAllRows();
        
         if(wordArray.length == 0){
-           document.getElementById("SearchStringDiv").innerHTML = " results for: " + "(all people)";
+           document.getElementById("SearchStringDiv").innerHTML = "(all people)";
         }else{
-           document.getElementById("SearchStringDiv").innerHTML = " results for: " + searchString;
+           document.getElementById("SearchStringDiv").innerHTML = searchString;
            SearchTableByStrings(wordArray); 
         }  
         
@@ -619,19 +726,19 @@ $(document).ready(function() {
         //ALTER FOR LAZY LOADING or pagination
         for(var i=0; i < rows.length; i++){
           var opacity = 1;
-        if(i>=TopRows.length){ opacity= 0.2 }
+        if(i>=TopRows.length){ opacity= 0.3 }
         var RowIdx = rows[i][0]
           ProfileResults.append("<div id=Profile_"+RowIdx+ " class='ActiveProfileContent' style='opacity:"+opacity+";position:relative;clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; border-bottom:none; width:100%;height:100%; font-size:0.8em  '>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_edit          onclick='EditProfile(this)'   style='float:right; color:#60a8fa;right:10px;margin-top:5px; text-align:center; cursor:pointer' ;><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span><br></div>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_toggleContent onclick='FullProfile(this)' class='toExpand' style='float:left; position:absolute;font-size:1.5em; right:15px; color:#60a8fa;text-align:end;cursor:pointer;'>&gt</div>")
+          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_edit          onclick='EditProfile(this)'   style='float:right; color:#60a8fa;position:absolute;right:25px;margin-top:4px; text-align:center; cursor:pointer' ;><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span><br></div>")
+          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_toggleContent onclick='FullProfile(this)' class='toExpand' style='float:right; position:absolute;font-size:1.5em; right:10px; color:#60a8fa;text-align:end;cursor:pointer;'>&gt</div>")
           $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Picture style='float:left; min-width:5%;margin-left:5px;margin-right:5px;margin-top:5px';></div>")
           $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Info style='float:left; width:30%;margin-top:5px'></div>")
           $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Bio class='hideContent' style='float:left; width:55%; text-align:justify; margin-top:5px; margin-bottom:5px'></div>")
           $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_addtlPos  class='fullProfile' style='clear:both;float:left;margin-top:5px; width:90%;display:none'></div>")
+          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_keywords  class='fullProfile hangingIndent' style='clear:both;float:left; width:82%;display:none'></div>")
           $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_ContactFor  class='fullProfile hangingIndent' style='clear:both;float:left; width:82%;display:none'></div>")
           $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Disease class='fullProfile hangingIndent' style='clear:both;float:left; width:82%;display:none'></div>")
           $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Omics class='fullProfile hangingIndent' style='clear:both;float:left; width:82%;display:none'></div>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Specialty  class='fullProfile hangingIndent' style='clear:both;clear:both;float:left; width:82%;display:none'></div>")
           $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_website  class='fullProfile' style='clear:both;float:left;margin-top:5px; width:90%;display:none'></div>")
      
           ProfileResults.append("</div>")  //end individual profile
@@ -698,12 +805,20 @@ $(document).ready(function() {
 //            Websites = ArrayToStringSpan(sites, ";", ["", "#"], "<br>")  }
             $("#Profile_"+RowIdx+"_website").append(Websites + "<br>")
           }
+
+          var Keywords = [], Specialty = [];
+          if(rows[i][28] !== "" & rows[i][28] !== "NA"){ Specialty = rows[i][28].toLowerCase().replace(/; /g,";").split(";")}
+          if(rows[i][43] !== "" & rows[i][43] !== "NA"){ Keywords  = rows[i][43].toLowerCase().replace(/; /g,";").split(";")}
+          var Allkeywords = Keywords.concat(Specialty)
+          if(Allkeywords.length){
+            var UniqueKeywords = [];
+            for(kw=0;kw<Allkeywords.length;kw++){if(UniqueKeywords.indexOf(Allkeywords[kw])== -1 & Allkeywords[kw] != "NA") UniqueKeywords.push(Allkeywords[kw])}
+            UniqueKeywords = ArrayToStringSpan(UniqueKeywords.join(";"), ";", ["", "#"], "; ")  + "<br>"
+            $("#Profile_"+RowIdx+"_keywords").append("<b style='padding-right:9px'>Keywords </b>" + UniqueKeywords)
+            $("#Profile_"+RowIdx+"_keywords").css("margin-bottom","5px")
+          }
+
  
-//          var Specialty = "" 
-//          var Keywords = ""
-//          if(rows[i][28] !== "" & rows[i][28] !== "NA"){ Specialty = "<i style='padding-bottom:5px'>" + ArrayToStringSpan(rows[i][28], ";", ["", "#"], "; ")  + "</i><br>"}
-//          if(rows[i][43] !== "" & rows[i][43] !== "NA"){ Keywords = ArrayToStringSpan(rows[i][43], ";", ["", "#"], "; ")  + "<br>"}
-//            $("#Profile_"+i+"_Specialty").append(Specialty + Keywords)
           
           var Bio = ""
           if(rows[i][22] !== "" & rows[i][22] !== "NA"){
@@ -783,43 +898,86 @@ function ascending_groupName(a,b) {
 }
 
  //----------------------------------------------------------------------------------------------------
- function FilterByPlot(FieldName, FieldType){
+ function ShowPlotProfiles(IndexArray){
+
+     $("#VizResults")[0].innerHTML = "";
+     $("#VizResults").append("<div id='scrollToTop' style='text-align:right;color:#60a8fa;font-size:0.9em; cursor:pointer'>back to top</div>")
+     $("#VizResults").append("<div style='text-align:center; font-size:1.3em'><strong>"+ IndexArray.count+" results for "+IndexArray.Name+"</strong><br/></div>");
+     for(j=0;j<IndexArray.Index.length;j++){
+        $("#Profile_"+IndexArray.Index[j]).clone().appendTo("#VizResults")
+     }
+     $("#VizResults").scrollView();
+     $("#scrollToTop").click( function(){$("#DisplaySettingsDiv").scrollView(); })
+  }
+ //----------------------------------------------------------------------------------------------------
+ function FilterByPlot(FieldName, Feature){
  
-  return;
+// create AND
+//   if FieldName already in Filter - switch OR to AND
+//        by adding classname reqdField -- adds (required) to list text -with clickable to remove
+//   otherwise add to ReportSpan as AND
+//          and add to checkbox -- with (required)
+//
+//   Filter table by exact value
+//
+//  switch list checking from checkboxes to RemoveWord classes
 
-//   function Filter_Selection(ElementID, ReportSpan, TableColumn, connectingHTML)
+var selectedFilterarray = []
+var selectedANDarray = [FieldName]
+var ReportSpan = ""
+var TableColumn = [];
 
-       var selectedFieldarray = [FieldName]
-       $("#"+FieldType+" :checkbox:checked").each(function() 
-       	{ if($(this).val() == FieldName){
-       	    var t = $(this)
-       	 } else{
-       	    var t = $(this)
-       	 }  });
-        
-        if(selectedFieldarray.length == 0){
+       if(Feature == "Institute"){
+          ReportSpan = "ReportInstANDSpan"
+          
+           TableColumn = [6,9,12,15,18]
+              $("#FilterInstitution :checkbox").each(function(){
+                  if(this.value == FieldName){
+                     if(this.checked){  //remove from OR thread & switch to AND
+                       
+                     } else{
+                       this.checked=true;
+                     }
+                     // add (required) to this element
+                     // this.append("<span>(required)<span><a><sup>x</sup></a></span></span>")
+                  }
+              })
+ 
+      } else if(Feature == "Contact for"){
+          ReportSpan = "ReportContactForFilterSpan"
+
+       } else if(Feature == "DiseaseType"){
+          ReportSpan = "ReportDiseaseFilterSpan"
+
+      } else if(Feature == "omics Field"){   
+          ReportSpan = "ReportOmicsFilterSpan"
+      }
+       
+        if(selectedANDarray.length == 0){
          document.getElementById(ReportSpan).innerHTML = "";
          return;
         }
         
-        var filterField_String = selectedFieldarray.join("|");
         var printedString = "";
-        if(selectedFieldarray.length == 1){
-           printedString = selectedFieldarray.pop()
+        if(selectedANDarray.length == 1){  // if Filter String empty - exclude and
+           printedString = "and " + selectedANDarray.pop()
         }else{
-           var lastWord= selectedFieldarray.pop()
-           printedString = selectedFieldarray.join(", ")
-           printedString += ", or " + lastWord
+           var lastWord= selectedANDarray.pop()
+           printedString = "and " + selectedANDarray.join(", ")
+           printedString += ", and " + lastWord
         } 
 
-//      document.getElementById(ReportSpan).innerHTML = connectingHTML + printedString 
+      document.getElementById(ReportSpan).innerHTML =  printedString 
 
-//      if(TableColumn)
-//         tableRef.fnFilter(filterField_String, TableColumn, true, false); 
+          var rows = tableRef._('tr', {"filter":"applied"});   
+        for(var j=0;j<TableColumn.length; j++){
+         tableRef.fnFilter(FieldName, TableColumn, false); 
+          var rows = tableRef._('tr', {"filter":"applied"});   
+         
          //searches for filter String in column (TableColumn) using RegEx (true) without smart filtering (false)
-
+        }
     
-    }
+    }  // end FilterByPlot
 
  //----------------------------------------------------------------------------------------------------
    function drawBarplot(){
@@ -827,6 +985,9 @@ function ascending_groupName(a,b) {
 
         d3.select("#MainGraph").select("svg").remove();
         $("#MainGraph")[0].innerText = "";
+        $("#VizSubtitle")[0].innerText = "";
+        $("#VizAddendum")[0].innerText = ""
+        $("#VizResults")[0].innerHTML = "";
 
         var data = tableRef._('tr', {"filter":"applied"}); 
         var margin  = {top: 70, right: 20, bottom: 300, left: 40, leftY:30},
@@ -837,50 +998,46 @@ function ascending_groupName(a,b) {
            $("#MainGraph").append("<p><br/>Your search did not match any profiles.</p>")
            return;
         }
- 
-        var formatPercent = d3.format(".0%");
+        $("#MainGraphCanvas").css("width", width)
 
         var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);        
-        var y = d3.scale.linear()
-                  .range([height, 0]);
+        var y = d3.scale.linear().range([height, 0]);
+        var xAxis = d3.svg.axis().scale(x).orient("bottom");
+        var yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(d3.format("d"))
 
-        var xAxis = d3.svg.axis()
-                      .scale(x)
-                      .orient("bottom");
-
-        var yAxis = d3.svg.axis()
-                      .scale(y)
-                      .orient("left")
-                      .tickFormat(d3.format("d"))
-
-//        var tip = d3.tip()
-//                    .attr('class', 'd3-tip')
-//                    .offset([-10, 0])
-//                    .html(function(d) {
-//                    return "<strong>Frequency:</strong> <span style='color:red'>" + d.frequency + "</span>";
-//                  })
+        var tip = d3.tip().attr('class', 'd3-tip').offset([-10, 0]).html(function(d) {
+                    return "<strong>"+ d.Name + ":</strong> <span style='color:brown'>" + d.count + "</span>";
+                  })
 
         var svg = d3.select("#MainGraph").append("svg")
                     .attr("width", width + margin.left + margin.right + margin.leftY)
-                    .attr("height", height + margin.top + margin.bottom)
-                    .append("g")
+                    .attr("height", height + margin.top + margin.bottom).append("g")
                     .attr("transform", "translate(" + (margin.left + margin.leftY) + "," + margin.top + ")");
 
-//           svg.call(tip);
+           svg.call(tip);
 
           
         var e = document.getElementById("PlotFeature");
         var Feature = e.options[e.selectedIndex].text;
-        var values = [], reqd = [];
-      
+        var values = [], reqd = [], LookUpProfiles = []
       if(Feature == "Institute"){
           var Insts = [6,9,12,15,18]
           for (var row=0;row<data.length;row++){
             var Appts = []
             for(var i=0;i<Insts.length;i++){
-              var inst = data[row][Insts[i]]
-              if(inst != "" &  inst != "NA"){
-                 if(Appts.indexOf(inst) == -1) Appts.push(inst)
+              var inst = data[row][Insts[i]], instArray = inst.replace(/[;,\/]+\s+/g, ";").split(/[;,\/]+/);
+              for(var j=0;j<instArray.length;j++){   // separate Multiple institution appointments - eg Fred Hutch; Howard Hughes or Fred Hutch; UW
+                  if(instArray[j] != "" &  instArray[j] != "NA"){
+                     if(Appts.indexOf(instArray[j]) == -1){   //if first instance of institute for person (don't count multiple appts for same institute)
+                        Appts.push(instArray[j])
+                        if (typeof LookUpProfiles[instArray[j]] === "undefined") {          // not found
+                               LookUpProfiles[instArray[j]] ={Name: instArray[j], count: 1, Index: [data[row][0]]}   // add Field name and populate array of indices
+                        } else {  // Field already defined
+                               LookUpProfiles[instArray[j]].count += 1
+                               LookUpProfiles[instArray[j]].Index.push( data[row][0])
+                        }    
+                    }
+                  }
               }
             }
           if(Appts.length) values= values.concat(Appts)  
@@ -893,7 +1050,18 @@ function ascending_groupName(a,b) {
             var featType = data[row][45]
             if(featType == "" |  featType == "NA") featType = "not reported"
             var featArray = featType.split(";")
-            if(featArray.length) values= values.concat(featArray)  }
+            if(featArray.length){
+               values= values.concat(featArray)  
+               for(var j =0;j<featArray.length;j++){
+                 if (typeof LookUpProfiles[featArray[j]] === "undefined") {          // not found
+                               LookUpProfiles[featArray[j]] ={Name: featArray[j], count: 1, Index: [data[row][0]]}   // add Field name and populate array of indices
+                        } else {  // Field already defined
+                               LookUpProfiles[featArray[j]].count += 1
+                               LookUpProfiles[featArray[j]].Index.push( data[row][0])
+                        } 
+              }
+            }
+          }
          $("#FilterContactFor :checkbox:checked").each(function() {
             reqd.push($(this).val()) })
       } else if(Feature == "DiseaseType"){
@@ -901,7 +1069,18 @@ function ascending_groupName(a,b) {
             var disType = data[row][25]
             if(disType == "" |  disType == "NA") disType = "not reported"
             var disArray = disType.split(";#")
-            if(disArray.length) values= values.concat(disArray)  }
+            if(disArray.length){
+               values= values.concat(disArray)  
+               for(var j =0;j<disArray.length;j++){
+                 if (typeof LookUpProfiles[disArray[j]] === "undefined") {          // not found
+                               LookUpProfiles[disArray[j]] ={Name: disArray[j], count: 1, Index: [data[row][0]]}   // add Field name and populate array of indices
+                        } else {  // Field already defined
+                               LookUpProfiles[disArray[j]].count += 1
+                               LookUpProfiles[disArray[j]].Index.push( data[row][0])
+                        } 
+              }
+            }
+        }
          $("#FilterDisease :checkbox:checked").each(function() {
             reqd.push($(this).val()) })
       } else if(Feature == "omics Field"){   
@@ -909,14 +1088,43 @@ function ascending_groupName(a,b) {
             var featType = data[row][41]
             if(featType == "" |  featType == "NA") featType = "not reported"
             var featArray = featType.split(";")
-            if(featArray.length) values= values.concat(featArray)  }
+            if(featArray.length){
+             values= values.concat(featArray)  
+              for(var j =0;j<featArray.length;j++){
+                 if (typeof LookUpProfiles[featArray[j]] === "undefined") {          // not found
+                               LookUpProfiles[featArray[j]] ={Name: featArray[j], count: 1, Index: [data[row][0]]}   // add Field name and populate array of indices
+                        } else {  // Field already defined
+                               LookUpProfiles[featArray[j]].count += 1
+                               LookUpProfiles[featArray[j]].Index.push( data[row][0])
+                        } 
+              }
+            }
+         }
          $("#FilterOmics :checkbox:checked").each(function() {
             reqd.push($(this).val()) })
       }
       
         var groups = getCounts(values, reqd)
+        var TooSmall = groups.filter(function(d){ return reqd.indexOf(d.Name) == -1 & d.count <=2 })
+        groups = groups.filter(function(d){ return reqd.indexOf(d.Name) != -1 | d.count >2 })
         groups.sort(ascending_groupName )
         
+        if(TooSmall.length){
+          $("#VizSubtitle").append("<span style='color:brown; text-align:right'>*Categories with < 3 elements listed below graph</span")
+          $("#VizAddendum").append("<span id='SmallCategories' style='color:brown'>Categories with < 3 elements: <br/></span>")
+            for(var j=0;j<TooSmall.length;j++){
+               $("#SmallCategories").append("<span class='smallCategory' style='cursor:pointer'>" + TooSmall[j].Name + "</span><br/>") 
+            }
+        }
+        $(".smallCategory").click(function(){
+          ShowPlotProfiles(LookUpProfiles[this.innerText])})
+
+       if(groups.length == 0){
+        d3.select("#MainGraph").select("svg").remove();
+        $("#MainGraph")[0].innerText = "";
+        $("#VizSubtitle")[0].innerText = "";
+        return;
+       }        
          var maxFreq = d3.max(groups, function(d){return d.count});
 
            x.domain(groups.map(function(d) { return d.Name; }))
@@ -930,15 +1138,16 @@ function ascending_groupName(a,b) {
                             .attr('transform', function(d, i) {
                                return 'translate(' + (width-100) + ','+ (i*15-40)+')';
                             });
-legend.append('rect')
-  .attr('width', 10)
-  .attr('height', 10)
-  .style('fill', function(d){ return d.color})
-  .style('stroke', function(d){ return d.color});
-legend.append('text')
-  .attr('x', 12)
-  .attr('y', 10)
-  .text(function(d) { return d.Name; });
+           legend.append('rect')
+                 .attr('width', 10)
+                 .attr('height', 10)
+                 .style('fill', function(d){ return d.color})
+                 .style('stroke', function(d){ return d.color});
+
+           legend.append('text')
+                 .attr('x', 12)
+                 .attr('y', 10)
+                 .text(function(d) { return d.Name; });
 
            svg.append("g")
               .attr("class", "x axis")
@@ -976,9 +1185,9 @@ legend.append('text')
                    return "lightblue"}
                  return "steelblue";
                 })
-//              .on('mouseover', tip.show)
-//              .on('mouseout', tip.hide)
-                .on('click', function(d){ FilterByPlot(d)})
+              .on('mouseover', tip.show)
+              .on('mouseout', tip.hide)
+              .on('click', function(d){ ShowPlotProfiles(LookUpProfiles[d.Name])})
 
        
 
@@ -987,4 +1196,4 @@ legend.append('text')
           return d;
        }
 
-}
+} //end drawBarplot

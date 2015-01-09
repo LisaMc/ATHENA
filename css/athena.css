@@ -24,99 +24,47 @@ div.filter input.searchbutton{overflow:auto;position:absolute;right:0;top:0;widt
 div.filter input.searchbutton:hover{background-color:#60a8fa}
 div.sitesearch form input.searchbox, div.sitesearch form input.searchbutton{font-size:13px;}
 
-.dropdown-menu {
-	min-width: 150px;
-}
-.dropdown-menu.columns-2 {
-	min-width: 200px;
-}
+.removableWord{ color: #60a8fa; }
+.removableWord:hover{ color: black;  cursor: pointer;}
+.hide-button a{  font-size: 0.9em;     color: #F1F1F1;     display:none;}
+.removableWord:hover .hide-button a{  color: black; display:inline-block;}
+
+.dropdown-menu { min-width: 150px;}
+.dropdown-menu.columns-2 {	min-width: 200px;}
 .dropdown-menu li a {
-	padding: 5px 10px;
-	font-weight: 300;
-	color: #262626;
-}
-.multi-column-dropdown {
-	list-style: none;
-}
-
+	padding: 5px 10px; font-weight: 300; color: #262626; }
+	
+.multi-column-dropdown {	list-style: none; }
 .multi-column-dropdown li a.selectedDisplay, .multi-column-dropdown li a.selectedSort{
-	display: block;
-	clear: both;
-	white-space: normal;
-
-	color: #60a8fa;
-	font-weight: bold;
-}
-
+	display: block; clear: both; white-space: normal; color: #60a8fa;font-weight: bold; }
 .multi-column-dropdown li a .unselectedDisplay{
-	display: block;
-	clear: both;
-	color: #262626;
-	white-space: normal;
-}
+	display: block; clear: both; color: #262626; white-space: normal; }
 .multi-column-dropdown li a:hover {
-	text-decoration: none;
-	color: #262626;
-	background-color: #f5f5f5;
-}
-.navbar-nav>li>a{
-padding:0;
-}
-
-.hiddenScrollbar {
-    overflow: hidden;
-}
-.hiddenScrollbar:hover {
-    overflow-y: scroll;
-}
+	text-decoration: none; color: #262626; background-color: #f5f5f5; }
+.navbar-nav>li>a{  padding:0; }
 
 .mCSB_scrollTools .mCSB_draggerContainer .mCSB_dragger .mCSB_dragger_bar{ background-color: #60a8fa; }
 .mCSB_scrollTools .mCSB_draggerContainer .mCSB_dragger:active .mCSB_dragger_bar{ background-color: #60a8fa; }
 .mCSB_scrollTools .mCSB_draggerRail{ background-color: black; } 
 
-.ActiveProfileContent{
-display: block
-}
-
-.FilteredProfileContent{
-display: none
-}
+.ActiveProfileContent{ display: block }
+.FilteredProfileContent{ display: none }
 
 .addinputField{
-float:left; 
-color:#60a8fa; 
-padding-left:15px;
-opacity:0.4
-}
+   float:left; color:#60a8fa;  padding-left:15px; opacity:0.4 }
 
-.addinputField:hover{
-opacity:1
-}
-
-
+.addinputField:hover{ opacity:1 }
 
 .sidebar_nav li:hover span{
 	background: #B8B8B8;
 	font-size: 1.5em;
 }
 
-.hideContent{
-  overflow: hidden;
-    height: 6em;
-}
+.hideContent{ overflow: hidden;  height: 6em; }
+.showContent{    height: auto; }
+.filter .hideContent{ line-height: 1.5em;    height: 1.5em; } 
 
-.showContent{
-    height: auto;
-}
-.filter .hideContent{
-    line-height: 1.5em;
-    height: 1.5em;
-} 
-
-.hangingIndent {
-  padding-left: 80px ;
-  text-indent: -80px ;
-}
+.hangingIndent {  padding-left: 80px ;  text-indent: -80px ; }
 
 .downArrow{
     behavior:url(-ms-transform.htc);
@@ -192,53 +140,26 @@ opacity:1
 .SubmitProfile:hover {
 	
      background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #0688fa), color-stop(1, #2dabf9));
-
      background:-moz-linear-gradient(top, #0688fa 5%, #2dabf9 100%);
      background:-webkit-linear-gradient(top, #0688fa 5%, #2dabf9 100%);
      background:-o-linear-gradient(top, #0688fa 5%, #2dabf9 100%);
-
      background:-ms-linear-gradient(top, #0688fa 5%, #2dabf9 100%);
-
      background:linear-gradient(to bottom, #0688fa 5%, #2dabf9 100%);
      filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0688fa', endColorstr='#2dabf9',GradientType=0);
      background-color:#0688fa;
-
 }
 
+.TemplateBioSearchbox{ line-height:normal; }
 
 
-.TemplateBioSearchbox{
- line-height:normal;
-}
-
-
-.bar:hover {
-  fill: brown;
-}
-
-.axis {
-  font: 10px sans-serif;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.x.axis path {
-  display: none;
-}
+.bar:hover {  fill: brown; }
+.axis {  font: 10px sans-serif; }
+.axis path, .axis line {
+  fill: none;  stroke: #000;  shape-rendering: crispEdges; }
+.x.axis path {  display: none; }
 
 .barplot .d3-tip {
-  line-height: 1;
-  font-weight: bold;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 2px;
-}
+  line-height: 1;  font-weight: bold;  padding: 12px;  background: rgba(0, 0, 0, 0.8);  color: #fff;  border-radius: 2px;}
 
 /* Creates a small triangle extender for the tooltip */
 .barplot .d3-tip:after {

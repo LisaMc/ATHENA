@@ -4,22 +4,24 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="keywords" content="basic science research, northweststtr, nwsttr, clinical research, solid tumors, Translational Research Program, solid tumor cancers, solid tumor translational research, Seattle Cancer Care Alliance, population-based research, solid tumor, STTR cancer, fred hutchinson cancer research center, seattle childrens hospital,
-    			Computational Biology, Bioinformatics, Systems Biology, Statistics, Mathematics, Computer Science, Data Management, ATHENA, Health Informatics" />
-    <meta name="description" content="ATHENA: Approaches to Translational Health Experiments, Informatics, and Analysis" />
+    			Computational Biology, Bioinformatics, Systems Biology, Statistics, Mathematics, Computer Science, Data Management, STTRconnect, Health Informatics" />
+    <meta name="description" content="STTRconnect: Approaches to Translational Health Experiments, Informatics, and Analysis" />
     <meta name="robots" content="all" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
     <meta name="HandheldFriendly" content="True" />
     <meta name="MobileOptimized" content="width" />     
 
-    <meta property="og:title" content="ATHENA" />
-    <meta property="og:description" content="ATHENA: Approaches to Translational Health Experiments, Informatics, and Analysis" /> 
+    <meta property="og:title" content="STTRconnect" />
+    <meta property="og:description" content="STTRconnect: Approaches to Translational Health Experiments, Informatics, and Analysis" /> 
 
-    <title>ATHENA</title>
+    <title>STTRconnect</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css">  
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css" />
     <link rel="stylesheet" href="css/clientlibs.min.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="css/athena.css">
 
     <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
 	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -29,7 +31,7 @@
     <script type="text/javascript" src="js/jspdf.plugin.standard_fonts_metrics.js"></script>
     <script type="text/javascript" src="js/jspdf.plugin.split_text_to_size.js"></script>
     <script type="text/javascript" src="js/jspdf.plugin.from_html.js"></script>
-  
+    <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script> 
 
 <!--	<script type="text/javascript" src="js/jquery.unveil.js"></script> 
 	<script type="text/javascript" src="js/jquery.lazyload.js"></script> -->
@@ -46,10 +48,8 @@
     <script src="js/d3.tip.v0.6.3.js"></script>
 
    <script src="js/jquery.dataTables.min.js"></script>
-   <link   rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
 
   <script src="js/SearchDirectory.js"></script>
-  <link   rel="stylesheet" type="text/css" href="css/athena.css">
 
 </head>
 
@@ -66,28 +66,18 @@
     <div id="mainContent" style="align:left;margin-left:auto;padding-top:5px;min-height:700px;overflow-y:auto">
  
            <div id="SideNav" class="mCustomScrollbar" style="float:left; margin-top:5px;margin-left:15px;margin-right:15px;min-width:200px; position:fixed; overflow-y:hidden;">
- 		       <div style="min-width:200px;border-radius:7px; margin-top:5px" class="filter">
-                <ul id="FilterContactFor" class="filterOptions showContent" style="list-style: none;margin-top:1em; margin-bottom:1em;padding-left:0;width:100%; font-size:0.7em; position:relative">
-             	 <h2 style="margin-bottom:auto; margin-top:auto; font-size:1.5em"><b> Contact for </b></h2>
-                 <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt</b></div>
-             	  	<li style="padding-top:5px"><input class="fil_contact" type="checkbox" value="Grants">Grants</li>
-               		<li><input class="fil_contact" type="checkbox" value="Collaboration">Collaboration</li>
-               		<li><input class="fil_contact" type="checkbox" value="Consultation">Consult</li>
-               		<li><input class="fil_contact" type="checkbox" value="Programmatic ideas">Programmatic ideas</li>
-               		<li><input class="fil_contact" type="checkbox" value="Speaking engagements">Presentations</li>
-               		<li><input class="fil_contact" type="checkbox" value="Mentoring">Mentoring</li>             		
-                </ul>
-              </div>
-
+ 		 
                <div style="border-radius:7px;min-width:200px; margin-top:5px" class="filter">
                 <ul id="FilterInstitution" class="filterOptions showContent" style="list-style: none;margin-top:1em; margin-bottom:1em;padding-left:0;width:100%; font-size:0.7em; position:relative">
                 <h2 style="margin-bottom:auto; margin-top:auto; font-size:1.5em"><b> Institution </b> </h2>
-                <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt</b></div>
+                <div class='toClear' style='font-size:1em; float:right; position:absolute;top:3px; right:30px; color:#60a8fa;cursor:pointer;display:none'>clear</div>
+                <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt;</b></div>
+                 <div class='toSelectAll' style='font-size:0.9em;padding-left:2px; color:#60a8fa;cursor:pointer;'>select all</div>
              		<li style="padding-top:5px"><input class="fil_inst" type="checkbox" value="Fred Hutch">Fred Hutch</li>
             		<li><input class="fil_inst" type="checkbox" value="UW">UW</li>
             		<li><input class="fil_inst" type="checkbox" value="Seattle Children's">Seattle Children's</li>
             		<li><input class="fil_inst" type="checkbox" value="Sage Bionetworks">Sage</li>
-            		<li><input class="fil_inst" type="checkbox" value="Institute for Systems Biology">ISB</li>
+            		<li><input class="fil_inst" type="checkbox" value="ISB">ISB</li>
             		<li><input class="fil_inst" type="checkbox" value="Cancer Research and Biostatistics">Cancer Research and Biostatistics</li>
                 </ul>
 		       </div>	
@@ -95,7 +85,9 @@
 		       <div style="min-width:200px;border-radius:7px; margin-top:5px" class="filter">
                 <ul id="FilterDisease" class="filterOptions showContent" style="list-style: none;margin-top:1em; margin-bottom:1em;padding-left:0;width:100%; font-size:0.7em; position:relative">
              	 <h2 style="margin-bottom:auto; margin-top:auto; font-size:1.5em"><b> Disease type </b></h2>
-                 <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt</b></div>
+                 <div class='toClear' style='font-size:1em; float:right; position:absolute;top:3px; right:30px; color:#60a8fa;cursor:pointer;display:none'>clear</div>
+                 <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt;</b></div>
+                 <div class='toSelectAll' style='font-size:0.9em;padding-left:2px; color:#60a8fa;cursor:pointer;'>select all</div>
              	  	<li style="padding-top:5px"><input class="fil_disease" type="checkbox" value="Bladder">Bladder</li>
                		<li><input class="fil_disease" type="checkbox" value="Brain">Brain</li>
                		<li><input class="fil_disease" type="checkbox" value="Breast">Breast</li>
@@ -111,8 +103,10 @@
 
                <div style="min-width:200px;border-radius:7px; margin-top:5px" class="filter">
                 <ul id="FilterOmics" class="filterOptions showContent" style="list-style: none;margin-top:1em; margin-bottom:1em;padding-left:0;width:100%; font-size:0.7em; position:relative">
-             	 <h2 style="margin-bottom:auto; margin-top:auto; font-size:1.5em"><b> -omics field </b></h2>
-                 <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt</b></div>
+             	 <h2 style="margin-bottom:auto; margin-top:auto; font-size:1.5em"><b> Computational field </b></h2>
+                 <div class='toClear' style='font-size:1em; float:right; position:absolute;top:3px; right:30px; color:#60a8fa;cursor:pointer;display:none'>clear</div>
+                 <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt;</b></div>
+                 <div class='toSelectAll' style='font-size:0.9em;padding-left:2px; color:#60a8fa;cursor:pointer;'>select all</div>
              		<li style="padding-top:5px">
              		    <input class="fil_omics" type="checkbox" value="Computational Biology">Computational Biology</li>
             		<li><input class="fil_omics" type="checkbox" value="Bioinformatics">Bioinformatics</li>
@@ -132,24 +126,68 @@
              		<li><input class="fil_omics" type="checkbox" value="Translational Bioinformatics">Translational Bioinformatics</li>
              		<li><input class="fil_omics" type="checkbox" value="Adopter">Adopter</li>
                 </ul>
+                
+                 <ul id="FilterContactFor" class="filterOptions showContent" style="list-style: none;margin-top:1em; margin-bottom:1em;padding-left:0;width:100%; font-size:0.7em; position:relative">
+             	 <h2 style="margin-bottom:auto; margin-top:auto; font-size:1.5em"><b> - to contact for </b></h2>
+                 <div class='toClear' style='font-size:1em; float:right; position:absolute;top:3px; right:30px; color:#60a8fa;cursor:pointer;display:none'>clear</div>
+                 <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt;</b></div>
+                 <div class='toSelectAll' style='font-size:0.9em;padding-left:2px; color:#60a8fa;cursor:pointer;'>select all</div>
+             	  	<li style="padding-top:5px"><input class="fil_contact" type="checkbox" value="Grants">Grants</li>
+               		<li><input class="fil_contact" type="checkbox" value="Collaboration">Collaboration</li>
+               		<li><input class="fil_contact" type="checkbox" value="Consultation">Consultation</li>
+               		<li><input class="fil_contact" type="checkbox" value="Programmatic ideas">Programmatic ideas</li>
+               		<li><input class="fil_contact" type="checkbox" value="Speaking engagements">Speaking engagements</li>
+               		<li><input class="fil_contact" type="checkbox" value="Mentoring">Mentoring</li>             		
+                </ul>
+                
    		        </div>
+   		        
+<!--   		        <div style="min-width:200px;border-radius:7px; margin-top:5px" class="filter">
+               
+              </div>
+-->
  		  </div> <!-- SideNav -->
 
      <div id="RightBar" class="mCustomScrollbar" style="right:15px; margin-top:5px;margin-right:15px;min-width:280px;  z-index:100; position:fixed; " > 
         <div style="min-width:200px; border-top:thick solid #60a8fa;border-radius:2px;padding-left:5px; margin-top:5px; padding-bottom:20px"> <b>Profile</b><br>
           <div onclick='EditProfile(this)' style='margin-top:5px;cursor:pointer' ;>
              <span class='glyphicon glyphicon-pencil' aria-hidden='true' style='color:#60a8fa;padding-right:5px;padding-left:10px'></span>
-             Create a Profile<br>
+             Create/Edit a Profile<br/>
           </div>
 
         </div> <!-- EditProfilediv -->
-        <div style="min-width:200px; border-top:thick solid #60a8fa;border-radius:2px;padding-left:5px; margin-top:5px; padding-bottom:20px"> <b>Visualize</b><br>
+
+        <div style="min-width:200px; border-top:thick solid #60a8fa;border-radius:2px;padding-left:5px; margin-top:5px; padding-bottom:20px"> <b>Popular Searches</b><br>
+          <span class='PopularSearch' style='cursor:pointer; float:left; font-size:0.9em'>Personalized Medicine</span>
+          <span class='PopularSearch' style='cursor:pointer; float:right; font-size:0.9em'>RNAseq</span> <br/>            
+          <span class='PopularSearch' style='cursor:pointer; float:left; font-size:0.9em'>Global Health</span>
+          <span class='PopularSearch' style='cursor:pointer; float:right; font-size:0.9em'>Cancer Screening</span><br/>
+          <span class='PopularSearch' style='cursor:pointer; float:left; font-size:0.9em'>Shared Resources</span>
+
+        </div> <!-- PopularSearchdiv -->
+
+        <div style="min-width:200px;min-height:260px; border-top:thick solid #60a8fa;border-radius:2px;padding-left:5px; margin-top:5px; padding-bottom:20px"> <b>Visualize your Query</b><br/>
            <div style="clear:both;float:right;  opacity:0.2" > <img src="images/graphStills/PieChart.png" style="max-width:125px;max-height:150px;"/> </div>
            <div style="float:right;"  class="VisualizeSpan barPlot"><img src="images/graphStills/BarPlot_cropped2.png" style="max-width:125px;max-height:150px;"/> </div>
            <div style="clear:both; float:right;  opacity:0.2"  ><img src="images/graphStills/VennDiagram.png" style="max-width:125px;max-height:150px;"/>  </div>
            <div style="float:right;  opacity:0.2"  ><img src="images/graphStills/Network.png" style="max-width:125px;max-height:150px;"/> </div>
-
        </div> <!-- /vizplots -->
+       
+       <div style="clear:both;min-width:200px; border-top:thick solid #60a8fa;border-radius:2px;padding-left:5px; margin-top:5px; padding-bottom:20px"> <b>Feedback</b><br/>
+          <a href="MAILTO:lmcferri@fredhutch.org?subject=Feedback on STTRconnect" style='margin-top:5px;cursor:pointer'>
+             <span class='glyphicon glyphicon-envelope' aria-hidden='true' style='color:#60a8fa;padding-right:5px;padding-left:10px'></span>
+             Email Us!
+          </a> 
+       </div> <!-- Feedback -->
+
+       <div style="clear:both;min-width:200px; border-top:thick solid #60a8fa;border-radius:2px;padding-left:5px; margin-top:5px; padding-bottom:20px"> <b>Coming Features</b><br/>
+          <ul style="list-style: none;margin-top:1em; margin-bottom:1em;width:100%;">
+           <li>Linked Publications</li>
+          </ul>
+       </div> <!-- Feedback -->
+
+
+
     </div> <!-- RightBar -->
 
       <div id="DisplaySettingsDiv" style="clear:both; padding:10px 20px 10px 0px;margin: 0 300px 0 250px; cursor:pointer;">
@@ -188,19 +226,29 @@
 				<!--	  <li><a href="javascript:void(0)" onclick="exportResults()">E-mail</a></li>  -->
 				  </ul>
 	      </ul>
-            </div>
+<!--	      <form id="svgform" method="post" action="download.pl">
+               <input type="hidden" id="output_format" name="output_format" value="">
+               <input type="hidden" id="data" name="data" value="">
+          </form>
+-->
+        </div>
       </div> <!-- DisplaySettings -->
              
      <div class="body_contents" id="DataToExport" style="margin-top:5px; ">
     
          <div id="ReportSearchFilterDiv" style="clear:both; font-size:1.2em; padding-bottom:5px;color:#60a8fa">
              <span id="NumberOfResultsDiv"></span>
+             <span id="ResultsForSpan">results for: </span>
              <span id="SearchStringDiv"></span>
              <span id="FilterStringDiv">
                <span id="ReportInstFilterSpan"></span>
+               <span id="ReportInstANDSpan"></span>
                <span id="ReportDiseaseFilterSpan"></span>
+               <span id="ReportDiseaseANDSpan"></span>
                <span id="ReportOmicsFilterSpan"></span>
+               <span id="ReportOmicsANDSpan"></span>
                <span id="ReportContactForFilterSpan"></span>
+               <span id="ReportContactForANDSpan"></span>
              </span>
         </div>
      
@@ -226,7 +274,7 @@
           </div>
               <div id="ProfileTemplate">
                 <div id='TemplateBio' style='background:#fff;color:#000;height:100%;'>
-                     <form id='Profile_template' action='MAILTO:lmcferri@fredhutch.org?subject=Create my ATHENA Profile' method='post' enctype='text/plain' style='clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; width:100%;height:100%; overflow-x:auto; line-height:2em; position:relative;  '>
+                     <form id='Profile_template' action='MAILTO:lmcferri@fredhutch.org?subject=Create my STTRconnect Profile' method='post' enctype='text/plain' style='clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; width:100%;height:100%; overflow-x:auto; line-height:2em; position:relative;  '>
  <!--                        <div id=Profile_template_Picture style='float:left; min-width:10%;margin-left:5px;margin-right:5px;margin-top:5px'>
                             <img title='ProfilePicture' alt='ProfilePic' class='rsImg' style='max-height:125px; max-width:100px' src='/images/Photos/Photo Coming Soon.jpg'>
                          </div>
@@ -283,13 +331,13 @@
           </select>
           
         </div>
-        <div id="VizLegend" style="text-align:right">
-          
+        <div id="VizSubtitle" style="text-align:center"></div>
+        <div id="MainGraph" style=" margin-left:auto; margin-top:auto; margin-right:auto"></div>
+        <div id="VizAddendum"></div>
+        <div id="VizResults" style="margin-top: 15px"></div>
+        <canvas id="MainGraphCanvas"></canvas>
 
-        </div>
-        <div id="MainGraph" style=" margin-left:auto; margin-top:auto; margin-right:auto">
- <!--         <img src="images/graphStills/ATHENA_Survey_238_Fields_Barplot_12-2-14_cropped.png" style="max-height:450px"/>  -->
-        </div>
+
  <!--        <h2 style="float:right; width:30%; margin-left:auto; text-align:center; margin-top:0; margin-bottom:15px">Choose a Plot Type:</h2>
         <div id="GraphThumbnails" class="SliderThumbnails" style="text-align:center;float:right; width:30%;max-height:450px;">
          <div id="BarplotThumb" style="overflow:hidden;"><img src="images/graphStills/BarPlot_cropped2.png" style="max-width:200px;max-height:150px;"/></div>
@@ -347,7 +395,7 @@
 <!--	   </div>  /parsys mainPar -->
     </div>  <!--/SEARCH_BARdiv -->
 
-<!--     <span id="HomeSpan" style="font-size:2.5em;font-family:sans-serif;cursor:pointer"><text style="color:#60a8fa;">ATHENA</text>     </span>
+<!--     <span id="HomeSpan" style="font-size:2.5em;font-family:sans-serif;cursor:pointer"><text style="color:#60a8fa;">STTRconnect</text>     </span>
      <h2 style="margin:5px;display:inline">Your guide to expert guidance</h2>
      <div style="font-size:0.8em; padding-bottom:10px"> APPROACHES TO TRANSLATIONAL HEALTH EXPERIMENTS, INFORMATICS, AND ANALYSES</div>
 -->     
