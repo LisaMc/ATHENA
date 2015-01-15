@@ -16,7 +16,7 @@
     <meta property="og:description" content="STTRconnect: Approaches to Translational Health Experiments, Informatics, and Analysis" /> 
 
     <title>STTRconnect</title>
-
+<!--    <link rel="shortcut icon" href="http://sstatic.net/stackoverflow/img/favicon.ico">  -->
     <link rel="stylesheet" href="css/bootstrap.min.css">  
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css" />
     <link rel="stylesheet" href="css/clientlibs.min.css" type="text/css">
@@ -26,15 +26,9 @@
     <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
 	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
-    <script type="text/javascript" src="js/jspdf.debug.js"></script>
-    <script type="text/javascript" src="js/jspdf.plugin.addimage.js"></script>
-    <script type="text/javascript" src="js/jspdf.plugin.standard_fonts_metrics.js"></script>
-    <script type="text/javascript" src="js/jspdf.plugin.split_text_to_size.js"></script>
-    <script type="text/javascript" src="js/jspdf.plugin.from_html.js"></script>
+    <script type="text/javascript" src="js/jspdf_and_plugins.js"></script>
     <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script> 
 
-<!--	<script type="text/javascript" src="js/jquery.unveil.js"></script> 
-	<script type="text/javascript" src="js/jquery.lazyload.js"></script> -->
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
     <script type="text/javascript" src="js/clientlibs.min.js"></script>
@@ -44,15 +38,24 @@
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
 	<script type="text/javascript" src="d3/d3.js"></script>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="js/d3.tip.v0.6.3.js"></script>
 
    <script src="js/jquery.dataTables.min.js"></script>
 
   <script src="js/SearchDirectory.js"></script>
 
-</head>
 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-58584720-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
 
 <body class="tk-proxima-nova landingpage page base homepage ">
 
@@ -62,17 +65,14 @@
 
   <!-- START BODY ELEMENT -->
   <div class="body" id="body_element"> 
-
-    <div id="mainContent" style="align:left;margin-left:auto;padding-top:5px;min-height:700px;overflow-y:auto">
- 
-           <div id="SideNav" class="mCustomScrollbar" style="float:left; margin-top:5px;margin-left:15px;margin-right:15px;min-width:200px; position:fixed; overflow-y:hidden;">
- 		 
-               <div style="border-radius:7px;min-width:200px; margin-top:5px" class="filter">
-                <ul id="FilterInstitution" class="filterOptions showContent" style="list-style: none;margin-top:1em; margin-bottom:1em;padding-left:0;width:100%; font-size:0.7em; position:relative">
-                <h2 style="margin-bottom:auto; margin-top:auto; font-size:1.5em"><b> Institution </b> </h2>
-                <div class='toClear' style='font-size:1em; float:right; position:absolute;top:3px; right:30px; color:#60a8fa;cursor:pointer;display:none'>clear</div>
-                <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt;</b></div>
-                 <div class='toSelectAll' style='font-size:0.9em;padding-left:2px; color:#60a8fa;cursor:pointer;'>select all</div>
+    <div id="mainContent">
+           <div id="SideNav" class="mCustomScrollbar SideNav">
+               <div class="filter">
+                <ul id="FilterInstitution" class="filterOptions showContent">
+                <h2><b> Institution </b> </h2>
+                <div class='toClear'>clear</div>
+                <div class='toggleFilterExpansion toContract'><b>&gt;</b></div>
+                <div class='toSelectAll'>select all</div>
              		<li style="padding-top:5px"><input class="fil_inst" type="checkbox" value="Fred Hutch">Fred Hutch</li>
             		<li><input class="fil_inst" type="checkbox" value="UW">UW</li>
             		<li><input class="fil_inst" type="checkbox" value="Seattle Children's">Seattle Children's</li>
@@ -82,12 +82,12 @@
                 </ul>
 		       </div>	
 		       
-		       <div style="min-width:200px;border-radius:7px; margin-top:5px" class="filter">
-                <ul id="FilterDisease" class="filterOptions showContent" style="list-style: none;margin-top:1em; margin-bottom:1em;padding-left:0;width:100%; font-size:0.7em; position:relative">
-             	 <h2 style="margin-bottom:auto; margin-top:auto; font-size:1.5em"><b> Disease type </b></h2>
-                 <div class='toClear' style='font-size:1em; float:right; position:absolute;top:3px; right:30px; color:#60a8fa;cursor:pointer;display:none'>clear</div>
-                 <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt;</b></div>
-                 <div class='toSelectAll' style='font-size:0.9em;padding-left:2px; color:#60a8fa;cursor:pointer;'>select all</div>
+		       <div class="filter">
+                <ul id="FilterDisease" class="filterOptions showContent">
+             	 <h2><b> Disease type </b></h2>
+                 <div class='toClear'>clear</div>
+                 <div class='toggleFilterExpansion toContract'><b>&gt;</b></div>
+                 <div class='toSelectAll'>select all</div>
              	  	<li style="padding-top:5px"><input class="fil_disease" type="checkbox" value="Bladder">Bladder</li>
                		<li><input class="fil_disease" type="checkbox" value="Brain">Brain</li>
                		<li><input class="fil_disease" type="checkbox" value="Breast">Breast</li>
@@ -101,12 +101,12 @@
                 </ul> 
               </div>
 
-               <div style="min-width:200px;border-radius:7px; margin-top:5px" class="filter">
-                <ul id="FilterOmics" class="filterOptions showContent" style="list-style: none;margin-top:1em; margin-bottom:1em;padding-left:0;width:100%; font-size:0.7em; position:relative">
-             	 <h2 style="margin-bottom:auto; margin-top:auto; font-size:1.5em"><b> Computational field </b></h2>
-                 <div class='toClear' style='font-size:1em; float:right; position:absolute;top:3px; right:30px; color:#60a8fa;cursor:pointer;display:none'>clear</div>
-                 <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt;</b></div>
-                 <div class='toSelectAll' style='font-size:0.9em;padding-left:2px; color:#60a8fa;cursor:pointer;'>select all</div>
+               <div class="filter">
+                <ul id="FilterOmics" class="filterOptions showContent" >
+             	 <h2><b> Computational field </b></h2>
+                 <div class='toClear'>clear</div>
+                 <div class='toggleFilterExpansion toContract'><b>&gt;</b></div>
+                 <div class='toSelectAll'>select all</div>
              		<li style="padding-top:5px">
              		    <input class="fil_omics" type="checkbox" value="Computational Biology">Computational Biology</li>
             		<li><input class="fil_omics" type="checkbox" value="Bioinformatics">Bioinformatics</li>
@@ -127,11 +127,11 @@
              		<li><input class="fil_omics" type="checkbox" value="Adopter">Adopter</li>
                 </ul>
                 
-                 <ul id="FilterContactFor" class="filterOptions showContent" style="list-style: none;margin-top:1em; margin-bottom:1em;padding-left:0;width:100%; font-size:0.7em; position:relative">
-             	 <h2 style="margin-bottom:auto; margin-top:auto; font-size:1.5em"><b> - to contact for </b></h2>
-                 <div class='toClear' style='font-size:1em; float:right; position:absolute;top:3px; right:30px; color:#60a8fa;cursor:pointer;display:none'>clear</div>
-                 <div class='toContract' style='font-size:1.5em; font-type:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;'><b>&gt;</b></div>
-                 <div class='toSelectAll' style='font-size:0.9em;padding-left:2px; color:#60a8fa;cursor:pointer;'>select all</div>
+                <ul id="FilterContactFor" class="filterOptions showContent" >
+             	 <h2><b> - to contact for </b></h2>
+                 <div class='toClear'>clear</div>
+                 <div class='toggleFilterExpansion toContract'><b>&gt;</b></div>
+                 <div class='toSelectAll'>select all</div>
              	  	<li style="padding-top:5px"><input class="fil_contact" type="checkbox" value="Grants">Grants</li>
                		<li><input class="fil_contact" type="checkbox" value="Collaboration">Collaboration</li>
                		<li><input class="fil_contact" type="checkbox" value="Consultation">Consultation</li>
@@ -140,47 +140,41 @@
                		<li><input class="fil_contact" type="checkbox" value="Mentoring">Mentoring</li>             		
                 </ul>
                 
-   		        </div>
+   		     </div> <!-- computational filter -->
    		        
-<!--   		        <div style="min-width:200px;border-radius:7px; margin-top:5px" class="filter">
-               
-              </div>
--->
  		  </div> <!-- SideNav -->
 
-     <div id="RightBar" class="mCustomScrollbar" style="right:15px; margin-top:5px;margin-right:15px;min-width:280px;  z-index:100; position:fixed; " > 
-        <div style="min-width:200px; border-top:thick solid #60a8fa;border-radius:2px;padding-left:5px; margin-top:5px; padding-bottom:20px"> <b>Profile</b><br>
-          <div onclick='EditProfile(this)' style='margin-top:5px;cursor:pointer' ;>
-             <span class='glyphicon glyphicon-pencil' aria-hidden='true' style='color:#60a8fa;padding-right:5px;padding-left:10px'></span>
+     <div id="RightBar" class="mCustomScrollbar RightBar" > 
+        <div class="RightNavSection"> <b>Profile</b><br>
+          <div onclick='EditProfile(this)' style='margin-top:5px;cursor:pointer'>
+             <span class='glyphicon glyphicon-pencil' aria-hidden='true'></span>
              Create/Edit a Profile<br/>
           </div>
-
         </div> <!-- EditProfilediv -->
 
-        <div style="min-width:200px; border-top:thick solid #60a8fa;border-radius:2px;padding-left:5px; margin-top:5px; padding-bottom:20px"> <b>Popular Searches</b><br>
+        <div class="RightNavSection"> <b>Popular Searches</b><br>
           <span class='PopularSearch' style='cursor:pointer; float:left; font-size:0.9em'>Personalized Medicine</span>
           <span class='PopularSearch' style='cursor:pointer; float:right; font-size:0.9em'>RNAseq</span> <br/>            
           <span class='PopularSearch' style='cursor:pointer; float:left; font-size:0.9em'>Global Health</span>
           <span class='PopularSearch' style='cursor:pointer; float:right; font-size:0.9em'>Cancer Screening</span><br/>
           <span class='PopularSearch' style='cursor:pointer; float:left; font-size:0.9em'>Shared Resources</span>
-
         </div> <!-- PopularSearchdiv -->
 
-        <div style="min-width:200px;min-height:260px; border-top:thick solid #60a8fa;border-radius:2px;padding-left:5px; margin-top:5px; padding-bottom:20px"> <b>Visualize your Query</b><br/>
-           <div style="clear:both;float:right;  opacity:0.2" > <img src="images/graphStills/PieChart.png" style="max-width:125px;max-height:150px;"/> </div>
-           <div style="float:right;"  class="VisualizeSpan barPlot"><img src="images/graphStills/BarPlot_cropped2.png" style="max-width:125px;max-height:150px;"/> </div>
-           <div style="clear:both; float:right;  opacity:0.2"  ><img src="images/graphStills/VennDiagram.png" style="max-width:125px;max-height:150px;"/>  </div>
-           <div style="float:right;  opacity:0.2"  ><img src="images/graphStills/Network.png" style="max-width:125px;max-height:150px;"/> </div>
-       </div> <!-- /vizplots -->
+        <div class="RightNavSection" style="min-height:260px"> <b>Visualize your Query</b><br/>
+           <div style="clear:both;float:right;  opacity:0.2" > <img src="images/graphStills/PieChart.png"/> </div>
+           <div style="float:right;"  class="VisualizeSpan barPlot"><img src="images/graphStills/BarPlot_cropped2.png"/> </div>
+           <div style="clear:both; float:right;  opacity:0.2"  ><img src="images/graphStills/VennDiagram.png"/>  </div>
+           <div style="float:right;  opacity:0.2"  ><img src="images/graphStills/Network.png"/> </div>
+        </div> <!-- /vizplots -->
        
-       <div style="clear:both;min-width:200px; border-top:thick solid #60a8fa;border-radius:2px;padding-left:5px; margin-top:5px; padding-bottom:20px"> <b>Feedback</b><br/>
+       <div class="RightNavSection"> <b>Feedback</b><br/>
           <a href="MAILTO:lmcferri@fredhutch.org?subject=Feedback on STTRconnect" style='margin-top:5px;cursor:pointer'>
-             <span class='glyphicon glyphicon-envelope' aria-hidden='true' style='color:#60a8fa;padding-right:5px;padding-left:10px'></span>
+             <span class='glyphicon glyphicon-envelope' aria-hidden='true'></span>
              Email Us!
           </a> 
        </div> <!-- Feedback -->
 
-       <div style="clear:both;min-width:200px; border-top:thick solid #60a8fa;border-radius:2px;padding-left:5px; margin-top:5px; padding-bottom:20px"> <b>Coming Features</b><br/>
+       <div class="RightNavSection"> <b>Coming Features</b><br/>
           <ul style="list-style: none;margin-top:1em; margin-bottom:1em;width:100%;">
            <li>Linked Publications</li>
           </ul>
@@ -190,144 +184,158 @@
 
     </div> <!-- RightBar -->
 
-      <div id="DisplaySettingsDiv" style="clear:both; padding:10px 20px 10px 0px;margin: 0 300px 0 250px; cursor:pointer;">
-             <div style="float:left;font-weight:normal;">
+      <div id="DisplaySettingsDiv" class="DisplayResultSettings">
+         <div id="SearchDisplayOptions" style="float:left;font-weight:normal;">
              <ul class="nav navbar-nav"> <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <text style="color:black">Displaying </text><span id="DisplaySettings" style="color:black">profiles</span>
-                  <text style="color:black">sorted by </text><span id="SortSettings" style="color:black">name</span> <b class="caret" style="color:#60a8fa"></b></a>
-               <ul class="dropdown-menu multi-column columns-2">
-                <div class="row">
-			      <div class="col-sm-6"><h4 style="text-align:center;  text-decoration: underline;"> Display </h4>
+                  <span style="color:black">Displaying </span><span id="DisplaySettings" style="color:black;font-weight:bold">profiles</span>
+                  <span style="color:black">sorted by </span><span id="SortSettings" style="color:black;font-weight:bold">name</span> 
+                  <span style="color:black">(<span id="NumItemsSettings" style="color:black;font-weight:bold">20</span> per page)</span>
+                  <b class="caret" style="color:#60a8fa"></b></a>
+               <ul class="dropdown-menu multi-column columns-3">
+                <div class="row" style="margin-right:5px; min-width:350px">
+			      <div class="col-sm-4"><h4 style="text-align:center;  text-decoration: underline;"> Display </h4>
 				    <ul class="multi-column-dropdown" style="-webkit-padding-start: 10px;"> 
 					  <li ><a href="javascript:void(0)" onclick="updateDisplay(this)" class="selectedDisplay" id="selectedDisplayProfiles">profiles</a></li>
         	          <li class="divider"></li>
 					  <li ><a href="javascript:void(0)" onclick="updateDisplay(this)" class ="unselectedDisplay" id="selectedDisplayBarplot">barplot</a></li>
 				    </ul>
 			      </div>
-			      <div class="col-sm-6"><h4 style="text-align:center;  text-decoration: underline;">Sort by</h4>
+			      <div class="col-sm-4"><h4 style="text-align:center;  text-decoration: underline;">Sort by</h4>
 				    <ul class="multi-column-dropdown" style="-webkit-padding-start: 10px;"> 
-					  <li><a href="#" class="selectedSort">name</a></li>
+					  <li><a href="javascript:void(0)" onclick="sortBy(this)" class="selectedSort">name<b class="glyphicon glyphicon-arrow-down sortAscending" style="color:#60a8fa; font-size:0.75em; padding-left:3px"></b></a></li>
+                    </ul>
+		          </div>
+		          <div class="col-sm-4"><h4 style="text-align:center;  text-decoration: underline;">Items/page</h4>
+				    <ul class="multi-column-dropdown" style="-webkit-padding-start: 10px;"> 
+					  <li><a href="#" class="unselectedItemNumber"> 5</a></li>
+					  <li><a href="#" class="unselectedItemNumber">10</a></li>
+					  <li><a href="#" class="selectedItemNumber"  >20</a></li>
+					  <li><a href="#" class="unselectedItemNumber">50</a></li>
                     </ul>
 		          </div>
 		        </div> <!-- /row -->
 	          </ul>
              </li></ul> <!-- navbar dropdown -->
 
-            </div> <!-- DisplaySettingsDiv -->
+         </div> <!-- left dropdown display settings -->
+     <div id="ReturnToSearch" style="float:left;font-weight:normal;display:none;cursor:pointer;color:#60a8fa; ">
+         <span class="glyphicon glyphicon-arrow-left" style="color:#60a8fa; font-size:0.75em; padding-right:3px"></span>
+         return to search results
+     </div>       
             
-            <div id="ExportDiv" style="float:right; cursor:pointer;">
+         <div id="ExportDiv" style="float:right; cursor:pointer;">
            <ul class="nav navbar-nav"> <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <text style="color:black">Send to </text> <b class="caret" style="color:#60a8fa"></b> </a>
+                  <span style="color:black">Send to </span> <b class="caret" style="color:#60a8fa"></b> </a>
                   <ul class="dropdown-menu">
-			      <h4 style="text-align:center;color:black; text-decoration: underline;margin:0;"> Destination </h4> 
-					  <li><a href="javascript:void(0)" onclick="exportResults()">PDF</a></li>
-				<!--	  <li><a href="javascript:void(0)" onclick="exportResults()">E-mail</a></li>  -->
+  			         <h4 style="text-align:center;color:black; text-decoration: underline;margin:0;"> Destination </h4> 
+				     <li><a href="javascript:void(0)" onclick="exportResults()">PDF</a></li>
 				  </ul>
 	      </ul>
-<!--	      <form id="svgform" method="post" action="download.pl">
-               <input type="hidden" id="output_format" name="output_format" value="">
-               <input type="hidden" id="data" name="data" value="">
-          </form>
--->
         </div>
-      </div> <!-- DisplaySettings -->
-             
-     <div class="body_contents" id="DataToExport" style="margin-top:5px; ">
-    
-         <div id="ReportSearchFilterDiv" style="clear:both; font-size:1.2em; padding-bottom:5px;color:#60a8fa">
+        <div id="ReportSearchFilterDiv" style="clear:both; font-size:1.2em; padding-bottom:5px;color:#60a8fa;">
              <span id="NumberOfResultsDiv"></span>
              <span id="ResultsForSpan">results for: </span>
              <span id="SearchStringDiv"></span>
              <span id="FilterStringDiv">
                <span id="ReportInstFilterSpan"></span>
-               <span id="ReportInstANDSpan"></span>
                <span id="ReportDiseaseFilterSpan"></span>
-               <span id="ReportDiseaseANDSpan"></span>
                <span id="ReportOmicsFilterSpan"></span>
-               <span id="ReportOmicsANDSpan"></span>
                <span id="ReportContactForFilterSpan"></span>
-               <span id="ReportContactForANDSpan"></span>
              </span>
         </div>
+
+      </div> <!-- DisplaySettingsDiv -->
+
+             
+     <div class="body_contents" id="DataToExport" ">
+    
      
-     <div id="HOMEdiv" class="MainFrameDiv" style="display:none;   background:#000; color:#fff;margin-left:auto;margin-right:auto">
- 			   <img src="images/wordle_BlueGreen_onBlack_roman_cropped.png" alt="wordCloud" style="height:30%; width:80%;display:inherit;margin-left:auto; margin-right:auto"/>
+     <div id="HOMEdiv" class="MainFrameDiv" style="display:none;">
+ 	   <img src="images/wordle_BlueGreen_onBlack_roman_cropped.png" alt="wordCloud" style="height:30%; width:80%;display:inherit;margin-left:auto; margin-right:auto"/>
 	</div>
 	 <div id="SEARCHdiv" class="MainFrameDiv" style="display:block;">
-          <div id="SearchResults"></div>
+          <div id="SearchResults">
+           <div id="SearchPaging" style="padding-top:8px">
+             <div id="PagingSubsetSearch" style="color:black;float:left;padding-top:8px">
+               <span>showing </span><span id="showingFirstSearch">1</span> to <span id="showingLastSearch">20<span>
+             </div>
+             <div id="SearchPageSelection" style="float:right"> <ul class="pagination pagination-sm" style="margin:0">
+                  </ul>
+             </div>
+           </div>
+           <div id='ProfileResults' style='line-height:normal;background:#F1F1F1;color:#000;height:100%; padding-bottom:10px'></div>
+           <span id='SorryMessage' style="display:none; clear:both">Sorry, your search did not match any profiles.</span>
+          </div>
      </div>
 
-     <div id="TABLEdiv" class="MainFrameDiv" style="display:none; margin-bottom: 100px">
-          <div id="DataTableDiv" style="width:100%; height:100%" >
+     <div id="TABLEdiv" class="MainFrameDiv" style="display:none;">
+          <div id="DataTableDiv" >
                <table cellpadding="0" cellspacing="0" border="0" class="display" id="DataTable"></table>
           </div>
      </div>      <!-- /TABLEdiv -->
-
 
 	 <div id="PROFILEdiv" class="MainFrameDiv" style="display:none">
           <div id="ProfileDivTitle" style="clear:both;text-align:center; margin-bottom:10px">
              <h2 style="margin-bottom:1px">Create/Edit your Profile</h2>
                  (Requires email confirmation)
-<!--                 (Search for your name above to auto-populate the fields) -->
           </div>
-              <div id="ProfileTemplate">
-                <div id='TemplateBio' style='background:#fff;color:#000;height:100%;'>
-                     <form id='Profile_template' action='MAILTO:lmcferri@fredhutch.org?subject=Create my STTRconnect Profile' method='post' enctype='text/plain' style='clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; width:100%;height:100%; overflow-x:auto; line-height:2em; position:relative;  '>
- <!--                        <div id=Profile_template_Picture style='float:left; min-width:10%;margin-left:5px;margin-right:5px;margin-top:5px'>
-                            <img title='ProfilePicture' alt='ProfilePic' class='rsImg' style='max-height:125px; max-width:100px' src='/images/Photos/Photo Coming Soon.jpg'>
-                         </div>
--->                         <div id=Profile_template_Info style='float:left; width:35%;margin-top:5px'>
-                            <b>First Name*<input value='' class='TemplateBioSearchbox' id="edit_firstname" name='First name' required style='width:50%;float:right' placeholder='Grace'><br/> Last Name* <input value=''class='TemplateBioSearchbox'  id="edit_lastname" name='Last name' style='width:50%;float:right' required placeholder='Hopper'></b><br/>Degrees<input value='' class='TemplateBioSearchbox' name='Degrees' id="edit_degrees"  style='width:50%;float:right' placeholder='PhD, MD'><br/><br/>
-                         </div>
-                         <div id=Profile_template_Bio style='float:right; width:62%; position:relative; text-align:justify; margin-right:10px; height:100%'>
-                            <text style="text-align:right; padding-right:5px">Bio</text><textarea class='TemplateBioSearchbox' value='' type='text'  id="edit_bio" name='Bio' style='width:92%;float:right; min-height:80px;margin-top:5px' placeholder='Dr. Hopper was an American computer scientist and invented the first compiler for a computer programming language.  She is credited for popularizing the term debugging for fixing computer glitches, inspired by an actual moth removed from the computer (from Wikipedia).'></textarea><br>
-                         </div>
+          <div id="ProfileTemplate">
+            <div id='TemplateBio' style='background:#fff;color:#000;height:100%;'>
+              <form id='Profile_template' action='MAILTO:lmcferri@fredhutch.org?subject=Create my STTRconnect Profile' method='post' enctype='text/plain'>
+                  <div id=Profile_template_Info>
+                    <b>First Name*<input value='' class='TemplateBioSearchbox' id="edit_firstname" name='First name' required style='width:150px;float:right' placeholder='Grace'><br/>
+                       Last Name* <input value='' class='TemplateBioSearchbox' id="edit_lastname"  name='Last name'  required style='width:150px;float:right' placeholder='Hopper'></b><br/>
+                           Degrees<input value='' class='TemplateBioSearchbox' id="edit_degrees"   name='Degrees'             style='width:150px;float:right' placeholder='PhD, MD'><br/><br/>
+                  </div>
+                  <div id=Profile_template_Bio style='float:right; width:62%; position:relative; text-align:justify; margin-right:10px; height:100%'>
+                    <span style="text-align:right; padding-right:5px">Bio</span><textarea class='TemplateBioSearchbox' value='' type='text'  id="edit_bio" name='Bio' style='width:92%;float:right; min-height:80px;margin-top:5px' placeholder='Dr. Hopper was an American computer scientist and invented the first compiler for a computer programming language.  She is credited for popularizing the term debugging for fixing computer glitches, inspired by an actual moth removed from the computer (from Wikipedia).'></textarea><br>
+                  </div>
 
-                         <div style='clear:both;float:left;margin-top:5px; width:60%;'> <text style="float:left; margin-right:80px">Position(s)</text>
-                             <input value='' class='TemplateBioSearchbox' name='Institution'  id="edit_institution"   placeholder='Institution' style="width:30%; float:left;">
-                             <input value='' name='Title'  id="edit_title" class='TemplateBioSearchbox'  placeholder='Title' style="width:30%; float:left; margin-left:15px">
+                  <div style='clear:both;float:left;margin-top:5px; width:750px;'> <span style="float:left; width:158px">Position</span>
+                     <input value='' class='TemplateBioSearchbox' name='Institution'  id="edit_institution"   placeholder='Institution' style="width:250px; float:left;">
+                     <input value='' name='Title'  id="edit_title" class='TemplateBioSearchbox'  placeholder='Title' style="width:250px; float:left; margin-left:15px">
           <!--                 <span class="glyphicon glyphicon-plus addinputField"></span> -->
-                         </div>
+                  </div>
                   
-                         <div style='clear:both;float:left;margin-top:5px; width:60%;'><text style="float:left; margin-right:85px">Websites</text>
-                           <input value='' name='website'  id="edit_website" class='TemplateBioSearchbox'  style='width:63%;float:left' placeholder='www.fredhutch.org'>
-          <!--                 <span class="glyphicon glyphicon-plus addinputField"></span>  -->
-
-                         </div>
-                         <div style='clear:both;float:left; width:82%;'><text style="float:left; margin-right:50px">Disease Types</text>
-                           <input value='' class='TemplateBioSearchbox' name='Disease'  id="edit_disease"  placeholder='Brain' style="width:46%; float:left;">
-                         </div>
-                         <div style='clear:both;float:left; width:82%;'><text style="float:left; margin-right:45px">Omics Specialty</text>
-                           <input value='' class='TemplateBioSearchbox' name='omics'  id="edit_omics"   placeholder='bioinformatics' style="width:46%; float:left;">
-                         </div>
-                         <div style='clear:both;float:left; width:82%;'><text style="float:left; margin-right:71px">Contact For</text>
-                           <input value='' class='TemplateBioSearchbox' name='contactfor'  id="edit_contact"  placeholder='collaboration' style="width:46%; float:left;">
-                         </div>
-                         <div style='clear:both;clear:both;float:left; width:82%;'><text style="float:left; margin-right:82px">Keywords</text>
-                           <input value='' class='TemplateBioSearchbox' name='keywords'  id="edit_keywords"  placeholder='cancer' style="width:46%; float:left;">                         
-                         </div>
-                        
-                         <input type='submit' class='SubmitProfile' value='Send' style='position:absolute;margin-right:5px; margin-top:5px;margin-bottom:5px; bottom:5px; right:5px' >
-                         <input type='reset' class='SubmitProfile' value='Reset' style='position:absolute;margin-right:5px; margin-top:5px;margin-bottom:5px; bottom:5px; right:95px;' >
-                     </form>
-                     </div>
-                 </div>
+                  <div style='clear:both;float:left;margin-top:5px; width:750px;'><span style="float:left; width:158px">Websites</span>
+                     <input value='' name='website'  id="edit_website" class='TemplateBioSearchbox'  style='width:515px;float:left' placeholder='www.fredhutch.org'>
+          <!--       <span class="glyphicon glyphicon-plus addinputField"></span>  -->
+                  </div>
+                  <div style='clear:both;float:left; width:750px;'><span style="float:left; width:158px">Disease Types</span>
+                     <input value='' class='TemplateBioSearchbox' name='Disease'  id="edit_disease"  placeholder='Brain' style="width:515px; float:left;">
+                  </div>
+                  <div style='clear:both;float:left; width:750px;'><span style="float:left; width:158px">Computational Specialty</span>
+                     <input value='' class='TemplateBioSearchbox' name='omics'  id="edit_omics"   placeholder='bioinformatics' style="width:515px; float:left;">
+                  </div>
+                  <div style='clear:both;float:left; width:750px;'><span style="float:left; width:158px">Contact For</span>
+                     <input value='' class='TemplateBioSearchbox' name='contactfor'  id="edit_contact"  placeholder='collaboration' style="width:515px; float:left;">
+                  </div>
+                  <div style='clear:both;float:left; width:750px;'><span style="float:left; width:158px">Keywords</span>
+                     <input value='' class='TemplateBioSearchbox' name='keywords'  id="edit_keywords"  placeholder='cancer' style="width:515px; float:left;">                         
+                  </div>
+                  <div style="clear:both; float:right">      
+                     <input type='submit' class='SubmitProfile' value='Send' style='margin-right:5px; margin-top:5px;margin-bottom:5px; ' >
+                     <input type='reset' class='SubmitProfile' value='Reset' style='margin-right:5px; margin-top:5px;margin-bottom:5px; ' >
+                  </div>
+              </form>
+            </div>
+        </div>
      </div><!-- PROFILEdiv -->
 
      <div id="VISUALIZEdiv" class="MainFrameDiv" style="display:none;">
         <div id="VizTitle" style="text-align:center">
           <label for="PlotType">Plot Type</label>
-          <select id="PlotType" name="PlotType" class="form-control plotOption" value="Barplot" style="width:auto; display:inline-block">
+          <select id="PlotType" name="PlotType" class="form-control plotOption" value="Barplot">
             <option id="plotBarplot" value="plotBarplot">Barplot</option>
           </select>
           <label for="PlotFeature">Feature</label>
-          <select id="PlotFeature" name="PlotFeature"  class="form-control plotOption" style="width:auto; display:inline-block"">
+          <select id="PlotFeature" name="PlotFeature"  class="form-control plotOption">
             <option id="plotInstitute" value="Institute">Institute</option>
             <option id="plotContact" value="ContactFor">Contact for</option>
             <option id="plotDisease" value="DiseaseType">DiseaseType</option>
-            <option id="plotOmics" value="omicsField">omics Field</option>
+            <option id="plotOmics" value="omicsField">Computational Field</option>
           </select>
           
         </div>
@@ -356,7 +364,7 @@
 
     </div><!-- /mainContent -->
  </div> <!-- body -->  
-    <div id="header_element" class="header" style="position:fixed; padding-bottom:15px">
+    <div id="header_element" class="header" style="position:fixed; z-index:10; height:85px">
      <div class="header_contents">
 
        <nav><div class="utility_nav noprint">
@@ -382,32 +390,23 @@
      </div></nav><!-- /utility_nav -->
 
      <div class="runningHeader"> 
-    <span id="HomeSpan" style="text-align:center;min-width:200px;font-size:2.5em;font-family:sans-serif;cursor:pointer; position:relative;top:30px; left:10px; float:left; margin-right:25px"><text style="color:#60a8fa;">STTR</text><text style="color:white;font-size:0.8em">connect</text>     </span>
+    <span id="HomeSpan" style="text-align:center;min-width:200px;font-size:2.5em;font-family:sans-serif;cursor:pointer; position:relative;top:30px; left:10px; float:left; margin-right:25px"><span style="color:#60a8fa;">STTR</span><span style="color:white;font-size:0.8em">connect</span>     </span>
      <div id="SEARCH_BARdiv" style="width:60%;float:left;">
-<!--       <div class="parsys mainPar"> -->
        <div class="sitesearch">
-            <form id="QueryFreeForm" record="'search', {'keyword': '', 'results':'', 'executionTime':''}" style="width:90%;float:left;border-radius:7px" >
+            <form id="QueryFreeForm" record="'search', {'keyword': '', 'results':'', 'executionTime':''}" style="width:90%;float:left;border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px" >
  		 	<input class="searchbox" maxlength="2048" id="QueryFreeInput" name="QueryText" placeholder="SEARCH for..." value="" type="text" style="color:black"/>
-    		<input class="searchbutton" value="&gt;" type="submit" style="float:left;border-radius:7px"/>    
+    		<input class="searchbutton" value="&gt;" type="submit" style="float:left;border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px"/>    
   			</form>
          
 	   </div> <!-- /sitesearch -->
-<!--	   </div>  /parsys mainPar -->
     </div>  <!--/SEARCH_BARdiv -->
-
-<!--     <span id="HomeSpan" style="font-size:2.5em;font-family:sans-serif;cursor:pointer"><text style="color:#60a8fa;">STTRconnect</text>     </span>
-     <h2 style="margin:5px;display:inline">Your guide to expert guidance</h2>
-     <div style="font-size:0.8em; padding-bottom:10px"> APPROACHES TO TRANSLATIONAL HEALTH EXPERIMENTS, INFORMATICS, AND ANALYSES</div>
--->     
+  
      </div>
 
      </div><!-- /header_contents -->
    </div><!-- /header_element -->
 
- <!-- /header --> 
-
  <!-- footer -->
-
  <footer><div id="footer_element" class="footer">
    <div class="footer_content" style="z-index:200">
       <!-- donate feature -->

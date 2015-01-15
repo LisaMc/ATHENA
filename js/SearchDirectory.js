@@ -7,7 +7,7 @@ var activeContent = "SearchSpan";
 //Picture: 31
 //Bio: 22
 //----------------------------------------------------------------------------------------------------
-// used to clean the search string of dubious characters or null text, eg ""
+// used to clean the search string of dubious single characters or null text, eg ""
 Array.prototype.clean = function(deleteValue) {
   for (var i = 0; i < this.length; i++) {
     if (this[i] == deleteValue) {         
@@ -18,53 +18,77 @@ Array.prototype.clean = function(deleteValue) {
   return this;
 };
 //----------------------------------------------------------------------------------------------------
+// determines the scroll position, e.g. $('body').scrollView to return to the top of the body
 $.fn.scrollView = function () {
     return this.each(function () {
         $('html, body').animate({
-            scrollTop: $(this).offset().top - 85
-        }, 500);
+            scrollTop: $(this).offset().top - 85 - $("#DisplaySettingsDiv").height() - 15  //header offset by 85px + ReportFilter text -10 for padding - defined in css
+        }, 500);  //lower numbers makes for faster animation
     });
 }
 //----------------------------------------------------------------------------------------------------
+// reset height of side bars to account for header & footer positions.  
 function checkOffset() {
        var b = $(window).scrollTop();
        var c = $("#SideNav").height();
        var d = $(window).height();
-        var f = $("#footer_element").offset().top - 20;  // margin
+        var f = $("#footer_element").offset().top - 20;  // footer margin = 20
         
         if (f-b<d) {
-           $("#SideNav").css("height", f-b -150)
+           $("#SideNav").css("height", f-b -150)  //offset 150 for 85px header and margins 
            $("#RightBar").css("height", f-b -150)
         } else {
            $("#SideNav").css("height", $(window).height() -150)
            $("#RightBar").css("height", $(window).height() -150)
         }
 
+     $("#DisplaySettingsDiv").css("width", $(window).width() - 600)
+     $("#DataToExport").css("top",  $("#DisplaySettingsDiv").height() + 10)
 }
 
+
 //----------------------------------------------------------------------------------------------------
-$(document).scroll(checkOffset);
-
-window.onresize = function() {
-    $("#SideNav").css("height", $(window).height() - 150)
-   $("#RightBar").css("height", $(window).height() - 150)
-
-};	
+// resize side frames based on window height and header/footer position of scroll
+   window.onresize = function() { checkOffset()};	
+   $(window).scroll(checkOffset);
+//----------------------------------------------------------------------------------------------------
+   
 
 //----------------------------------------------------------------------------------------------------
 $(document).ready(function() {
 
-    document.getElementById("mainContent").style.background = "#F1F1F1"
-    document.getElementById("mainContent").style.color = "#000"
-	checkOffset(); 
-	      
+   var Browser = (function(){
+    var ua= navigator.userAgent, tem, 
+    M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+    if(/trident/i.test(M[1])){
+        tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
+        return 'IE '+(tem[1] || '');
+    }
+    if(M[1]=== 'Chrome'){
+        tem= ua.match(/\bOPR\/(\d+)/)
+        if(tem!= null) return 'Opera '+tem[1];
+    }
+    M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+    if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
+    return M.join(' ');
+   })();
+   
+    if(Browser == "IE 8"){
+       $("#body_element")[0].innerHTML =
+       "<div style='background:white; color:black; width:900px; margin-left:200px'>In order to provide maximum functionality the SIMS application requires use of the latest version of either Chrome, Firefox, Internet Explorer, or Safari.  The SIMS application relies heavily on JavaScript to minimize page redraws.  The ability to run JavaScript on the page is required.</div>"
+       return;
+   }
+	checkOffset();       
+	
     var ColumnTitle = [ {"sTitle": "Index", "sWidth": '50px'}, {"sTitle": "Full.Name", "sWidth": '50px'}, {"sTitle": "Last.Name", "sWidth": '50px'}, {"sTitle": "First.Name", "sWidth": '50px'}, {"sTitle": "Degrees", "sWidth": '50px'}, {"sTitle": "Job.Title.1", "sWidth": '50px'}, {"sTitle": "Primary.Organization", "sWidth": '50px'}, {"sTitle": "Department.1", "sWidth": '50px'}, {"sTitle": "Job.Title.2", "sWidth": '50px'}, {"sTitle": "Organization.2", "sWidth": '50px'}, {"sTitle": "Department.2", "sWidth": '50px'}, {"sTitle": "Job.Title.3", "sWidth": '50px'}, {"sTitle": "Organization.3", "sWidth": '50px'}, {"sTitle": "Department.3", "sWidth": '50px'}, {"sTitle": "Job.Title.4", "sWidth": '50px'}, {"sTitle": "Organization.4", "sWidth": '50px'}, {"sTitle": "Department.4", "sWidth": '50px'}, {"sTitle": "Job.Title.5", "sWidth": '50px'}, {"sTitle": "Organization.5", "sWidth": '50px'}, {"sTitle": "Department.5", "sWidth": '50px'}, {"sTitle": "Phone.Number", "sWidth": '50px'}, {"sTitle": "Email.Address", "sWidth": '50px'}, {"sTitle": "Bio", "sWidth": '50px'}, {"sTitle": "Websites", "sWidth": '50px'}, {"sTitle": "Videos", "sWidth": '50px'}, {"sTitle": "Organ.Site", "sWidth": '50px'}, {"sTitle": "Designation", "sWidth": '50px'}, {"sTitle": "Institutional.Affiliation", "sWidth": '50px'}, {"sTitle": "Focus.Areas", "sWidth": '50px'}, {"sTitle": "Modified", "sWidth": '50px'}, {"sTitle": "Modified.By", "sWidth": '50px'}, {"sTitle": "Member.Photos", "sWidth": '50px'}, {"sTitle": "FH.Primary", "sWidth": '50px'}, {"sTitle": "Departments.and.Divisions", "sWidth": '50px'}, {"sTitle": "Converis.ID", "sWidth": '50px'}, {"sTitle": "Item.Type", "sWidth": '50px'}, {"sTitle": "Path", "sWidth": '50px'}, {"sTitle": "sttr", "sWidth": '50px'}, {"sTitle": "Notes", "sWidth": '50px'}, {"sTitle": "Send", "sWidth": '50px'}, {"sTitle": "Responded", "sWidth": '50px'}, {"sTitle": "omicsField", "sWidth": '50px'}, {"sTitle": "specialty", "sWidth": '50px'}, {"sTitle": "keywords", "sWidth": '50px'}, {"sTitle": "software", "sWidth": '50px'}, {"sTitle": "contact", "sWidth": '50px'}]
  		 $("#DataTable").dataTable({
        		  "aoColumns": ColumnTitle,
+//       		  "order": [[ 1, "asc" ]]
          })   // dataTable
          .fnAdjustColumnSizing(); 
          ;
 
+    // filter selection by multiple appointments across institutions - listed in multiple table columns
       $.fn.dataTableExt.afnFiltering.push(function (settings, data, index) {
          var selectedFieldarray = []
                $("#FilterInstitution :checkbox:checked").each(function() 
@@ -81,71 +105,69 @@ $(document).ready(function() {
 
  	tableRef = $("#DataTable").dataTable();
 
-//    $("img.lazy").lazyload({ 
-//         effect: "fadeIn" 
-//    })
-
-//     $(document).ajaxStop(function(){
-//       $("img.lazy").lazyload({ 
-//        effect: "fadeIn" 
-//     }).removeClass("lazy");
-//    });
-
-//    $("img.lazy").unveil();
-    
-	d3.json("data/AthenaRainier_merged_byIndex_draft_1-2-15.txt", function(json){
+	d3.json("data/AthenaRainier_merged_byIndex_draft_1-14-15.txt", function(json){
 
 		 var DataTable=json
 		 tableRef.fnAddData(DataTable);
+         tableRef.fnSort([2, "asc"])  //move non-STTR or survey people to end
 
         document.getElementById("NumberOfResultsDiv").innerHTML = tableRef._('tr', {"filter":"applied"}).length
         document.getElementById("SearchStringDiv").innerHTML = "(all people)";
 
-        createProfilesFromTable()
+        createProfileContainerFromTable();  //loads divs for each of the RowIdx, but not any data (set class to ProfileNotYetLoaded)
+        resetPagingSystem()         //checks if profiles being show are in class ProfileNotYetLoaded and calls function
+
+        // only called once to generate profiles - id set as "Profile_"+idx where idx = row[][0]
 
 	});  //end json
 
+
    	$(".toExpand").click(function(){toggleContent(this, this.parentNode) })
     $(".toContract").click(function(){toggleContent(this, this.parentNode) })
+    // toggle short vs long profile view - parentNode references Profile_idx
      		
-    $(".plotOption").change(updateActiveContent);
     $(".PopularSearch").click(function(){
         document.getElementById("QueryFreeInput").value = "\""+this.innerText+"\"";
+//TODO: CLEAR ALL FILTERS first
+//clearSelection(this, this.parentNode) })
         SearchAndFilterResults()
         updateActiveContent();
      })
+     // run canned search based on query text
     
         $("#SearchSpan").click(function(){            
-             if( document.getElementById("ProfileResults") == null){
+             if( document.getElementById("ProfileResults") == null)
                 SearchAndFilterResults()
-             }
+             toggle_visibility("SearchSpan", "SEARCHdiv");          });
+        $("#ProfileSpan").click(function(){ 
+             toggle_visibility("ProfileSpan", "PROFILEdiv");        });
+        $(".VisualizeSpan").click(function(){ 
+             toggle_visibility("", "VISUALIZEdiv");                 });
+        $("#HomeSpan").click(function(){ 
+//            toggle_visibility("Home", "HOMEdiv");
+             if( document.getElementById("ProfileResults") == null)
+                SearchAndFilterResults()
              toggle_visibility("SearchSpan", "SEARCHdiv");
            });
-         $("#ProfileSpan").click(function(){ 
-             toggle_visibility("ProfileSpan", "PROFILEdiv");           
-           })
-        $(".VisualizeSpan").click(function(){ 
-             toggle_visibility("", "VISUALIZEdiv");})
 
-        $("#HomeSpan").click(function(){ 
-//             toggle_visibility("Home", "HOMEdiv");
-             
-             if( document.getElementById("ProfileResults") == null){
-                SearchAndFilterResults()
-             }
-             toggle_visibility("SearchSpan", "SEARCHdiv");
+    $("#ReturnToSearch").click(function(){
+       toggle_visibility("SearchSpan", "SEARCHdiv") });
 
-           })
-
+//    $('.removableWord').click(function(){remove_searchTerm(this)})
 	$('.filterOptions :checkbox').click(function(){ toggle_selection(this.className); });	
     $(".toClear").click(function(){clearSelection(this, this.parentNode) })
     $(".toSelectAll").click(function(){selectAll(this, this.parentNode) })
+    // update filter selections by sideNav selections
 
-	$("#DisplaySettingsDiv").click(function(){})
-
-    $(".barPlot").click(function(){
-      toggle_visibility("barplot", "VISUALIZEdiv") })
-
+    $(".unselectedItemNumber").click(function(){ 
+       $(".selectedItemNumber")[0].className = "unselectedItemNumber"
+       $(this)[0].className= "selectedItemNumber"
+       $("#NumItemsSettings")[0].innerText = $(this)[0].innerText
+       resetPagingSystem()
+    })
+    $(".barPlot").click(function(){  toggle_visibility("barplot", "VISUALIZEdiv") })
+    $(".plotOption").change(updateActiveContent);
+         // settings within visualization changed & need redrawn
 
 	$("#SideNav").css("height", $(window).height() - 150)
 
@@ -166,26 +188,64 @@ $(document).ready(function() {
 		
 }); //document.ready
 
+
 //----------------------------------------------------------------------------------------------------
  window.onload = function() {
  
-
-
       var FreeForm = document.getElementById("QueryFreeForm");
-
-      //----------------------------------------------------------------------------------------------------
       FreeForm.onsubmit = function(e) {
         e.preventDefault();
          SearchAndFilterResults()
-//        toggle_visibility("SearchSpan", "SEARCHdiv");
-        updateActiveContent();
+         updateActiveContent();
         return false;
       }
      
    } //window.onload 
 
  //----------------------------------------------------------------------------------------------------	
-     function updateDisplay(elem){
+ // called by Display settings dropdown to update active display by selected text
+  function sortBy(elem){
+
+     var sort = elem.innerText
+     var sortDirection = elem.children[0].className
+      
+     if(sort == "name"){
+     
+        if(sortDirection.match("sortAscending")){
+           elem.children[0].className = elem.children[0].className.replace("glyphicon-arrow-down", "glyphicon-arrow-up")
+           elem.children[0].className = elem.children[0].className.replace("sortAscending", "sortDescending")
+           tableRef.fnSort([2, "desc"])  //sort by last name
+        }else {
+           elem.children[0].className = elem.children[0].className.replace("glyphicon-arrow-up", "glyphicon-arrow-down")
+           elem.children[0].className = elem.children[0].className.replace("sortDescending", "sortAscending")
+           tableRef.fnSort([2, "asc"])  //sort by last name
+        }
+         
+          var $ProfileList = $("div.ProfileContainer")
+         
+          var rows = tableRef._('tr', {"filter":"applied"});   
+          var IndexArray = rows.map(function(value,index) { return value[0]; });
+          
+           
+          var SortedProfiles = $ProfileList.sort(function (a, b) {
+               var test1 = IndexArray.indexOf(a.id.match(/\d+/)[0])
+               var test2 = IndexArray.indexOf(b.id.match(/\d+/)[0])
+
+              return test1 < test2 ? -1 : test1 > test2 ? 1 : 0;
+           });
+       
+          $("#ProfileResults").html(SortedProfiles)
+
+      }
+
+       
+
+        updateActiveContent()
+    }
+
+ //----------------------------------------------------------------------------------------------------	
+ // called by Display settings dropdown to update active display by selected text
+  function updateDisplay(elem){
      
          activeContent =  elem.innerText;
          if(activeContent == "profiles"){
@@ -193,223 +253,55 @@ $(document).ready(function() {
            toggle_visibility("SearchSpan", "SEARCHdiv");
          } else if (activeContent == "barplot"){
            toggle_visibility("barplot", "VISUALIZEdiv")
-         } 
-         
+         }        
   }	
+//----------------------------------------------------------------------------------------------------
+    function updateActiveContent(){
 
- //----------------------------------------------------------------------------------------------------	
-     function exportResults(){
+        document.getElementById("NumberOfResultsDiv").innerHTML =  tableRef._('tr', {"filter":"applied"}).length
+           $("#SearchDisplayOptions")[0].style.display = "block"
+           $("#ReportSearchFilterDiv")[0].style.display = "block"
+           $("#ReturnToSearch")[0].style.display = "none"
+           $("#DataToExport").css("top",  $("#DisplaySettingsDiv").height() + 10)
+          
+        var els = document.getElementsByClassName('selectedDisplay');
+        for(var i=0; i<els.length; ++i){     //set all displays to none within SearchDisplayOptions
+            els[i].className =  'unselectedDisplay';
+        };
 
-         if(activeContent == "SearchSpan"){
-             sendProfilesToPDF()
-        }else {
-//           submit_download_form("PDF")
-
-           var canvas = document.getElementById('MainGraphCanvas');
-           var content = $('#MainGraph').html().trim();
-           canvg(canvas,content);      // Draw svg on canvas
-           var theImage = canvas.toDataURL('image/jpg');      // Change img be SVG representation
-           
-           sendImageToPDF(theImage);
-           
+       if(activeContent == "SearchSpan"){
+          $("#DisplaySettings").text("profiles")
+          document.getElementById("selectedDisplayProfiles").className = "selectedDisplay"
+          getProfilesFromTable();
+          resetPagingSystem();
         }
-  }	
-  
-    //----------------------------------------------------------------------------------------------------
-       function sendImageToPDF(ImageURL){
-
-           //----------------------------------------------------------------------------------------------------
-            var centeredText = function(text, y) {
-                 var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
-                 var textOffset = (doc.internal.pageSize.width - textWidth) / 2;
-                 doc.text(textOffset, y, text);
-            }
-          //----------------------------------------------------------------------------------------------------
-          var getImageFromUrl = function(url, callback) {
-	         var img = new Image();
-             img.onError = function() {
-                alert('Cannot load image: "'+url+'"');
-             };
-             img.onload = function() {
-                callback(img);
-             };
-             img.src = url;
-         }
-         //----------------------------------------------------------------------------------------------------
-         var createPDF = function(imgData) {
-	         
-
-             doc.addImage(imgData, 'JPEG',0.3, 0.9, 7.5, 7.5); // Cache the image using the alias 'monkey'
-//             doc.addImage('monkey', 70, 10, 100, 120); // use the cached 'monkey' image, JPEG is optional regardless
-//	         doc.addImage({imageData : imgData})
-
-             doc.save('STTRconnect.pdf');
-	     };
-
-         var doc = new jsPDF('p','in'), size= 12, verticalOffset = 0.8; 
-         doc.setFontSize(34);
-         doc.setTextColor(96,168,250)
-         doc.setFontType("bold");
-         centeredText("STTRconnect", 0.8)
-         doc.setFontType("normal");
-
-         doc.setFontSize(size);
-         doc.setTextColor(0,0,0)
-         
-	     doc.setLineWidth(0.05);
-         doc.line( 0.5,0.9, 8,0.9); // horizontal line
-
-         lines = doc.splitTextToSize($("#ReportSearchFilterDiv")[0].innerText, 7.5)
-		 doc.text(0.5, verticalOffset+0.1 + size / 72, lines)
-		 verticalOffset += (lines.length + 0.5 ) * size / 72
-
-         getImageFromUrl(ImageURL, createPDF);
-       }
-  
-     //----------------------------------------------------------------------------------------------------
-	  function sendProfilesToPDF(){
-
-          var rows = tableRef._('tr', {"filter":"applied"});   
-          var doc = new jsPDF('p','in'), 
-          size = 12, lines, verticalOffset = 0.8; // inches on a 8.5 x 11 inch sheet.
-
-           //----------------------------------------------------------------------------------------------------
-            var centeredText = function(text, y) {
-                 var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
-                 var textOffset = (doc.internal.pageSize.width - textWidth) / 2;
-                 doc.text(textOffset, y, text);
-            }
-            //----------------------------------------------------------------------------------------------------
-            function addPDFcontent(content){
-                 
-               lines = doc.splitTextToSize(content, 7.5)
-		       var testOffset = verticalOffset + (lines.length *1.15) * size / 72
-               if (testOffset >= 11){
-                   doc.addPage();
-                   verticalOffset = 0.5 // Restart height position
-               }
-
-		       doc.text(0.5, verticalOffset + size / 72, lines)
-		       verticalOffset += (lines.length *1.15) * size / 72
-            }
-           //----------------------------------------------------------------------------------------------------
-
-         doc.setFontSize(34);
-         doc.setTextColor(96,168,250)
-         doc.setFontType("bold");
-//         doc.text(0.5, verticalOffset, 'STTRconnect');
-         centeredText("STTRconnect", 0.8)
-         doc.setFontType("normal");
-
-         doc.setFontSize(size);
-         doc.setTextColor(0,0,0)
-         
-	     doc.setLineWidth(0.05);
-         doc.line( 0.5,0.9, 8,0.9); // horizontal line
-
-         lines = doc.splitTextToSize($("#ReportSearchFilterDiv")[0].innerText, 7.5)
-		 doc.text(0.5, verticalOffset+0.1 + size / 72, lines)
-		 verticalOffset += (lines.length + 0.5 ) * size / 72
-
-
-         for(var i=0; i < rows.length; i++){   // then reveals ones that haven't been filtered
-            var RowIdx = rows[i][0]
-//            doc.text(20, 40 + (i*30),$("#Profile_"+RowIdx+"_Info")[0].innerText)
-//            doc.fromHTML($("#Profile_"+RowIdx+"_Info")[0].innerText, 20, 15)
-
- 
-            var Name = rows[i][3] + " " + rows[i][2] + ", " + rows[i][4]
-            var email = rows[i][21]
-            var Title = rows[i][5] + ", " + rows[i][6]
-            var Bio = rows[i][22].replace(/@/g,"\r\n")
-            var AddtlPos   = $("#Profile_"+RowIdx+"_addtlPos")[0].innerText.replace(/[\r|\n]$/,"")
-            var ContactFor = $("#Profile_"+RowIdx+"_ContactFor")[0].innerText.replace(/\r|\n/g,"")
-            var Disease    = $("#Profile_"+RowIdx+"_Disease")[0].innerText.replace(/\r|\n/g,"").replace(/; $/,"")
-            var Omics      = $("#Profile_"+RowIdx+"_Omics")[0].innerText.replace(/\r|\n/g,"").replace(/; $/,"")
-                     
-            verticalOffset += 0.2
-            doc.setFontType("bold");
-            addPDFcontent(Name)
-            doc.setFontType("normal");
-            addPDFcontent(email)
-            
-            doc.setFontType("italic");
-            addPDFcontent(Title)
-            if(AddtlPos != ""){
-               AddtlPos = AddtlPos.replace(/Additional Positions [\r\n]/, "")
-                addPDFcontent(AddtlPos)
-            }
-
-           doc.setFontType("normal"); doc.setTextColor(150);
-           var previousText = false; var CategoryText = ""
-            if(ContactFor != ""){  
-               ContactFor = ContactFor.replace(/Contact for /, "")
-               CategoryText = ContactFor.replace(/; $/,"")
-               previousText = true;
-            }
-            if(Disease != ""){  
-               Disease = Disease.replace(/Disease type /, "")
-               if(previousText) Disease = " / " + Disease
-//               addPDFcontent(Disease)
-               CategoryText  = CategoryText + Disease
-               previousText = true;
-            }if(Omics != ""){  
-               Omics = Omics.replace(/-omics field /, "")
-               if(previousText) Omics = " / " + Omics
-//               addPDFcontent(Omics)
-               CategoryText  = CategoryText + Omics
-            }
-           if(CategoryText != "")
-               addPDFcontent(CategoryText)
-
-           doc.setFontType("normal");doc.setTextColor(0,0,0);
-            verticalOffset += 0.1
-           addPDFcontent(Bio)
-
+        else if (activeContent == "barplot"){
+          $("#DisplaySettings").text("barplot")
+          document.getElementById("selectedDisplayBarplot").className = "selectedDisplay"
+            drawBarplot();
         }
-//            doc.fromHTML(PDFhtml, 40, 15)
-  
-       doc.save('STTRconnect.pdf');
+           
+        checkOffset(); 
     }
-  //----------------------------------------------------------------------------------------------------	
-   function submit_download_form(output_format){
-    
-	// Get the d3js SVG element
-	var tmp = document.getElementById("MainGraph");
-	var svg = tmp.getElementsByTagName("svg")[0];
-	// Extract the data as SVG text string
-	var svg_xml = (new XMLSerializer).serializeToString(svg);
-
-	// Submit the <FORM> to the server.
-	// The result will be an attachment file to download.
-	var form = document.getElementById("svgform");
-	form['output_format'].value = output_format;
-	form['data'].value = svg_xml ;
-	form.submit();
-}
 
   //----------------------------------------------------------------------------------------------------	
-     function toggleContent(elem, content){
+ // Expand and Contract Profile views 
+  function toggleContent(elem, content){
                
-//               var $content = elem.parent().prev("div.content");
-//               var content = elem.parentNode.children[4];
-    
-               if(content.className.match("hideContent") != null){
-                  content.className = content.className.replace("hideContent", "showContent")
-                  elem.className = "toContract";
-               } else {
-                  content.className= content.className.replace("showContent", "hideContent");
-                  elem.className = "toExpand";
-                } ;
-
-
-       };
+     if(content.className.match("hideContent") != null){
+        content.className = content.className.replace("hideContent", "showContent")
+           elem.className = elem.className.replace("toExpand", "toContract");
+     } else {
+        content.className= content.className.replace("showContent", "hideContent");
+           elem.className = elem.className.replace("toContract","toExpand");
+     } ;
+  };
 
  //----------------------------------------------------------------------------------------------------	
+ // respond to SideNav selections for filtering
 	function toggle_selection(group){
 	
         if(group == "fil_inst"){
-//          $.fn.dataTableExt.afnFiltering = [];
            tableRef.fnFilter("", 6);  tableRef.fnFilter("", 9);  
            tableRef.fnFilter("", 12);  tableRef.fnFilter("", 15);  
            tableRef.fnFilter("", 18);  
@@ -423,15 +315,10 @@ $(document).ready(function() {
         } else if (group == "fil_contact"){
            tableRef.fnFilter("", 45);
            Filter_Selection("FilterContactFor", "ReportContactForFilterSpan",45, "<i> available for </i>")
-        }
- 
-      
+        }    
         updateActiveContent();
-        
-
     }
- //----------------------------------------------------------------------------------------------------	
-    
+ //----------------------------------------------------------------------------------------------------	  
     function clearSelection(elem, parent){
     
         var className = ""
@@ -441,10 +328,8 @@ $(document).ready(function() {
          })
    
        toggle_selection(className)
-    
     }
  //----------------------------------------------------------------------------------------------------	
-    
     function selectAll(elem, parent){
     
         var className = ""
@@ -454,37 +339,8 @@ $(document).ready(function() {
          })
    
        toggle_selection(className)
-    
     }
 
-//----------------------------------------------------------------------------------------------------
-    function updateActiveContent(){
-
-        document.getElementById("NumberOfResultsDiv").innerHTML =  tableRef._('tr', {"filter":"applied"}).length
-
-        var els = document.getElementsByClassName('selectedDisplay');
-        for(var i=0; i<els.length; ++i){     //set all displays to none
-            els[i].className =  'unselectedDisplay';
-        };
-
-        
-       if(activeContent == "SearchSpan"){
-//          createProfilesFromTable();
-          $("#DisplaySettings").text("profiles")
-          document.getElementById("selectedDisplayProfiles").className = "selectedDisplay"
-//          $('.ActiveProfileContent').toggleClass("FilteredProfileContent", true)
-
-          getProfilesFromTable();
-        }
-        else if (activeContent == "barplot"){
-          $("#DisplaySettings").text("barplot")
-          document.getElementById("selectedDisplayBarplot").className = "selectedDisplay"
-            drawBarplot();
-        }
-           
-        checkOffset(); 
-
-    }
 //----------------------------------------------------------------------------------------------------  
     function Filter_Selection(ElementID, ReportSpan, TableColumn, connectingHTML){
 
@@ -503,22 +359,23 @@ $(document).ready(function() {
         var filterField_String = selectedFieldarray.join("|");
         var printedString = "";
         if(selectedFieldarray.length == 1){
-           printedString = "<span class='removableWord'>" + selectedFieldarray.pop() + "<span class='hide-button'><a href='#'><sup>x</sup></a></span></span>"
+//           printedString = "<span class='removableWord'>" + selectedFieldarray.pop() + "<span class='hide-button'><a href='#'><sup>x</sup></a></span></span>"
+           printedString = "<span >" + selectedFieldarray.pop() + "</span>"
         }else{
            var lastWord= selectedFieldarray.pop()
-           printedString = "<span class='removableWord'>" + selectedFieldarray.join("<span class='hide-button'><a href='#'><sup>x</sup></a></span></span>, <span class='removableWord'>") + "<span class='hide-button'><a href='#'><sup>x</sup></a></span></span>"
-           printedString += ", or <span class='removableWord'>" + lastWord + "<span class='hide-button'><a href='#'><sup>x</sup></a></span></span>"
+//           printedString = "<span class='removableWord'>" + selectedFieldarray.join("<span class='hide-button'><a href='#'><sup>x</sup></a></span></span>, <span class='removableWord'>") + "<span class='hide-button'><a href='#'><sup>x</sup></a></span></span>"
+//           printedString += ", or <span class='removableWord'>" + lastWord + "<span class='hide-button'><a href='#'><sup>x</sup></a></span></span>"
+           printedString = "<span >" + selectedFieldarray.join(", ") + "</span>"
+           printedString += ", or <span >" + lastWord + "</span>"
+
         }                                                    // use OR grammar in Report Output, with connecting HTML phrase, e.g. "available for"
 
       document.getElementById(ReportSpan).innerHTML = connectingHTML + printedString 
 
-      if(TableColumn)                                       // Filter Institution uses table filter prototype defined in document ready
+      if(TableColumn)          // Filter Institution uses table filter prototype defined in document ready
          tableRef.fnFilter(filterField_String, TableColumn, true, false);    
          //searches for filter String in column (TableColumn) using RegEx (true) without smart filtering (false)
-
-    
     }
-
 
   //----------------------------------------------------------------------------------------------------	
 	function toggle_visibility(activeSpanID, activeDivID){
@@ -528,24 +385,17 @@ $(document).ready(function() {
             els[i].style.display =  'none';
         };
 
-//        $(".sidebar_nav_selected").attr("class", "sidebar_nav_not_selected")  //deselect active nav
-        
         document.getElementById(activeDivID).style.display = 'block'  //then activate a single div
         if(activeSpanID != "Home"){ //not the home page
-//          document.getElementById(activeSpanID).className = "sidebar_nav_selected" //and select the navigation span
              document.getElementById("mainContent").style.background = "#F1F1F1"
              document.getElementById("mainContent").style.color = "#000"
-//          $(".sidebar_nav_not_selected").css("color", "black")
              
          }else{
              document.getElementById("mainContent").style.background = "#000"
              document.getElementById("mainContent").style.color = "#F1F1F1"
-//          $(".sidebar_nav_not_selected").css("color",  "white")
          }
          
         updateActiveContent();
-
-
     }
   //----------------------------------------------------------------------------------------------------
    function SearchTableByStrings(wordArray) {
@@ -567,7 +417,6 @@ $(document).ready(function() {
       tableRef.fnFilter("", 45); // clear contact filter
 
       tableRef.fnDraw()
-
    }
   //----------------------------------------------------------------------------------------------------
    function SearchAndFilterResults(){
@@ -579,7 +428,6 @@ $(document).ready(function() {
         var i = wordArray.length;
         while(i--){  wordArray[i] = wordArray[i].replace(/"/g,"");}
         	// STILL NEED TO HANDLE: ANDs!!!
-//          console.log(wordArray)
         
         showAllRows();
        
@@ -594,10 +442,6 @@ $(document).ready(function() {
         Filter_Selection("FilterDisease", "ReportDiseaseFilterSpan",25, "<i> specializing in </i>")
         Filter_Selection("FilterOmics", "ReportOmicsFilterSpan",41, "<i> specializing in </i>")
         Filter_Selection("FilterContactFor", "ReportContactForFilterSpan",45, "<i> for </i>")
-
-  
-//        updateActiveContent();
-
    }
 
    //----------------------------------------------------------------------------------------------------
@@ -608,7 +452,7 @@ $(document).ready(function() {
          var i = cleanChar.length
          while(i--){ wordArray.clean(cleanChar[i]) }
          var j = wordArray.length;
-         while(j--){  wordArray[j] = "<span style='padding:0px 3px;border-radius:10px' class='ActiveWords'>"+wordArray[j]+sepChar+"</span>";}
+         while(j--){  wordArray[j] = "<span style='padding:0px 3px;border-radius:10px;-moz-border-radius:10px;-webkit-border-radius:10px' class='ActiveWords'>"+wordArray[j]+sepChar+"</span>";}
          
          return wordArray.join("")
 
@@ -616,8 +460,11 @@ $(document).ready(function() {
 
    //----------------------------------------------------------------------------------------------------
       function EditProfile(elem){
-               toggle_visibility("ProfileSpan", "PROFILEdiv");           
-
+           toggle_visibility("ProfileSpan", "PROFILEdiv");           
+           $("#SearchDisplayOptions")[0].style.display = "none"
+           $("#ReportSearchFilterDiv")[0].style.display = "none"
+           $("#ReturnToSearch")[0].style.display = "block"
+           
            if(elem.id == ""){
                 $("#edit_firstname").val("")
                 $("#edit_lastname").val("")
@@ -648,7 +495,7 @@ $(document).ready(function() {
                 $("#edit_disease").val(row[0][25])
                 $("#edit_omics").val(row[0][41])
                 $("#edit_contact").val(row[0][45])
-                $("#edit_keywords").val(row[0][28])  
+                $("#edit_keywords").val($("#Profile_"+RowIdx+"_keywords")[0].innerText.replace(/Keywords\s+/, ""))
 
             tableRef.fnFilter("", 0); // clear index filter
            }
@@ -657,7 +504,7 @@ $(document).ready(function() {
     //----------------------------------------------------------------------------------------------------
      function FullProfile(elem){
       
-      if(elem.className == "toExpand"){
+      if(elem.className.match("toExpand") != null){
           var els = elem.parentNode.children
           for(var i=0; i<els.length; ++i){     //set all displays to none
             els[i].style.display =  'block';
@@ -672,26 +519,125 @@ $(document).ready(function() {
          toggleContent(elem, elem.parentNode.children[4])
       }
 
-   //----------------------------------------------------------------------------------------------------
-	  function getProfilesFromTable(){
+ //----------------------------------------------------------------------------------------------------
+	function getProfilesFromTable(){
 
           var rows = tableRef._('tr', {"filter":"applied"});   
          
-      $('.ActiveProfileContent').toggleClass("FilteredProfileContent", true)
-//        for(var i=0; i<els.length; ++i){     //temporarily hides all profiles
-//            els[i].className = 'FilteredProfileContent';
-//        };
-
+      $('.ActiveProfileContent').toggleClass("FilteredProfileContent", true).toggleClass("ActiveProfileContent", false)
+      $('#ProfileResults .ProfileContainer').css('display', 'none');  //set everything out of page range
+          
          for(var i=0; i < rows.length; i++){   // then reveals ones that haven't been filtered
             var RowIdx = rows[i][0]
-           $("#Profile_"+RowIdx).toggleClass("FilteredProfileContent", false)
+           $("#Profile_"+RowIdx).toggleClass("FilteredProfileContent", false).toggleClass("ActiveProfileContent", true)
         }
     
     }
+   //----------------------------------------------------------------------------------------------------
+	  function resetPagingSystem(){
+                       
+          $("#SorryMessage")[0].style.display= "none"
+           var ItemsPerPage = parseInt($(".selectedItemNumber")[0].innerText)
+           var number_of_pages = Math.ceil(tableRef._('tr', {"filter":"applied"}).length / ItemsPerPage);
 
+           var current_link = 0;
+           var navigation_html = "<li><a class='prev' onclick='previous()' href='#'>&laquo;</a></li>"
+           while (number_of_pages > current_link) {
+                  var DisplayPageNumberLink = current_link > 4 ? "hidePageNumber" : "displayPageNumber"
+                  navigation_html += '<li ><a class="page '+DisplayPageNumberLink+'" onclick="go_to_page(' + current_link + ')" longdesc="' + current_link + '">' + (current_link + 1) + '</a></li>';
+                  current_link++;
+           }
+           navigation_html += "<li><a class='next' onclick='next()' href='#'>&raquo;</a></li>"
+           $('#SearchPageSelection .pagination').html(navigation_html);
+           $('#SearchPageSelection .pagination .page:first').addClass('active');
+
+           $('#ProfileResults .ActiveProfileContent').css('display', 'none');
+           $('#ProfileResults .ActiveProfileContent').slice(0, ItemsPerPage).css('display', 'block').each(function(){ 
+              if( $(this)[0].className.match("ProfileNotYetLoaded")){
+                var RowIdx = $(this)[0].id.match(/\d+/)[0]
+                createIndividualProfile(RowIdx);
+                 $(this).removeClass("ProfileNotYetLoaded")
+              }
+          });
+
+          $("#showingFirstSearch")[0].innerText = Math.min($('#ProfileResults .ActiveProfileContent').length, 1)
+          $("#showingLastSearch")[0].innerText = Math.min($('#ProfileResults .ActiveProfileContent').length, ItemsPerPage)
+
+          if($("#showingFirstSearch")[0].innerText == "0"){  $("#SorryMessage")[0].style.display = "block" }
+
+       } 
 
    //----------------------------------------------------------------------------------------------------
-	  function createProfilesFromTable(){
+       function go_to_page(page_num) {
+          var show_per_page = parseInt($(".selectedItemNumber")[0].innerText)
+          var start_from = page_num * show_per_page;
+          var end_on = start_from + show_per_page;
+           var number_of_pages = Math.ceil(tableRef._('tr', {"filter":"applied"}).length / show_per_page);
+
+          $("#showingFirstSearch")[0].innerText = start_from + 1
+          $("#showingLastSearch")[0].innerText = end_on
+
+
+          $('#ProfileResults  .ActiveProfileContent').css('display', 'none').slice(start_from, end_on).css('display', 'block').each(function(){ 
+              if( $(this)[0].className.match("ProfileNotYetLoaded")){
+                var RowIdx = $(this)[0].id.match(/\d+/)[0]
+                createIndividualProfile(RowIdx);
+                $(this).removeClass("ProfileNotYetLoaded")
+              }
+          });
+          $('#SearchPageSelection .pagination .active').removeClass('active')
+          $('.page[longDesc=' + page_num + ']').addClass('active');
+          
+          $(".displayPageNumber").removeClass("displayPageNumber").addClass("hidePageNumber")
+          var start = Math.max(Math.min(page_num-2, number_of_pages-5), 0)
+          var end = Math.min(number_of_pages,start+5)
+          for(var i=start; i<end;i++){
+             var test = $('.page[longDesc=' + i + ']')
+             $('.page[longDesc=' + i + ']').removeClass("hidePageNumber").addClass('displayPageNumber');
+              
+          }
+
+      }
+   //----------------------------------------------------------------------------------------------------
+       function previous() {
+          var new_page = parseInt($('#SearchPageSelection .pagination .active')[0].text) - 2;
+             //if there is an item before the current active link run the function
+          if (new_page>=0) 
+             go_to_page(new_page);
+       }
+   //----------------------------------------------------------------------------------------------------
+       function next() {
+          var new_page = parseInt($('#SearchPageSelection .pagination .active')[0].text) ;
+             //if there is an item after the current active link run the function
+          if (new_page < $('#SearchPageSelection .pagination').children().length-1) 
+             go_to_page(new_page);
+       }       
+      
+      
+   //----------------------------------------------------------------------------------------------------
+	  function createProfileContainerFromTable(){
+
+        var rows = tableRef._('tr', {"filter":"applied"});   
+                
+        $('#ProfileResults').html('')
+        var ProfileResults = $("#ProfileResults")
+      
+        document.getElementById("NumberOfResultsDiv").innerHTML = rows.length
+        
+        if(rows.length == 0){
+           ProfileResults.append("Sorry, your search did not match any profiles.")
+           return;
+        }
+        
+         var ProfileContainers = ""
+        for(var i=0; i < rows.length; i++){
+          var RowIdx = rows[i][0]
+          ProfileContainers += "<div id=Profile_"+RowIdx+ " class='ActiveProfileContent ProfileContainer ProfileNotYetLoaded'></div>"
+        }
+         ProfileResults.append(ProfileContainers)
+    }
+   //----------------------------------------------------------------------------------------------------        
+    function createIndividualProfile(RowIdx){
 //DataTable columns: LastName:2, FirstName:3, Degree:4, Job Title, Organization Dept
 //Inst: 6 
 //website: 23
@@ -701,132 +647,105 @@ $(document).ready(function() {
 //Bio: 22
 //sttr : 37
 
-        var rows = tableRef._('tr', {"filter":"applied"});   
-        var TopRows = []  // either STTR or filled out Survey
-        var OtherRows = [] // not STTR and haven't filled out survey
-        
-        for(var i=0; i < rows.length; i++){
-           if(rows[i][37] == 1 || rows[i][43] != "NA") { 
-                  TopRows.push(rows[i]) }
-            else {OtherRows.push(rows[i])}
-        }
-        rows = TopRows.concat(OtherRows)
-                
-        $('#SearchResults').html('')
-        $("#SearchResults").append("<div id='ProfileResults' style='line-height:normal;background:#F1F1F1;color:#000;height:100%; padding-bottom:10px'></div>")
-        var ProfileResults = $("#ProfileResults")
-      
-        document.getElementById("NumberOfResultsDiv").innerHTML = rows.length
-
-        if(rows.length == 0){
-           ProfileResults.append("Your search did not match any profiles.")
-           return;
-        }
-        
-        //ALTER FOR LAZY LOADING or pagination
-        for(var i=0; i < rows.length; i++){
-          var opacity = 1;
-        if(i>=TopRows.length){ opacity= 0.3 }
-        var RowIdx = rows[i][0]
-          ProfileResults.append("<div id=Profile_"+RowIdx+ " class='ActiveProfileContent' style='opacity:"+opacity+";position:relative;clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; border-bottom:none; width:100%;height:100%; font-size:0.8em  '>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_edit          onclick='EditProfile(this)'   style='float:right; color:#60a8fa;position:absolute;right:25px;margin-top:4px; text-align:center; cursor:pointer' ;><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span><br></div>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_toggleContent onclick='FullProfile(this)' class='toExpand' style='float:right; position:absolute;font-size:1.5em; right:10px; color:#60a8fa;text-align:end;cursor:pointer;'>&gt</div>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Picture style='float:left; min-width:5%;margin-left:5px;margin-right:5px;margin-top:5px';></div>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Info style='float:left; width:30%;margin-top:5px'></div>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Bio class='hideContent' style='float:left; width:55%; text-align:justify; margin-top:5px; margin-bottom:5px'></div>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_addtlPos  class='fullProfile' style='clear:both;float:left;margin-top:5px; width:90%;display:none'></div>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_keywords  class='fullProfile hangingIndent' style='clear:both;float:left; width:82%;display:none'></div>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_ContactFor  class='fullProfile hangingIndent' style='clear:both;float:left; width:82%;display:none'></div>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Disease class='fullProfile hangingIndent' style='clear:both;float:left; width:82%;display:none'></div>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_Omics class='fullProfile hangingIndent' style='clear:both;float:left; width:82%;display:none'></div>")
-          $("#Profile_"+RowIdx).append("<div id=Profile_"+RowIdx+"_website  class='fullProfile' style='clear:both;float:left;margin-top:5px; width:90%;display:none'></div>")
-     
-          ProfileResults.append("</div>")  //end individual profile
-
-          var picFile = rows[i][31]
-          if(picFile == "NA" | picFile == "Yes" | picFile == "No") picFile = "Photo Coming Soon.jpg"
-          setProfilePicture("#Profile_"+RowIdx+"_Picture", picFile)
-
-          var Name = "<b>" + rows[i][3]+ " " + rows[i][2] + "</b>";
-          if(rows[i][4] !== ""){ Name= Name.concat(", " + rows[i][4]); }
-          $("#Profile_"+RowIdx+"_Info").append(Name + "<br>")
-          
+           var FilterString = "^"+RowIdx+"$";
+           tableRef.fnFilter(FilterString, 0, true, false); //searches index column for Profile Index
+           var row = tableRef._('tr', {"filter":"applied"});   
+           tableRef.fnFilter("",0)
+           
+         var Name = "<b>" + row[0][3]+ " " + row[0][2] + "</b>";
+          if(row[0][4] !== ""){ Name= Name.concat(", " + row[0][4]); }
           var Title = "", Contact="";
-          if(rows[i][5] !== ""){ Title = rows[i][5] + "<br>"}
-          if(rows[i][6] !== ""){ Title = Title + rows[i][6] + "<br>"}
-          if(rows[i][7] !== ""){ Title = Title + rows[i][7] + "<br>"}
-//          if(rows[i][20] !== ""){ Contact = rows[i][20] + "<br>"}
-          if(rows[i][21] !== ""){ Contact = Contact + rows[i][21] + "<br>"}
-          $("#Profile_"+RowIdx+"_Info").append(Title+Contact)
-          
+           if(row[0][5] !== ""){ Title = row[0][5] + "<br>"}
+           if(row[0][6] !== ""){ Title = Title + row[0][6] + "<br>"}
+           if(row[0][7] !== ""){ Title = Title + row[0][7] + "<br>"}
+//          if(row[0][20] !== ""){ Contact = row[0][20] + "<br>"}
+           if(row[0][21] !== ""){ Contact = Contact + row[0][21] + "<br>"}
+
+
+          $("#Profile_"+RowIdx).append(
+              "<div id=Profile_"+RowIdx+"_edit          onclick='EditProfile(this)' class='Profile_editPencil';><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span><br></div>"
+            + "<div id=Profile_"+RowIdx+"_toggleContent onclick='FullProfile(this)' class='toggleProfileContent toExpand'>&gt;</div>"
+            + "<div id=Profile_"+RowIdx+"_Picture    class='ProfilePicturePosition'></div>"
+            + "<div id=Profile_"+RowIdx+"_Info       class='ProfileInfo'>"+ Name + "<br>"+Title+Contact+"</div>"
+            + "<div id=Profile_"+RowIdx+"_Bio        class='hideContent ProfileBio'></div>"
+            + "<div id=Profile_"+RowIdx+"_addtlPos   class='fullProfile hangingIndent' style='margin-top:5px;'></div>"
+            + "<div id=Profile_"+RowIdx+"_keywords   class='fullProfile hangingIndent' ></div>"
+            + "<div id=Profile_"+RowIdx+"_ContactFor class='fullProfile hangingIndent' ></div>"
+            + "<div id=Profile_"+RowIdx+"_Disease    class='fullProfile hangingIndent' ></div>"
+            + "<div id=Profile_"+RowIdx+"_Omics      class='fullProfile hangingIndent'></div>"
+            + "<div id=Profile_"+RowIdx+"_website    class='fullProfile' style='margin-top:5px;'></div>")
+     
+           var picFile = row[0][31]
+           if(picFile == "NA" | picFile == "Yes" | picFile == "No") picFile = "Photo Coming Soon.jpg"
+//            setProfilePicture("#Profile_"+RowIdx+"_Picture", picFile)
+             $("#Profile_"+RowIdx+"_Picture").append("<img title='ProfilePicture' alt='ProfilePic' class='lazy' style='max-height:75px; max-width:50px' src='/images/Photos/"+ picFile + "' data-src='/images/Photos/Photo Coming Soon.jpg'>")
+// needs synchronous loading so to be appended before cloning in Viz tab
+ 
           var addtlPos = [8,11,14,17];
           var AddedPos = ""
           for(var j=0; j<addtlPos.length; j++){
-             if(rows[i][addtlPos[j]] != "" & rows[i][addtlPos[j]] != "NA"){
-                AddedPos = AddedPos + rows[i][addtlPos[j]] + ", " + rows[i][addtlPos[j]+1] + ": " + rows[i][addtlPos[j]+2] + ";"
+             if(row[0][addtlPos[j]] != "" & row[0][addtlPos[j]] != "NA"){
+                AddedPos = AddedPos + row[0][addtlPos[j]] + ", " + row[0][addtlPos[j]+1] + ": " + row[0][addtlPos[j]+2] + ";"
              }           
           }
           if(AddedPos != ""){
-             AddedPos = "<b>Additional Positions </b><br>" + ArrayToStringSpan(AddedPos, ";", ["", "#"], "<br>") 
+             AddedPos = "<b style='padding-right:5px'>Additional Positions </b>" + ArrayToStringSpan(AddedPos, ";", ["", "#"], "<br>") 
              $("#Profile_"+RowIdx+"_addtlPos").append(AddedPos)
              $("#Profile_"+RowIdx+"_addtlPos").css("margin-bottom","5px")
           }
  
-          if(rows[i][25] !== "" & rows[i][25] !== "NA"){ 
-             var Disease = "<b style='min-width:50px'>Disease type </b>"
-             Disease = Disease+ ArrayToStringSpan(rows[i][25].replace(/#/g,""), ";", ["", "#"], "; ")
+          if(row[0][25] !== "" & row[0][25] !== "NA"){ 
+             var Disease = "<b style='padding-right:38px'>Disease type </b>"
+             Disease = Disease+ ArrayToStringSpan(row[0][25].replace(/#/g,""), ";", ["", "#"], "; ")
              $("#Profile_"+RowIdx+"_Disease").append(Disease + "<br>")
              $("#Profile_"+RowIdx+"_Disease").css("margin-bottom","5px")
           }
-          if(rows[i][41] !== "" & rows[i][41] !== "NA"){ 
-             var Omics = "<b style='padding-right:8px'>-omics field </b>"
-             Omics = Omics + ArrayToStringSpan(rows[i][41], ";", ["", "#"], "; ") 
+          if(row[0][41] !== "" & row[0][41] !== "NA"){ 
+             var Omics = "<b style='padding-right:1px'>Computational field </b>"
+             Omics = Omics + ArrayToStringSpan(row[0][41], ";", ["", "#"], "; ") 
              $("#Profile_"+RowIdx+"_Omics").append(Omics + "<br>")
              $("#Profile_"+RowIdx+"_Omics").css("margin-bottom","5px")
           }
           
-          if(rows[i][45] !== "" & rows[i][45] !== "NA"){ 
-             var ContactFor = "<b style='padding-right:9px'>Contact for </b>"
-             ContactFor = ContactFor + ArrayToStringSpan(rows[i][45], ";", ["", "#"], "; ")  
+          if(row[0][45] !== "" & row[0][45] !== "NA"){ 
+             var ContactFor = "<b style='padding-right:45px'>Contact for </b>"
+             ContactFor = ContactFor + ArrayToStringSpan(row[0][45], ";", ["", "#"], "; ")  
              $("#Profile_"+RowIdx+"_ContactFor").append(ContactFor + "<br>")
              $("#Profile_"+RowIdx+"_ContactFor").css("margin-bottom","5px")
          }
           var Websites = ""
-          if(rows[i][23] !== "" & rows[i][23] !== "NA"){ 
-            var webPrefix = ["UW1: ", "UW2: ", "UW3: ", "UW4: ", "UW5: ","UW6: ","UW Lab: ", "FH1: ", "FH2: ","FH Lab: ", "SCCA: ", "SCCA1: ", "SCH1: ", "No profile page: Rostomily lab member: "];
-            var j=webPrefix.length; var sites= rows[i][23]
-            while(j--){ sites = sites.replace(webPrefix[j],"")}  //<a href:'url'>link text</a>") }
-            var siteArray = sites.split(";"); 
+          if(row[0][23] !== "" & row[0][23] !== "NA"){ 
+            var sites= row[0][23]
+            var siteArray = sites.split(/[; ]+/); 
             if(siteArray != null){
               j=siteArray.length;
               while(j--){ siteArray[j] = "<a href='"+siteArray[j]+"' target='_blank'>"+siteArray[j]+"</a><br>"}
               Websites = siteArray.join("")
             }
-//            Websites = ArrayToStringSpan(sites, ";", ["", "#"], "<br>")  }
             $("#Profile_"+RowIdx+"_website").append(Websites + "<br>")
           }
 
           var Keywords = [], Specialty = [];
-          if(rows[i][28] !== "" & rows[i][28] !== "NA"){ Specialty = rows[i][28].toLowerCase().replace(/; /g,";").split(";")}
-          if(rows[i][43] !== "" & rows[i][43] !== "NA"){ Keywords  = rows[i][43].toLowerCase().replace(/; /g,";").split(";")}
+          if(row[0][28] !== "" & row[0][28] !== "NA"){ Specialty = row[0][28].toLowerCase().replace(/; /g,";").split(";")}
+          if(row[0][43] !== "" & row[0][43] !== "NA"){ Keywords  = row[0][43].toLowerCase().replace(/; /g,";").split(";")}
           var Allkeywords = Keywords.concat(Specialty)
           if(Allkeywords.length){
             var UniqueKeywords = [];
-            for(kw=0;kw<Allkeywords.length;kw++){if(UniqueKeywords.indexOf(Allkeywords[kw])== -1 & Allkeywords[kw] != "NA") UniqueKeywords.push(Allkeywords[kw])}
+            for(kw=0;kw<Allkeywords.length;kw++){
+              if(UniqueKeywords.indexOf(Allkeywords[kw])== -1 & Allkeywords[kw] != "na")
+                 UniqueKeywords.push(Allkeywords[kw])}
             UniqueKeywords = ArrayToStringSpan(UniqueKeywords.join(";"), ";", ["", "#"], "; ")  + "<br>"
-            $("#Profile_"+RowIdx+"_keywords").append("<b style='padding-right:9px'>Keywords </b>" + UniqueKeywords)
+            $("#Profile_"+RowIdx+"_keywords").append("<b style='padding-right:54px'>Keywords </b>" + UniqueKeywords)
             $("#Profile_"+RowIdx+"_keywords").css("margin-bottom","5px")
           }
 
- 
-          
           var Bio = ""
-          if(rows[i][22] !== "" & rows[i][22] !== "NA"){
-             Bio = rows[i][22].replace(new RegExp('@', 'g'), "<br>") + "<br>";}
+          if(row[0][22] !== "" & row[0][22] !== "NA"){
+             Bio = row[0][22].replace(new RegExp('@', 'g'), "<br>") + "<br>";}
            $("#Profile_"+RowIdx+"_Bio").append(Bio)
             
-        }
-       
+        
+          
       } // createProfilesFromTable
   //----------------------------------------------------------------------------------------------------
 	  function setProfilePicture(ImageDiv, file){
@@ -834,10 +753,10 @@ $(document).ready(function() {
              url:'/images/Photos/'+file,
              type:'HEAD',
              error: function()    { //file does not exist
-                     $(ImageDiv).append("<img title='ProfilePicture' alt='ProfilePic' class='rsImg lazy' style='max-height:75px; max-width:50px' data-src='/images/Photos/Photo Coming Soon.jpg' src='/images/Photos/Photo Coming Soon.jpg'>")
+                     $(ImageDiv).append("<img title='ProfilePicture' alt='ProfilePic' class='lazy' style='max-height:75px; max-width:50px' data-src='/images/Photos/Photo Coming Soon.jpg' src='/images/Photos/Photo Coming Soon.jpg'>")
              },
              success: function()  { //file exists
-                     $(ImageDiv).append("<img title='ProfilePicture' alt='ProfilePic' class='rsImg lazy' style='max-height:75px; max-width:50px' src='/images/Photos/"+ file + "' data-src='/images/Photos/Photo Coming Soon.jpg'>")
+                     $(ImageDiv).append("<img title='ProfilePicture' alt='ProfilePic' class='lazy' style='max-height:75px; max-width:50px' src='/images/Photos/"+ file + "' data-src='/images/Photos/Photo Coming Soon.jpg'>")
              }
        });
       }
@@ -853,136 +772,52 @@ $(document).ready(function() {
                  }
               });
     }
-  //----------------------------------------------------------------------------------------------------
-	  function getCurrentFilteredRows(){
-        var rows = tableRef._('tr', {"filter":"applied"});   
-        var currentIDs = []
-        for(var i=0; i < rows.length; i++) 
-          currentIDs.push(rows[i][0]);
-
-        return(currentIDs)
-
-      } // currentSelectedIDS
-
  
  //----------------------------------------------------------------------------------------------------
-         function getCounts(arrayList, required) {
-             var frequency = {};
+     function getCounts(arrayList, required) {
+        var frequency = {};
 
-            for (var i=0;i<arrayList.length; i++) {
-               frequency[arrayList[i]] = 0; };
+        for (var i=0;i<arrayList.length; i++) { frequency[arrayList[i]] = 0; };
 
-             var uniques = arrayList.filter(function(value) {
-               return ++frequency[value] == 1; })
-           
-           
-               var CountMap = [];
-               for (var i=0;i<uniques.length; i++) {
-                 CountMap.push({Name: uniques[i], count: frequency[uniques[i]]});
-              }
-               required.forEach(function(d) {
-               if(uniques.indexOf(d) == -1) { CountMap.push({Name: d, count: 0})  } });
+        var uniques = arrayList.filter(function(value) { return ++frequency[value] == 1; })
         
-               return CountMap
-          //   return uniques.sort(function(a, b) {
-         //       return frequency[b] - frequency[a];
-         //   });
-        };
+        var CountMap = [];
+        for (var i=0;i<uniques.length; i++) { CountMap.push({Name: uniques[i], count: frequency[uniques[i]]}); }
+
+        required.forEach(function(d) {
+           if(uniques.indexOf(d) == -1) { CountMap.push({Name: d, count: 0})  } });
+        
+        return CountMap
+    };
 //----------------------------------------------------------------------------------------------------
-function ascending_groupName(a,b) {
-  if (a.Name < b.Name)
-     return -1;
-  if (a.Name > b.Name)
-    return 1;
-  return 0;
-}
+   function ascending_groupName(a,b) {
+        if (a.Name < b.Name)
+            return -1;
+        if (a.Name > b.Name)
+            return 1;
+        return 0;
+    }
 
  //----------------------------------------------------------------------------------------------------
  function ShowPlotProfiles(IndexArray){
 
      $("#VizResults")[0].innerHTML = "";
-     $("#VizResults").append("<div id='scrollToTop' style='text-align:right;color:#60a8fa;font-size:0.9em; cursor:pointer'>back to top</div>")
-     $("#VizResults").append("<div style='text-align:center; font-size:1.3em'><strong>"+ IndexArray.count+" results for "+IndexArray.Name+"</strong><br/></div>");
+     $("#VizResults").append("<div id='scrollToTop' style='text-align:right;color:#60a8fa;font-size:0.9em; cursor:pointer'>back to top</div>"
+        + "<div style='text-align:center; font-size:1.3em'><strong>"+ IndexArray.count+" results for "+IndexArray.Name+"</strong><br/></div>");
      for(j=0;j<IndexArray.Index.length;j++){
+        if( $("#Profile_"+IndexArray.Index[j])[0].className.match("ProfileNotYetLoaded")){
+                createIndividualProfile(IndexArray.Index[j]);
+                 $("#Profile_"+IndexArray.Index[j]).removeClass("ProfileNotYetLoaded")
+        }
+        $("#Profile_"+IndexArray.Index[j])[0].style.display = "block"
         $("#Profile_"+IndexArray.Index[j]).clone().appendTo("#VizResults")
      }
      $("#VizResults").scrollView();
-     $("#scrollToTop").click( function(){$("#DisplaySettingsDiv").scrollView(); })
+     $("#scrollToTop").click( function(){$("#DataToExport").scrollView(); })
   }
  //----------------------------------------------------------------------------------------------------
- function FilterByPlot(FieldName, Feature){
- 
-// create AND
-//   if FieldName already in Filter - switch OR to AND
-//        by adding classname reqdField -- adds (required) to list text -with clickable to remove
-//   otherwise add to ReportSpan as AND
-//          and add to checkbox -- with (required)
-//
-//   Filter table by exact value
-//
-//  switch list checking from checkboxes to RemoveWord classes
-
-var selectedFilterarray = []
-var selectedANDarray = [FieldName]
-var ReportSpan = ""
-var TableColumn = [];
-
-       if(Feature == "Institute"){
-          ReportSpan = "ReportInstANDSpan"
-          
-           TableColumn = [6,9,12,15,18]
-              $("#FilterInstitution :checkbox").each(function(){
-                  if(this.value == FieldName){
-                     if(this.checked){  //remove from OR thread & switch to AND
-                       
-                     } else{
-                       this.checked=true;
-                     }
-                     // add (required) to this element
-                     // this.append("<span>(required)<span><a><sup>x</sup></a></span></span>")
-                  }
-              })
- 
-      } else if(Feature == "Contact for"){
-          ReportSpan = "ReportContactForFilterSpan"
-
-       } else if(Feature == "DiseaseType"){
-          ReportSpan = "ReportDiseaseFilterSpan"
-
-      } else if(Feature == "omics Field"){   
-          ReportSpan = "ReportOmicsFilterSpan"
-      }
-       
-        if(selectedANDarray.length == 0){
-         document.getElementById(ReportSpan).innerHTML = "";
-         return;
-        }
-        
-        var printedString = "";
-        if(selectedANDarray.length == 1){  // if Filter String empty - exclude and
-           printedString = "and " + selectedANDarray.pop()
-        }else{
-           var lastWord= selectedANDarray.pop()
-           printedString = "and " + selectedANDarray.join(", ")
-           printedString += ", and " + lastWord
-        } 
-
-      document.getElementById(ReportSpan).innerHTML =  printedString 
-
-          var rows = tableRef._('tr', {"filter":"applied"});   
-        for(var j=0;j<TableColumn.length; j++){
-         tableRef.fnFilter(FieldName, TableColumn, false); 
-          var rows = tableRef._('tr', {"filter":"applied"});   
-         
-         //searches for filter String in column (TableColumn) using RegEx (true) without smart filtering (false)
-        }
-    
-    }  // end FilterByPlot
-
- //----------------------------------------------------------------------------------------------------
    function drawBarplot(){
-  
-
+ 
         d3.select("#MainGraph").select("svg").remove();
         $("#MainGraph")[0].innerText = "";
         $("#VizSubtitle")[0].innerText = "";
@@ -990,8 +825,8 @@ var TableColumn = [];
         $("#VizResults")[0].innerHTML = "";
 
         var data = tableRef._('tr', {"filter":"applied"}); 
-        var margin  = {top: 70, right: 20, bottom: 300, left: 40, leftY:30},
-             width  = $(window).width() - 550 - margin.left - margin.right - margin.leftY,
+        var margin  = {top: 50, right: 20, bottom: 300, left: 40, leftY:30},
+             width  = $(window).width() - 600 - margin.left - margin.right - margin.leftY,
              height = 700 - margin.top - margin.bottom;
         
         if(data.length == 0){
@@ -1005,7 +840,7 @@ var TableColumn = [];
         var xAxis = d3.svg.axis().scale(x).orient("bottom");
         var yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(d3.format("d"))
 
-        var tip = d3.tip().attr('class', 'd3-tip').offset([-10, 0]).html(function(d) {
+        var tip = d3.tip().attr('class', 'd3-tip').offset([-5, 0]).html(function(d) {
                     return "<strong>"+ d.Name + ":</strong> <span style='color:brown'>" + d.count + "</span>";
                   })
 
@@ -1083,7 +918,7 @@ var TableColumn = [];
         }
          $("#FilterDisease :checkbox:checked").each(function() {
             reqd.push($(this).val()) })
-      } else if(Feature == "omics Field"){   
+      } else if(Feature == "Computational Field"){   
           for(var row=0;row<data.length; row++){
             var featType = data[row][41]
             if(featType == "" |  featType == "NA") featType = "not reported"
@@ -1110,10 +945,11 @@ var TableColumn = [];
         groups.sort(ascending_groupName )
         
         if(TooSmall.length){
-          $("#VizSubtitle").append("<span style='color:brown; text-align:right'>*Categories with < 3 elements listed below graph</span")
-          $("#VizAddendum").append("<span id='SmallCategories' style='color:brown'>Categories with < 3 elements: <br/></span>")
+          $("#VizSubtitle").append("<span style='color:brown; text-align:right'>*Categories with < 3 hits listed below graph</span")
+          $("#VizAddendum").append("<div style='color:brown; text-align:center;font-size:1.3em;'>Categories with < 3 hits: <br/></div>")
+          $("#VizAddendum").append("<span id='SmallCategories' style='color:brown'></span>")
             for(var j=0;j<TooSmall.length;j++){
-               $("#SmallCategories").append("<span class='smallCategory' style='cursor:pointer'>" + TooSmall[j].Name + "</span><br/>") 
+               $("#SmallCategories").append("<span class='smallCategory ActiveWords' style='cursor:pointer'>" + TooSmall[j].Name + "</span><br/>") 
             }
         }
         $(".smallCategory").click(function(){
@@ -1136,7 +972,7 @@ var TableColumn = [];
                             .append('g')
                             .attr('class', 'legend')
                             .attr('transform', function(d, i) {
-                               return 'translate(' + (width-100) + ','+ (i*15-40)+')';
+                               return 'translate(' + (width/2+i*100-100) + ',-40)';
                             });
            legend.append('rect')
                  .attr('width', 10)
@@ -1189,11 +1025,157 @@ var TableColumn = [];
               .on('mouseout', tip.hide)
               .on('click', function(d){ ShowPlotProfiles(LookUpProfiles[d.Name])})
 
-       
-
-      function type(d) {
+     function type(d) {
           d.count = +d.count;
           return d;
        }
 
 } //end drawBarplot
+//----------------------------------------------------------------------------------------------------	
+  function exportResults(){
+
+        if(activeContent == "SearchSpan"){
+           sendProfilesToPDF()
+        } else {
+           var canvas = document.getElementById('MainGraphCanvas');
+           var content = $('#MainGraph').html().trim();
+           canvg(canvas,content);      // Draw svg on canvas
+           var theImage = canvas.toDataURL('image/jpg');      // Change img to SVG representation
+           
+           sendImageToPDF(theImage);
+        }
+  }	
+  
+ //----------------------------------------------------------------------------------------------------
+  function sendImageToPDF(ImageURL){
+
+     //----------------------------------------------------------------------------------------------------
+       var centeredText = function(text, y) {
+                 var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                 var textOffset = (doc.internal.pageSize.width - textWidth) / 2;
+                 doc.text(textOffset, y, text);
+            }
+     //----------------------------------------------------------------------------------------------------
+       var getImageFromUrl = function(url, callback) {
+	         var img = new Image();
+             img.onError = function() {
+                alert('Cannot load image: "'+url+'"');
+             };
+             img.onload = function() {
+                callback(img);
+             };
+             img.src = url;
+         }
+     //----------------------------------------------------------------------------------------------------
+       var createPDF = function(imgData) {         
+             doc.addImage(imgData, 'JPEG',0.3, 0.9, 7.5, 7.5); 
+             doc.save('STTRconnect.pdf');
+	     };
+
+    var doc = new jsPDF('p','in'), size= 12, verticalOffset = 0.8; 
+        doc.setFontSize(34);
+        doc.setTextColor(96,168,250)   // light blue color
+        doc.setFontType("bold");
+        centeredText("STTRconnect.org", 0.8)  //add title
+        
+        doc.setFontType("normal");     doc.setFontSize(size);
+        doc.setLineWidth(0.05);
+        doc.line( 0.5,0.9, 8,0.9); // horizontal line
+
+        lines = doc.splitTextToSize($("#ReportSearchFilterDiv")[0].innerText, 7.5)
+		doc.text(0.5, verticalOffset+0.1 + size / 72, lines)
+		verticalOffset += (lines.length + 0.5 ) * size / 72
+        doc.setTextColor(0,0,0);  
+        
+        getImageFromUrl(ImageURL, createPDF);
+
+  } // end export Results
+  
+//----------------------------------------------------------------------------------------------------
+	function sendProfilesToPDF(){
+	
+          var rows = tableRef._('tr', {"filter":"applied"});   
+          var doc = new jsPDF('p','in'), 
+          size = 12, lines, verticalOffset = 0.8; // inches on a 8.5 x 11 inch sheet.
+
+           //----------------------------------------------------------------------------------------------------
+            var centeredText = function(text, y) {
+                 var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                 var textOffset = (doc.internal.pageSize.width - textWidth) / 2;
+                 doc.text(textOffset, y, text);
+            }
+            //----------------------------------------------------------------------------------------------------
+            function addPDFcontent(content){
+                 
+               lines = doc.splitTextToSize(content, 7.5)
+		       var testOffset = verticalOffset + (lines.length *1.15) * size / 72
+               if (testOffset >= 11){
+                   doc.addPage();
+                   verticalOffset = 0.5 // Restart height position
+               }
+
+		       doc.text(0.5, verticalOffset + size / 72, lines)
+		       verticalOffset += (lines.length *1.15) * size / 72
+            }
+           //----------------------------------------------------------------------------------------------------
+
+         doc.setFontSize(34); doc.setTextColor(96,168,250)
+         doc.setFontType("bold");
+         centeredText("STTRconnect.org", 0.8)
+
+         doc.setFontType("normal");   doc.setFontSize(size);
+         doc.setLineWidth(0.05);
+         doc.line( 0.5,0.9, 8,0.9); // horizontal line
+
+         lines = doc.splitTextToSize($("#ReportSearchFilterDiv")[0].innerText, 7.5)
+		 doc.text(0.5, verticalOffset+0.1 + size / 72, lines)
+		 verticalOffset += (lines.length + 0.5 ) * size / 72
+         doc.setTextColor(0,0,0); 
+             
+         for(var i=0; i < rows.length; i++){   // then reveals ones that haven't been filtered
+            var RowIdx = rows[i][0]
+ 
+            var Name = rows[i][3] + " " + rows[i][2] + ", " + rows[i][4]
+            var email = rows[i][21]
+            var Title = rows[i][5] + ", " + rows[i][6]
+            var Bio = rows[i][22].replace(/@/g,"\r\n")
+            var AddtlPos   = $("#Profile_"+RowIdx+"_addtlPos")[0].innerText.replace(/[\r|\n]$/,"")
+            var ContactFor = $("#Profile_"+RowIdx+"_ContactFor")[0].innerText.replace(/\r|\n/g,"")
+            var Disease    = $("#Profile_"+RowIdx+"_Disease")[0].innerText.replace(/\r|\n/g,"").replace(/; $/,"")
+            var Omics      = $("#Profile_"+RowIdx+"_Omics")[0].innerText.replace(/\r|\n/g,"").replace(/; $/,"")
+                     
+            verticalOffset += 0.2
+            doc.setFontType("bold");   addPDFcontent(Name)
+            doc.setFontType("normal"); addPDFcontent(email)
+            doc.setFontType("italic"); addPDFcontent(Title)
+            if(AddtlPos != ""){
+               AddtlPos = AddtlPos.replace(/Additional Positions [\r\n]*/, "")
+                addPDFcontent(AddtlPos)
+            }
+
+           doc.setFontType("normal"); doc.setTextColor(150);
+           var previousText = false; var CategoryText = ""
+            if(ContactFor != ""){
+               CategoryText = ContactFor.replace(/Contact for /, "").replace(/; $/,"")
+               previousText = true;
+            }
+            if(Disease != ""){  
+               Disease = Disease.replace(/Disease type /, "")
+               if(previousText) Disease = " / " + Disease
+               CategoryText  = CategoryText + Disease
+               previousText = true;
+            }if(Omics != ""){  
+               Omics = Omics.replace(/-omics field /, "")
+               if(previousText) Omics = " / " + Omics
+               CategoryText  = CategoryText + Omics
+            }
+           if(CategoryText != "")
+               addPDFcontent(CategoryText)
+
+           doc.setFontType("normal"); doc.setTextColor(0,0,0);
+            verticalOffset += 0.1
+           addPDFcontent(Bio)
+
+        }  
+       doc.save('STTRconnect.pdf');
+    }

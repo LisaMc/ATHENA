@@ -1,14 +1,16 @@
 .body{margin-top:85px}
-div.body_contents{max-width:auto;padding:0 20px; padding-left:2px;word-wrap:break-word; margin-left:250px; margin-right:300px}
+div.body_contents{max-width:auto;padding:0 20px; padding-left:2px;word-wrap:break-word; margin-left:280px; margin-right:300px; position:relative; top:60px; z-index:1}
 div.utility_nav ul{ font-size:13px}
 
 input[type=checkbox] { margin: 4px 0.5ex}
 .runningHeader{color:#fff; font-family:Cambria, "Trebuchet MS", Helvetica, sans-serif;font-weight:300;font-style:normal}
-.header .header_contents{margin:0 15px;max-width:initial;position:relative}
+.header .header_contents{margin:0 15px;max-width:initial;position:relative; z-index:10}
+
+#mainContent{text-align:left;margin-left:auto;min-height:700px;overflow-y:auto; background:#F1F1F1; color:#000}
 
 div.filter {border:1px solid #ccc;margin:0;padding-left:.5em;position:relative;background-color:#fff;}
-div.filter input.searchbutton{border:0 none;height:2em;margin:0;padding:0; border-radius:7px}
-div.filter input.searchbutton{background-color:#fff;color:#A9A9A9;width:2em;font-size: 13px;cursor:pointer;overflow:auto;-webkit-appearance:none;border-radius:7px}
+div.filter input.searchbutton{border:0 none;height:2em;margin:0;padding:0; border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px}
+div.filter input.searchbutton{background-color:#fff;color:#A9A9A9;width:2em;font-size: 13px;cursor:pointer;overflow:auto;-webkit-appearance:none;border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px}
 div.filter input.searchbutton{overflow:auto;position:absolute;right:0;top:0;width:2em;cursor:pointer;
       behavior:url(-ms-transform.htc);
     /* Firefox */
@@ -24,61 +26,17 @@ div.filter input.searchbutton{overflow:auto;position:absolute;right:0;top:0;widt
 div.filter input.searchbutton:hover{background-color:#60a8fa}
 div.sitesearch form input.searchbox, div.sitesearch form input.searchbutton{font-size:13px;}
 
-.removableWord{ color: #60a8fa; }
-.removableWord:hover{ color: black;  cursor: pointer;}
-.hide-button a{  font-size: 0.9em;     color: #F1F1F1;     display:none;}
-.removableWord:hover .hide-button a{  color: black; display:inline-block;}
-
-.dropdown-menu { min-width: 150px;}
-.dropdown-menu.columns-2 {	min-width: 200px;}
-.dropdown-menu li a {
-	padding: 5px 10px; font-weight: 300; color: #262626; }
-	
-.multi-column-dropdown {	list-style: none; }
-.multi-column-dropdown li a.selectedDisplay, .multi-column-dropdown li a.selectedSort{
-	display: block; clear: both; white-space: normal; color: #60a8fa;font-weight: bold; }
-.multi-column-dropdown li a .unselectedDisplay{
-	display: block; clear: both; color: #262626; white-space: normal; }
-.multi-column-dropdown li a:hover {
-	text-decoration: none; color: #262626; background-color: #f5f5f5; }
-.navbar-nav>li>a{  padding:0; }
-
+.SideNav{ float:left; margin-top:5px;margin-left:15px;margin-right:15px;min-width:230px; position:fixed; overflow-y:hidden; z-index:10}
+.SideNav .filter{border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px;min-width:230px; margin-top:5px}
 .mCSB_scrollTools .mCSB_draggerContainer .mCSB_dragger .mCSB_dragger_bar{ background-color: #60a8fa; }
 .mCSB_scrollTools .mCSB_draggerContainer .mCSB_dragger:active .mCSB_dragger_bar{ background-color: #60a8fa; }
 .mCSB_scrollTools .mCSB_draggerRail{ background-color: black; } 
 
-.ActiveProfileContent{ display: block }
-.FilteredProfileContent{ display: none }
-
-.addinputField{
-   float:left; color:#60a8fa;  padding-left:15px; opacity:0.4 }
-
-.addinputField:hover{ opacity:1 }
-
-.sidebar_nav li:hover span{
-	background: #B8B8B8;
-	font-size: 1.5em;
-}
-
-.hideContent{ overflow: hidden;  height: 6em; }
-.showContent{    height: auto; }
-.filter .hideContent{ line-height: 1.5em;    height: 1.5em; } 
-
-.hangingIndent {  padding-left: 80px ;  text-indent: -80px ; }
-
-.downArrow{
-    behavior:url(-ms-transform.htc);
-    /* Firefox */
-    -moz-transform:rotate(90deg);
-    /* Safari and Chrome */
-    -webkit-transform:rotate(90deg);
-    /* Opera */
-    -o-transform:rotate(90deg);
-    /* IE9 */
-    -ms-transform:rotate(90deg);
-    /* IE6,IE7 */
-}
-
+.filterOptions{list-style: none;margin-top:1em; margin-bottom:1em;padding-left:0;width:100%; font-size:0.85em; position:relative}
+.filterOptions h2{margin-bottom:auto; margin-top:auto; font-size:1.5em}
+.toClear{font-size:1em; float:right; position:absolute;top:3px; right:30px; color:#60a8fa;cursor:pointer;display:none}
+.toSelectAll{font-size:0.9em;padding-left:2px; color:#60a8fa;cursor:pointer;}
+.toggleFilterExpansion{font-size:1.5em; font-weight:bold;float:right; position:absolute;top:0; right:15px; color:#60a8fa;cursor:pointer;}
 .toExpand{
     behavior:url(-ms-transform.htc);
     /* Firefox */
@@ -104,6 +62,87 @@ div.sitesearch form input.searchbox, div.sitesearch form input.searchbutton{font
     -ms-transform:rotate(-90deg);
     /* IE6,IE7 */
 }
+
+
+
+.RightBar{right:15px; margin-top:5px;margin-right:15px;min-width:280px;  z-index:10; position:fixed; }
+.RightNavSection{min-width:200px; border-top:thick solid #60a8fa;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;padding-left:5px; margin-top:5px; padding-bottom:20px}
+.RightNavSection div img{max-width:125px;max-height:150px;}
+.glyphicon{ color:#60a8fa;padding-right:5px;padding-left:10px}
+
+.DisplayResultSettings{clear:both; padding:10px 20px 0px 0px;margin: 0 300px 0 280px; cursor:pointer;position:fixed;z-index:10; background:#F1F1F1;}
+.removableWord{ color: #60a8fa; }
+.removableWord:hover{ color: black;  cursor: pointer;}
+.hide-button a{  font-size: 0.9em;     color: #F1F1F1;     display:none;}
+.removableWord:hover .hide-button a{  color: black; display:inline-block;}
+
+.dropdown-menu { min-width: 150px;}
+.dropdown-menu.columns-2 {	min-width: 200px;}
+.dropdown-menu li a {
+	padding: 5px 10px; font-weight: 300; color: #262626; }
+	
+.multi-column-dropdown {	list-style: none; }
+.multi-column-dropdown li a.selectedDisplay, .multi-column-dropdown li a.selectedSort, .multi-column-dropdown li a.selectedItemNumber{
+	display: block; clear: both; white-space: normal; color: #60a8fa;font-weight: bold; }
+.multi-column-dropdown li a .unselectedDisplay,.multi-column-dropdown li a .unselectedItemNumber{
+	display: block; clear: both; color: #262626; white-space: normal; }
+.multi-column-dropdown li a:hover {
+	text-decoration: none; color: #262626; background-color: #f5f5f5; }
+.navbar-nav>li>a{  padding:0; }
+
+.pagination-sm>li>a{
+padding:3px 8px
+}
+.pagination .active{ background:#60a8fa; color:#fff }
+.hidePageNumber { display:none}
+.displayPageNumber { display:block; cursor:pointer}
+
+.ProfileContainer{position:relative;clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; border-bottom:none; width:100%;height:100%; font-size:0.8em  }
+.Profile_editPencil{float:right; color:#60a8fa;position:absolute;right:25px;margin-top:4px; text-align:center; cursor:pointer}
+.toggleProfileContent{float:right; position:absolute;font-size:1.5em; right:10px; color:#60a8fa;text-align:end;cursor:pointer;}
+.ProfilePicturePosition{float:left; min-width:5%;margin-left:5px;margin-right:5px;margin-top:5px}
+.ProfileInfo{float:left; width:30%;margin-top:5px; margin-right:2px}
+.ProfileBio{float:left; width:55%; text-align:justify; margin-top:5px; margin-bottom:5px; margin-right:5px}
+.fullProfile{clear:both;float:left;display:none}
+
+.ActiveProfileContent{ display: block }
+.FilteredProfileContent{ display: none }
+.hideContent{ overflow: hidden;  height: 6em; }
+.showContent{    height: auto; }
+.filter .hideContent{ line-height: 1.5em;    height: 1.5em; } 
+
+.hangingIndent {  padding-left: 110px ;  text-indent: -110px ; }
+
+.downArrow{
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(90deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(90deg);
+    /* Opera */
+    -o-transform:rotate(90deg);
+    /* IE9 */
+    -ms-transform:rotate(90deg);
+    /* IE6,IE7 */
+}
+
+
+#Profile_template{
+clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; width:100%;height:100%; overflow-x:auto; line-height:2em; position:relative;  
+}
+#Profile_template_Info{ float:left; width:35%;margin-top:5px}
+
+.addinputField{
+   float:left; color:#60a8fa;  padding-left:15px; opacity:0.4 }
+
+.addinputField:hover{ opacity:1 }
+
+.sidebar_nav li:hover span{
+	background: #B8B8B8;
+	font-size: 1.5em;
+}
+
+
 
 
 .ActiveWords { text-decoration:none }
@@ -151,15 +190,19 @@ div.sitesearch form input.searchbox, div.sitesearch form input.searchbutton{font
 
 .TemplateBioSearchbox{ line-height:normal; }
 
+.plotOption{width:auto; display:inline-block}
+#VizSubtitle{clear:both;}
 
-.bar:hover {  fill: brown; }
+.bar{ z-index:10}
+.bar:hover {  fill: brown;z-index:10 }
 .axis {  font: 10px sans-serif; }
 .axis path, .axis line {
   fill: none;  stroke: #000;  shape-rendering: crispEdges; }
 .x.axis path {  display: none; }
 
+.d3-tip {z-index:100}
 .barplot .d3-tip {
-  line-height: 1;  font-weight: bold;  padding: 12px;  background: rgba(0, 0, 0, 0.8);  color: #fff;  border-radius: 2px;}
+  line-height: 1;  font-weight: bold;  padding: 12px;  background: rgba(0, 0, 0, 0.8);  color: #fff;  border-radius: 2px;-moz-border-radius:2px;-webkit-border-radius:2px; }
 
 /* Creates a small triangle extender for the tooltip */
 .barplot .d3-tip:after {
