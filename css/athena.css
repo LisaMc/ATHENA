@@ -6,6 +6,10 @@ input[type=checkbox] { margin: 4px 0.5ex}
 .runningHeader{color:#fff; font-family:Cambria, "Trebuchet MS", Helvetica, sans-serif;font-weight:300;font-style:normal}
 .header .header_contents{margin:0 15px;max-width:initial;position:relative; z-index:10}
 
+.wait, .wait *{
+    cursor: wait !important;   
+}
+
 #mainContent{text-align:left;margin-left:auto;min-height:700px;overflow-y:auto; background:#F1F1F1; color:#000}
 
 div.filter {border:1px solid #ccc;margin:0;padding-left:.5em;position:relative;background-color:#fff;}

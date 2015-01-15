@@ -53,6 +53,8 @@ function checkOffset() {
    $(window).scroll(checkOffset);
 //----------------------------------------------------------------------------------------------------
    
+   //----------------------------------------------------------------------------------------------------
+      function toggleWaitCursor(){ $('body').toggleClass('wait')}
 
 //----------------------------------------------------------------------------------------------------
 $(document).ready(function() {
@@ -533,6 +535,7 @@ $(document).ready(function() {
         }
     
     }
+      
    //----------------------------------------------------------------------------------------------------
 	  function resetPagingSystem(){
                        
@@ -541,13 +544,13 @@ $(document).ready(function() {
            var number_of_pages = Math.ceil(tableRef._('tr', {"filter":"applied"}).length / ItemsPerPage);
 
            var current_link = 0;
-           var navigation_html = "<li><a class='prev' onclick='previous()' href='#'>&laquo;</a></li>"
+           var navigation_html = "<li><a class='prev' onMouseDown = 'toggleWaitCursor()' onMouseUp='previous()' href='#'>&laquo;</a></li>"
            while (number_of_pages > current_link) {
                   var DisplayPageNumberLink = current_link > 4 ? "hidePageNumber" : "displayPageNumber"
-                  navigation_html += '<li ><a class="page '+DisplayPageNumberLink+'" onclick="go_to_page(' + current_link + ')" longdesc="' + current_link + '">' + (current_link + 1) + '</a></li>';
+                  navigation_html += '<li ><a class="page '+DisplayPageNumberLink+'" onMouseDown = "toggleWaitCursor()" onMouseUp="go_to_page(' + current_link + ')" longdesc="' + current_link + '">' + (current_link + 1) + '</a></li>';
                   current_link++;
            }
-           navigation_html += "<li><a class='next' onclick='next()' href='#'>&raquo;</a></li>"
+           navigation_html += "<li><a class='next' onMouseDown = 'toggleWaitCursor()' onMouseUp='next()' href='#'>&raquo;</a></li>"
            $('#SearchPageSelection .pagination').html(navigation_html);
            $('#SearchPageSelection .pagination .page:first').addClass('active');
 
@@ -575,7 +578,7 @@ $(document).ready(function() {
            var number_of_pages = Math.ceil(tableRef._('tr', {"filter":"applied"}).length / show_per_page);
 
           $("#showingFirstSearch")[0].innerText = start_from + 1
-          $("#showingLastSearch")[0].innerText = end_on
+          $("#showingLastSearch")[0].innerText = Math.min(end_on, tableRef._('tr', {"filter":"applied"}).length)
 
 
           $('#ProfileResults  .ActiveProfileContent').css('display', 'none').slice(start_from, end_on).css('display', 'block').each(function(){ 
@@ -596,6 +599,7 @@ $(document).ready(function() {
              $('.page[longDesc=' + i + ']').removeClass("hidePageNumber").addClass('displayPageNumber');
               
           }
+          toggleWaitCursor()
 
       }
    //----------------------------------------------------------------------------------------------------
@@ -812,6 +816,7 @@ $(document).ready(function() {
         $("#Profile_"+IndexArray.Index[j])[0].style.display = "block"
         $("#Profile_"+IndexArray.Index[j]).clone().appendTo("#VizResults")
      }
+     $('body').toggleClass('wait')
      $("#VizResults").scrollView();
      $("#scrollToTop").click( function(){$("#DataToExport").scrollView(); })
   }
@@ -1023,7 +1028,8 @@ $(document).ready(function() {
                 })
               .on('mouseover', tip.show)
               .on('mouseout', tip.hide)
-              .on('click', function(d){ ShowPlotProfiles(LookUpProfiles[d.Name])})
+              .on('mouseup', function(d){ ShowPlotProfiles(LookUpProfiles[d.Name])})
+              .on('mousedown', function(){ $('body').toggleClass('wait');})
 
      function type(d) {
           d.count = +d.count;
