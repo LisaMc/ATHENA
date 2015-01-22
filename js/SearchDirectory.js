@@ -19,13 +19,22 @@ Array.prototype.clean = function(deleteValue) {
 };
 //----------------------------------------------------------------------------------------------------
 // determines the scroll position, e.g. $('body').scrollView to return to the top of the body
-$.fn.scrollView = function () {
-    return this.each(function () {
+//$.fn.scrollView = function () {
+//    return this.each(function () {
+//        $('html, body').animate({
+//            scrollTop: $(this).offset().top - 85 - $("#DisplaySettingsDiv").height() - 15  //header offset by 85px + ReportFilter text -10 for padding - defined in css
+//        }, 500);  //lower numbers makes for faster animation
+//    });
+//}
+
+ function scrollView(elem) {
+ 
+   var test = $("#"+elem).offset().top
         $('html, body').animate({
-            scrollTop: $(this).offset().top - 85 - $("#DisplaySettingsDiv").height() - 15  //header offset by 85px + ReportFilter text -10 for padding - defined in css
+            scrollTop: $("#"+elem).offset().top - 85 - $("#DisplaySettingsDiv").height() - 15  //header offset by 85px + ReportFilter text -10 for padding - defined in css
         }, 500);  //lower numbers makes for faster animation
-    });
 }
+
 //----------------------------------------------------------------------------------------------------
 // reset height of side bars to account for header & footer positions.  
 function checkOffset() {
@@ -34,12 +43,12 @@ function checkOffset() {
        var d = $(window).height();
         var f = $("#footer_element").offset().top - 20;  // footer margin = 20
         
-        if (f-b<d) {
-           $("#SideNav").css("height", f-b -150)  //offset 150 for 85px header and margins 
-           $("#RightBar").css("height", f-b -150)
+        if (f-b<d) {  //footer overlapping bottom
+           $("#SideNav").css("height", f-b -100)  //offset 150 for 85px header and margins 
+           $("#RightBar").css("height", f-b -100)
         } else {
-           $("#SideNav").css("height", $(window).height() -150)
-           $("#RightBar").css("height", $(window).height() -150)
+           $("#SideNav").css("height", $(window).height() -100)
+           $("#RightBar").css("height", $(window).height() -100)
         }
 
      $("#DisplaySettingsDiv").css("width", $(window).width() - 600)
@@ -59,7 +68,7 @@ function checkOffset() {
 //----------------------------------------------------------------------------------------------------
 $(document).ready(function() {
 
-   var Browser = (function(){
+   navigator.sayswho = (function(){
     var ua= navigator.userAgent, tem, 
     M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
     if(/trident/i.test(M[1])){
@@ -75,35 +84,20 @@ $(document).ready(function() {
     return M.join(' ');
    })();
    
-    if(Browser == "IE 8"){
+    if(navigator.sayswho == "IE 8"){
        $("#body_element")[0].innerHTML =
        "<div style='background:white; color:black; width:900px; margin-left:200px'>In order to provide maximum functionality the SIMS application requires use of the latest version of either Chrome, Firefox, Internet Explorer, or Safari.  The SIMS application relies heavily on JavaScript to minimize page redraws.  The ability to run JavaScript on the page is required.</div>"
        return;
    }
 	checkOffset();       
 	
-    var ColumnTitle = [ {"sTitle": "Index", "sWidth": '50px'}, {"sTitle": "Full.Name", "sWidth": '50px'}, {"sTitle": "Last.Name", "sWidth": '50px'}, {"sTitle": "First.Name", "sWidth": '50px'}, {"sTitle": "Degrees", "sWidth": '50px'}, {"sTitle": "Job.Title.1", "sWidth": '50px'}, {"sTitle": "Primary.Organization", "sWidth": '50px'}, {"sTitle": "Department.1", "sWidth": '50px'}, {"sTitle": "Job.Title.2", "sWidth": '50px'}, {"sTitle": "Organization.2", "sWidth": '50px'}, {"sTitle": "Department.2", "sWidth": '50px'}, {"sTitle": "Job.Title.3", "sWidth": '50px'}, {"sTitle": "Organization.3", "sWidth": '50px'}, {"sTitle": "Department.3", "sWidth": '50px'}, {"sTitle": "Job.Title.4", "sWidth": '50px'}, {"sTitle": "Organization.4", "sWidth": '50px'}, {"sTitle": "Department.4", "sWidth": '50px'}, {"sTitle": "Job.Title.5", "sWidth": '50px'}, {"sTitle": "Organization.5", "sWidth": '50px'}, {"sTitle": "Department.5", "sWidth": '50px'}, {"sTitle": "Phone.Number", "sWidth": '50px'}, {"sTitle": "Email.Address", "sWidth": '50px'}, {"sTitle": "Bio", "sWidth": '50px'}, {"sTitle": "Websites", "sWidth": '50px'}, {"sTitle": "Videos", "sWidth": '50px'}, {"sTitle": "Organ.Site", "sWidth": '50px'}, {"sTitle": "Designation", "sWidth": '50px'}, {"sTitle": "Institutional.Affiliation", "sWidth": '50px'}, {"sTitle": "Focus.Areas", "sWidth": '50px'}, {"sTitle": "Modified", "sWidth": '50px'}, {"sTitle": "Modified.By", "sWidth": '50px'}, {"sTitle": "Member.Photos", "sWidth": '50px'}, {"sTitle": "FH.Primary", "sWidth": '50px'}, {"sTitle": "Departments.and.Divisions", "sWidth": '50px'}, {"sTitle": "Converis.ID", "sWidth": '50px'}, {"sTitle": "Item.Type", "sWidth": '50px'}, {"sTitle": "Path", "sWidth": '50px'}, {"sTitle": "sttr", "sWidth": '50px'}, {"sTitle": "Notes", "sWidth": '50px'}, {"sTitle": "Send", "sWidth": '50px'}, {"sTitle": "Responded", "sWidth": '50px'}, {"sTitle": "omicsField", "sWidth": '50px'}, {"sTitle": "specialty", "sWidth": '50px'}, {"sTitle": "keywords", "sWidth": '50px'}, {"sTitle": "software", "sWidth": '50px'}, {"sTitle": "contact", "sWidth": '50px'}]
+    var ColumnTitle = [ {"sTitle": "Index", "sWidth": '50px'}, {"sTitle": "Full.Name", "sWidth": '50px'}, {"sTitle": "Last.Name", "sWidth": '50px'}, {"sTitle": "First.Name", "sWidth": '50px'}, {"sTitle": "Degrees", "sWidth": '50px'}, {"sTitle": "Job.Title.1", "sWidth": '50px'}, {"sTitle": "Primary.Organization", "sWidth": '50px'}, {"sTitle": "Department.1", "sWidth": '50px'}, {"sTitle": "Job.Title.2", "sWidth": '50px'}, {"sTitle": "Organization.2", "sWidth": '50px'}, {"sTitle": "Department.2", "sWidth": '50px'}, {"sTitle": "Job.Title.3", "sWidth": '50px'}, {"sTitle": "Organization.3", "sWidth": '50px'}, {"sTitle": "Department.3", "sWidth": '50px'}, {"sTitle": "Job.Title.4", "sWidth": '50px'}, {"sTitle": "Organization.4", "sWidth": '50px'}, {"sTitle": "Department.4", "sWidth": '50px'}, {"sTitle": "Job.Title.5", "sWidth": '50px'}, {"sTitle": "Organization.5", "sWidth": '50px'}, {"sTitle": "Department.5", "sWidth": '50px'}, {"sTitle": "Phone.Number", "sWidth": '50px'}, {"sTitle": "Email.Address", "sWidth": '50px'}, {"sTitle": "Bio", "sWidth": '50px'}, {"sTitle": "Websites", "sWidth": '50px'}, {"sTitle": "Videos", "sWidth": '50px'}, {"sTitle": "Organ.Site", "sWidth": '50px'}, {"sTitle": "Designation", "sWidth": '50px'}, {"sTitle": "Institutional.Affiliation", "sWidth": '50px'}, {"sTitle": "Focus.Areas", "sWidth": '50px'}, {"sTitle": "Modified", "sWidth": '50px'}, {"sTitle": "Modified.By", "sWidth": '50px'}, {"sTitle": "Member.Photos", "sWidth": '50px'}, {"sTitle": "FH.Primary", "sWidth": '50px'}, {"sTitle": "Departments.and.Divisions", "sWidth": '50px'}, {"sTitle": "Converis.ID", "sWidth": '50px'}, {"sTitle": "Item.Type", "sWidth": '50px'}, {"sTitle": "Path", "sWidth": '50px'}, {"sTitle": "sttr", "sWidth": '50px'}, {"sTitle": "Notes", "sWidth": '50px'}, {"sTitle": "Send", "sWidth": '50px'}, {"sTitle": "Responded", "sWidth": '50px'}, {"sTitle": "omicsField", "sWidth": '50px'}, {"sTitle": "specialty", "sWidth": '50px'}, {"sTitle": "keywords", "sWidth": '50px'}, {"sTitle": "software", "sWidth": '50px'}, {"sTitle": "contact", "sWidth": '50px'}, {"sTitle": "photoHeight", "sWidth": '50px'}, {"sTitle": "photoWidth", "sWidth": '50px'}, {"sTitle": "AllInsts", "sWidth": '50px'}]
  		 $("#DataTable").dataTable({
        		  "aoColumns": ColumnTitle,
-//       		  "order": [[ 1, "asc" ]]
          })   // dataTable
          .fnAdjustColumnSizing(); 
          ;
 
-    // filter selection by multiple appointments across institutions - listed in multiple table columns
-      $.fn.dataTableExt.afnFiltering.push(function (settings, data, index) {
-         var selectedFieldarray = []
-               $("#FilterInstitution :checkbox:checked").each(function() 
-         	{ selectedFieldarray.push($(this).val())  });
-         if(selectedFieldarray.length){
-            var filterField_String = selectedFieldarray.join("|");
-            var TableColumn = [6,9,12,15,18]
-            for (var i=0; i < TableColumn.length; i++) {
-               if (data[TableColumn[i]].match(filterField_String)) return true;
-            }
-           return false;
-         } else { return true;}
-      });
 
  	tableRef = $("#DataTable").dataTable();
 
@@ -114,7 +108,7 @@ $(document).ready(function() {
          tableRef.fnSort([2, "asc"])  //move non-STTR or survey people to end
 
         document.getElementById("NumberOfResultsDiv").innerHTML = tableRef._('tr', {"filter":"applied"}).length
-        document.getElementById("SearchStringDiv").innerHTML = "(all people)";
+        document.getElementById("SearchStringDiv").innerHTML = "(all STTR/Computational people)";
 
         createProfileContainerFromTable();  //loads divs for each of the RowIdx, but not any data (set class to ProfileNotYetLoaded)
         resetPagingSystem()         //checks if profiles being show are in class ProfileNotYetLoaded and calls function
@@ -129,12 +123,18 @@ $(document).ready(function() {
     // toggle short vs long profile view - parentNode references Profile_idx
      		
     $(".PopularSearch").click(function(){
-        document.getElementById("QueryFreeInput").value = "\""+this.innerText+"\"";
-//TODO: CLEAR ALL FILTERS first
-//clearSelection(this, this.parentNode) })
+        var SearchTerms = this.innerHTML
+        if(SearchTerms.match("Personalized Medicine")) { SearchTerms = "\"Personalized Medicine\" \"Precision Medicine\"" }
+        else if(SearchTerms.match("RNAseq")){SearchTerms = "RNAseq RNA-seq RNAseq"}
+        else{SearchTerms = "\""+SearchTerms+"\""}
+        document.getElementById("QueryFreeInput").value = SearchTerms;
+        $(".toClear").each(function(){ 
+          var tes2 = this
+          clearSelection(this, this.parentNode) })
         SearchAndFilterResults()
         updateActiveContent();
-     })
+
+      })
      // run canned search based on query text
     
         $("#SearchSpan").click(function(){            
@@ -164,28 +164,14 @@ $(document).ready(function() {
     $(".unselectedItemNumber").click(function(){ 
        $(".selectedItemNumber")[0].className = "unselectedItemNumber"
        $(this)[0].className= "selectedItemNumber"
-       $("#NumItemsSettings")[0].innerText = $(this)[0].innerText
+       $("#NumItemsSettings")[0].innerHTML = $(this)[0].innerHTML
        resetPagingSystem()
     })
     $(".barPlot").click(function(){  toggle_visibility("barplot", "VISUALIZEdiv") })
     $(".plotOption").change(updateActiveContent);
          // settings within visualization changed & need redrawn
 
-	$("#SideNav").css("height", $(window).height() - 150)
-
-    $("#SideNav").mCustomScrollbar({
-					theme:"minimal",
-					scrollInertia: 10,
-					autoExpandScrollbar: true,
-					mouseWheel:{ preventDefault: true }
-				});
-
-    $("#RightBar").mCustomScrollbar({
-					theme:"minimal",
-					scrollInertia: 10,
-					autoExpandScrollbar: true,
-					mouseWheel:{ preventDefault: true }
-				});
+	$("#SideNav").css("height", $(window).height() - 100)
 
 		
 }); //document.ready
@@ -208,7 +194,7 @@ $(document).ready(function() {
  // called by Display settings dropdown to update active display by selected text
   function sortBy(elem){
 
-     var sort = elem.innerText
+     var sort = elem.innerHTML.replace(/<.+?>/g,"")
      var sortDirection = elem.children[0].className
       
      if(sort == "name"){
@@ -227,8 +213,7 @@ $(document).ready(function() {
          
           var rows = tableRef._('tr', {"filter":"applied"});   
           var IndexArray = rows.map(function(value,index) { return value[0]; });
-          
-           
+            
           var SortedProfiles = $ProfileList.sort(function (a, b) {
                var test1 = IndexArray.indexOf(a.id.match(/\d+/)[0])
                var test2 = IndexArray.indexOf(b.id.match(/\d+/)[0])
@@ -249,7 +234,7 @@ $(document).ready(function() {
  // called by Display settings dropdown to update active display by selected text
   function updateDisplay(elem){
      
-         activeContent =  elem.innerText;
+         activeContent =  elem.innerHTML.replace(/<.+?>/g,"");
          if(activeContent == "profiles"){
            activeContent = "SearchSpan"
            toggle_visibility("SearchSpan", "SEARCHdiv");
@@ -261,17 +246,21 @@ $(document).ready(function() {
     function updateActiveContent(){
 
         document.getElementById("NumberOfResultsDiv").innerHTML =  tableRef._('tr', {"filter":"applied"}).length
+      if(activeContent != "ProfileSpan"){
            $("#SearchDisplayOptions")[0].style.display = "block"
            $("#ReportSearchFilterDiv")[0].style.display = "block"
            $("#ReturnToSearch")[0].style.display = "none"
            $("#DataToExport").css("top",  $("#DisplaySettingsDiv").height() + 10)
-          
+      }  
         var els = document.getElementsByClassName('selectedDisplay');
         for(var i=0; i<els.length; ++i){     //set all displays to none within SearchDisplayOptions
             els[i].className =  'unselectedDisplay';
         };
 
        if(activeContent == "SearchSpan"){
+          $("#SEARCHdiv").css("top", 0)
+          $("#SEARCHdiv").css("position", "relative")
+
           $("#DisplaySettings").text("profiles")
           document.getElementById("selectedDisplayProfiles").className = "selectedDisplay"
           getProfilesFromTable();
@@ -304,10 +293,8 @@ $(document).ready(function() {
 	function toggle_selection(group){
 	
         if(group == "fil_inst"){
-           tableRef.fnFilter("", 6);  tableRef.fnFilter("", 9);  
-           tableRef.fnFilter("", 12);  tableRef.fnFilter("", 15);  
-           tableRef.fnFilter("", 18);  
-           Filter_Selection("FilterInstitution", "ReportInstFilterSpan",null, "<i> from </i>")
+           tableRef.fnFilter("", 48);  
+           Filter_Selection("FilterInstitution", "ReportInstFilterSpan",48, "<i> from </i>")
         } else if(group == "fil_disease"){        
            tableRef.fnFilter("", 25); 
            Filter_Selection("FilterDisease", "ReportDiseaseFilterSpan",25, "<i> researching </i>")
@@ -348,13 +335,14 @@ $(document).ready(function() {
 
        var selectedFieldarray = []
        $("#"+ElementID+" :checkbox:checked").each(function() 
-       	{ selectedFieldarray.push($(this).val())  });         // get all selected options within group
+       	{ selectedFieldarray.push($(this).val().split(",") ) });         // get all selected options within group
         
         if(selectedFieldarray.length == 0){                   // set Report Output to blank & remove "clear" link from sidebar
          document.getElementById(ReportSpan).innerHTML = "";
          $("#"+ElementID)[0].children[1].style.display = "none";
          return;
         }
+        selectedFieldarray = [].concat.apply([],selectedFieldarray)
 
          $("#"+ElementID)[0].children[1].style.display = "block";  // show "clear" link from sidebar
         
@@ -411,9 +399,8 @@ $(document).ready(function() {
   //----------------------------------------------------------------------------------------------------
    function showAllRows() {
       
-      $.fn.dataTableExt.afnFiltering = [];
       tableRef.fnFilter("");
-      tableRef.fnFilter("", 6);  // clear Inst filter
+      tableRef.fnFilter("", 48);  // clear Inst filter
       tableRef.fnFilter("", 25); // clear field filter
       tableRef.fnFilter("", 41);  // clear omics filter
       tableRef.fnFilter("", 45); // clear contact filter
@@ -434,13 +421,13 @@ $(document).ready(function() {
         showAllRows();
        
         if(wordArray.length == 0){
-           document.getElementById("SearchStringDiv").innerHTML = "(all people)";
+           document.getElementById("SearchStringDiv").innerHTML = "(all STTR/Computational people)";
         }else{
            document.getElementById("SearchStringDiv").innerHTML = searchString;
            SearchTableByStrings(wordArray); 
         }  
         
-        Filter_Selection("FilterInstitution", "ReportInstFilterSpan",null, "<i> from </i>")
+        Filter_Selection("FilterInstitution", "ReportInstFilterSpan",48, "<i> from </i>")
         Filter_Selection("FilterDisease", "ReportDiseaseFilterSpan",25, "<i> specializing in </i>")
         Filter_Selection("FilterOmics", "ReportOmicsFilterSpan",41, "<i> specializing in </i>")
         Filter_Selection("FilterContactFor", "ReportContactForFilterSpan",45, "<i> for </i>")
@@ -486,7 +473,6 @@ $(document).ready(function() {
               var FilterString = "^"+RowIdx+"$"
                   tableRef.fnFilter(FilterString, 0, true, false); //searches index column for Profile Index
               var row = tableRef._('tr', {"filter":"applied"});   
- 
                 $("#edit_firstname").val(row[0][3])
                 $("#edit_lastname").val(row[0][2])
                 $("#edit_degrees").val(row[0][4])
@@ -494,10 +480,12 @@ $(document).ready(function() {
                 $("#edit_institution").val(row[0][6])
                 $("#edit_title").val(row[0][5])
                 $("#edit_website").val(row[0][23])
-                $("#edit_disease").val(row[0][25])
+                $("#edit_disease").val(row[0][25].replace(/#/, ""))
                 $("#edit_omics").val(row[0][41])
                 $("#edit_contact").val(row[0][45])
-                $("#edit_keywords").val($("#Profile_"+RowIdx+"_keywords")[0].innerText.replace(/Keywords\s+/, ""))
+                var keywords = $("#Profile_"+RowIdx+"_keywords")[0].innerHTML.replace(/Keywords\s+/, "")
+                keywords = keywords.replace(/<.+?>/g,"")
+                $("#edit_keywords").val(keywords)
 
             tableRef.fnFilter("", 0); // clear index filter
            }
@@ -535,22 +523,34 @@ $(document).ready(function() {
         }
     
     }
+ //----------------------------------------------------------------------------------------------------
+	function getProfilesFromArray(IndexArray){
+         
+      $('.ActiveProfileContent').toggleClass("FilteredProfileContent", true).toggleClass("ActiveProfileContent", false)
+      $('#ProfileResults .ProfileContainer').css('display', 'none');  //set everything out of page range
+          
+         for(var i=0; i < IndexArray.length; i++){   // then reveals ones that haven't been filtered
+            var RowIdx = IndexArray[i]
+           $("#Profile_"+RowIdx).toggleClass("FilteredProfileContent", false).toggleClass("ActiveProfileContent", true)
+        }
+    
+    }
       
    //----------------------------------------------------------------------------------------------------
 	  function resetPagingSystem(){
                        
           $("#SorryMessage")[0].style.display= "none"
-           var ItemsPerPage = parseInt($(".selectedItemNumber")[0].innerText)
-           var number_of_pages = Math.ceil(tableRef._('tr', {"filter":"applied"}).length / ItemsPerPage);
+           var ItemsPerPage = parseInt($(".selectedItemNumber")[0].innerHTML)
+           var number_of_pages = Math.ceil($('#ProfileResults .ActiveProfileContent').length / ItemsPerPage);
 
            var current_link = 0;
-           var navigation_html = "<li><a class='prev' onMouseDown = 'toggleWaitCursor()' onMouseUp='previous()' href='#'>&laquo;</a></li>"
+           var navigation_html = "<li><a class='prev' onMouseDown = 'toggleWaitCursor()' onMouseUp='previous()'>&laquo;</a></li>"
            while (number_of_pages > current_link) {
                   var DisplayPageNumberLink = current_link > 4 ? "hidePageNumber" : "displayPageNumber"
-                  navigation_html += '<li ><a class="page '+DisplayPageNumberLink+'" onMouseDown = "toggleWaitCursor()" onMouseUp="go_to_page(' + current_link + ')" longdesc="' + current_link + '">' + (current_link + 1) + '</a></li>';
+                  navigation_html += "<li ><a class='page "+DisplayPageNumberLink+"' onMouseDown = 'toggleWaitCursor()' onMouseUp='go_to_page(" + current_link + ")' longdesc='" + current_link + "'>" + (current_link + 1) + "</a></li>";
                   current_link++;
            }
-           navigation_html += "<li><a class='next' onMouseDown = 'toggleWaitCursor()' onMouseUp='next()' href='#'>&raquo;</a></li>"
+           navigation_html += "<li><a class='next' onMouseDown = 'toggleWaitCursor()' onMouseUp='next()'>&raquo;</a></li>"
            $('#SearchPageSelection .pagination').html(navigation_html);
            $('#SearchPageSelection .pagination .page:first').addClass('active');
 
@@ -563,22 +563,22 @@ $(document).ready(function() {
               }
           });
 
-          $("#showingFirstSearch")[0].innerText = Math.min($('#ProfileResults .ActiveProfileContent').length, 1)
-          $("#showingLastSearch")[0].innerText = Math.min($('#ProfileResults .ActiveProfileContent').length, ItemsPerPage)
+          $("#showingFirstSearch")[0].innerHTML = Math.min($('#ProfileResults .ActiveProfileContent').length, 1)
+          $("#showingLastSearch")[0].innerHTML = Math.min($('#ProfileResults .ActiveProfileContent').length, ItemsPerPage)
 
-          if($("#showingFirstSearch")[0].innerText == "0"){  $("#SorryMessage")[0].style.display = "block" }
+          if($("#showingFirstSearch")[0].innerHTML == "0"){  $("#SorryMessage")[0].style.display = "block" }
 
        } 
 
    //----------------------------------------------------------------------------------------------------
        function go_to_page(page_num) {
-          var show_per_page = parseInt($(".selectedItemNumber")[0].innerText)
+          var show_per_page = parseInt($(".selectedItemNumber")[0].innerHTML)
           var start_from = page_num * show_per_page;
           var end_on = start_from + show_per_page;
-           var number_of_pages = Math.ceil(tableRef._('tr', {"filter":"applied"}).length / show_per_page);
+           var number_of_pages = Math.ceil($('#ProfileResults .ActiveProfileContent').length / show_per_page);
 
-          $("#showingFirstSearch")[0].innerText = start_from + 1
-          $("#showingLastSearch")[0].innerText = Math.min(end_on, tableRef._('tr', {"filter":"applied"}).length)
+          $("#showingFirstSearch")[0].innerHTML = start_from + 1
+          $("#showingLastSearch")[0].innerHTML = Math.min(end_on, $('#ProfileResults .ActiveProfileContent').length)
 
 
           $('#ProfileResults  .ActiveProfileContent').css('display', 'none').slice(start_from, end_on).css('display', 'block').each(function(){ 
@@ -586,6 +586,7 @@ $(document).ready(function() {
                 var RowIdx = $(this)[0].id.match(/\d+/)[0]
                 createIndividualProfile(RowIdx);
                 $(this).removeClass("ProfileNotYetLoaded")
+
               }
           });
           $('#SearchPageSelection .pagination .active').removeClass('active')
@@ -595,7 +596,6 @@ $(document).ready(function() {
           var start = Math.max(Math.min(page_num-2, number_of_pages-5), 0)
           var end = Math.min(number_of_pages,start+5)
           for(var i=start; i<end;i++){
-             var test = $('.page[longDesc=' + i + ']')
              $('.page[longDesc=' + i + ']').removeClass("hidePageNumber").addClass('displayPageNumber');
               
           }
@@ -604,17 +604,23 @@ $(document).ready(function() {
       }
    //----------------------------------------------------------------------------------------------------
        function previous() {
-          var new_page = parseInt($('#SearchPageSelection .pagination .active')[0].text) - 2;
+  
+          var new_page = parseInt($('#SearchPageSelection .pagination .active')[0].innerHTML) - 2;
              //if there is an item before the current active link run the function
-          if (new_page>=0) 
+          if (new_page>=0) {
              go_to_page(new_page);
+          }else{     toggleWaitCursor() }
+
        }
    //----------------------------------------------------------------------------------------------------
        function next() {
-          var new_page = parseInt($('#SearchPageSelection .pagination .active')[0].text) ;
+ 
+           var new_page = parseInt($('#SearchPageSelection .pagination .active')[0].innerHTML) ;
              //if there is an item after the current active link run the function
-          if (new_page < $('#SearchPageSelection .pagination').children().length-1) 
+          if (new_page < $('#SearchPageSelection .pagination').children().length-2){ 
              go_to_page(new_page);
+          } else{     toggleWaitCursor()  }
+
        }       
       
       
@@ -640,6 +646,30 @@ $(document).ready(function() {
         }
          ProfileResults.append(ProfileContainers)
     }
+    
+    //----------------------------------------------------------------------------------------------------
+ function ShowPlotProfiles(IndexArray){
+
+     $("#VizResults")[0].innerHTML = "";
+     $("#VizResults").append("<div id='VizResultsHeader'><div id='scrollToTop' style='text-align:right;color:#60a8fa;font-size:0.9em; cursor:pointer'>back to top</div>"
+        + "<div style='text-align:center; font-size:1.3em'><strong>"+ IndexArray.count+" results for "+IndexArray.Name+"</strong><br/></div></div>");
+
+     getProfilesFromArray(IndexArray.Index)  //sets Index values to ProfileActive
+     resetPagingSystem()                     // displays first set of profiles to 
+
+     $("#SEARCHdiv").css("position", "absolute")
+     $("#SEARCHdiv").css("top", $("#VizResults")[0].offsetTop + $("#VizResultsHeader")[0].offsetHeight)
+     $("#SEARCHdiv")[0].style.display = "block"
+     
+     $("#VizResults").css("height",$("#SEARCHdiv")[0].clientHeight)
+
+     toggleWaitCursor() 
+     scrollView("VizResults")
+     $("#scrollToTop").click( function(){
+        scrollView("DataToExport")
+      })
+  }
+
    //----------------------------------------------------------------------------------------------------        
     function createIndividualProfile(RowIdx){
 //DataTable columns: LastName:2, FirstName:3, Degree:4, Job Title, Organization Dept
@@ -682,9 +712,10 @@ $(document).ready(function() {
            var picFile = row[0][31]
            if(picFile == "NA" | picFile == "Yes" | picFile == "No") picFile = "Photo Coming Soon.jpg"
 //            setProfilePicture("#Profile_"+RowIdx+"_Picture", picFile)
-             $("#Profile_"+RowIdx+"_Picture").append("<img title='ProfilePicture' alt='ProfilePic' class='lazy' style='max-height:75px; max-width:50px' src='/images/Photos/"+ picFile + "' data-src='/images/Photos/Photo Coming Soon.jpg'>")
+             $("#Profile_"+RowIdx+"_Picture").append("<img title='ProfilePicture' alt='ProfilePic' class='lazy' style='max-height:75px; max-width:50px;height:"+row[0][46]+";width:"+row[0][47]+"' src='/images/Photos/"+ picFile + "' data-src='/images/Photos/Photo Coming Soon.jpg'>")
 // needs synchronous loading so to be appended before cloning in Viz tab
- 
+
+  
           var addtlPos = [8,11,14,17];
           var AddedPos = ""
           for(var j=0; j<addtlPos.length; j++){
@@ -802,33 +833,18 @@ $(document).ready(function() {
         return 0;
     }
 
- //----------------------------------------------------------------------------------------------------
- function ShowPlotProfiles(IndexArray){
-
-     $("#VizResults")[0].innerHTML = "";
-     $("#VizResults").append("<div id='scrollToTop' style='text-align:right;color:#60a8fa;font-size:0.9em; cursor:pointer'>back to top</div>"
-        + "<div style='text-align:center; font-size:1.3em'><strong>"+ IndexArray.count+" results for "+IndexArray.Name+"</strong><br/></div>");
-     for(j=0;j<IndexArray.Index.length;j++){
-        if( $("#Profile_"+IndexArray.Index[j])[0].className.match("ProfileNotYetLoaded")){
-                createIndividualProfile(IndexArray.Index[j]);
-                 $("#Profile_"+IndexArray.Index[j]).removeClass("ProfileNotYetLoaded")
-        }
-        $("#Profile_"+IndexArray.Index[j])[0].style.display = "block"
-        $("#Profile_"+IndexArray.Index[j]).clone().appendTo("#VizResults")
-     }
-     $('body').toggleClass('wait')
-     $("#VizResults").scrollView();
-     $("#scrollToTop").click( function(){$("#DataToExport").scrollView(); })
-  }
- //----------------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------
    function drawBarplot(){
  
         d3.select("#MainGraph").select("svg").remove();
-        $("#MainGraph")[0].innerText = "";
-        $("#VizSubtitle")[0].innerText = "";
-        $("#VizAddendum")[0].innerText = ""
+        $("#MainGraph")[0].innerHTML = "";
+        $("#VizSubtitle")[0].innerHTML = "";
+        $("#VizAddendum")[0].innerHTML = ""
         $("#VizResults")[0].innerHTML = "";
-
+        $("#SEARCHdiv")[0].style.display = "none"
+//        $("#DataToExport").scrollView();
+        scrollView("DataToExport")
+        
         var data = tableRef._('tr', {"filter":"applied"}); 
         var margin  = {top: 50, right: 20, bottom: 300, left: 40, leftY:30},
              width  = $(window).width() - 600 - margin.left - margin.right - margin.leftY,
@@ -958,12 +974,13 @@ $(document).ready(function() {
             }
         }
         $(".smallCategory").click(function(){
-          ShowPlotProfiles(LookUpProfiles[this.innerText])})
+          toggleWaitCursor()
+          ShowPlotProfiles(LookUpProfiles[this.innerHTML])})
 
        if(groups.length == 0){
         d3.select("#MainGraph").select("svg").remove();
-        $("#MainGraph")[0].innerText = "";
-        $("#VizSubtitle")[0].innerText = "";
+        $("#MainGraph")[0].innerHTML = "";
+        $("#VizSubtitle")[0].innerHTML = "";
         return;
        }        
          var maxFreq = d3.max(groups, function(d){return d.count});
@@ -1074,7 +1091,7 @@ $(document).ready(function() {
          }
      //----------------------------------------------------------------------------------------------------
        var createPDF = function(imgData) {         
-             doc.addImage(imgData, 'JPEG',0.3, 0.9, 7.5, 7.5); 
+             doc.addImage(imgData, 'JPEG',0.3, 1.3, 7.7, 7.5); 
              doc.save('STTRconnect.pdf');
 	     };
 
@@ -1088,7 +1105,9 @@ $(document).ready(function() {
         doc.setLineWidth(0.05);
         doc.line( 0.5,0.9, 8,0.9); // horizontal line
 
-        lines = doc.splitTextToSize($("#ReportSearchFilterDiv")[0].innerText, 7.5)
+        var innerText = $("#ReportSearchFilterDiv")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"").replace(/\s+/g," ")
+
+        lines = doc.splitTextToSize(innerText, 7.5)
 		doc.text(0.5, verticalOffset+0.1 + size / 72, lines)
 		verticalOffset += (lines.length + 0.5 ) * size / 72
         doc.setTextColor(0,0,0);  
@@ -1133,7 +1152,8 @@ $(document).ready(function() {
          doc.setLineWidth(0.05);
          doc.line( 0.5,0.9, 8,0.9); // horizontal line
 
-         lines = doc.splitTextToSize($("#ReportSearchFilterDiv")[0].innerText, 7.5)
+        var innerText = $("#ReportSearchFilterDiv")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"").replace(/\s+/g," ")
+         lines = doc.splitTextToSize(innerText, 7.5)
 		 doc.text(0.5, verticalOffset+0.1 + size / 72, lines)
 		 verticalOffset += (lines.length + 0.5 ) * size / 72
          doc.setTextColor(0,0,0); 
@@ -1145,10 +1165,10 @@ $(document).ready(function() {
             var email = rows[i][21]
             var Title = rows[i][5] + ", " + rows[i][6]
             var Bio = rows[i][22].replace(/@/g,"\r\n")
-            var AddtlPos   = $("#Profile_"+RowIdx+"_addtlPos")[0].innerText.replace(/[\r|\n]$/,"")
-            var ContactFor = $("#Profile_"+RowIdx+"_ContactFor")[0].innerText.replace(/\r|\n/g,"")
-            var Disease    = $("#Profile_"+RowIdx+"_Disease")[0].innerText.replace(/\r|\n/g,"").replace(/; $/,"")
-            var Omics      = $("#Profile_"+RowIdx+"_Omics")[0].innerText.replace(/\r|\n/g,"").replace(/; $/,"")
+            var AddtlPos   = $("#Profile_"+RowIdx+"_addtlPos")[0].innerHTML.replace(/<.+?>/g,"").replace(/[\r|\n]$/,"")
+            var ContactFor = $("#Profile_"+RowIdx+"_ContactFor")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"")
+            var Disease    = $("#Profile_"+RowIdx+"_Disease")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"").replace(/; $/,"")
+            var Omics      = $("#Profile_"+RowIdx+"_Omics")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"").replace(/; $/,"")
                      
             verticalOffset += 0.2
             doc.setFontType("bold");   addPDFcontent(Name)

@@ -30,11 +30,26 @@ div.filter input.searchbutton{overflow:auto;position:absolute;right:0;top:0;widt
 div.filter input.searchbutton:hover{background-color:#60a8fa}
 div.sitesearch form input.searchbox, div.sitesearch form input.searchbutton{font-size:13px;}
 
-.SideNav{ float:left; margin-top:5px;margin-left:15px;margin-right:15px;min-width:230px; position:fixed; overflow-y:hidden; z-index:10}
+::-webkit-scrollbar{  width: 8px; }
+::-webkit-scrollbar-track {  background-color:#F1F1F1;   }  
+::-webkit-scrollbar-thumb {  background-color: #F1F1F1; border-radius: 7px;border: 3px solid transparent;  background-clip: content-box; }  
+::-webkit-scrollbar-thumb:hover { background-color: #60a8fa; border: 3px solid #60a8fa;  background-clip: content-box;}  
+.SideNav:hover::-webkit-scrollbar-thumb, #RightBar:hover::-webkit-scrollbar-thumb{ background-color: #60a8fa; }
+.SideNav:hover, #RightBar:hover{ scrollbar-face-color: #60a8fa; }
+
+.SideNav{ float:left; margin-top:5px;margin-left:15px;margin-right:15px;min-width:230px; position:fixed; overflow-y:scroll; z-index:10;
+          scrollbar-face-color: #F1F1F1;scrollbar-track-color: #F1F1F1; /* IE */
+}
 .SideNav .filter{border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px;min-width:230px; margin-top:5px}
-.mCSB_scrollTools .mCSB_draggerContainer .mCSB_dragger .mCSB_dragger_bar{ background-color: #60a8fa; }
-.mCSB_scrollTools .mCSB_draggerContainer .mCSB_dragger:active .mCSB_dragger_bar{ background-color: #60a8fa; }
-.mCSB_scrollTools .mCSB_draggerRail{ background-color: black; } 
+@-moz-document url-prefix(http://),url-prefix(https://) {
+   scrollbar {             -moz-appearance: none !important;   background: #F1F1F1 !important; }
+   thumb,scrollbarbutton { -moz-appearance: none !important;   background-color: #F1F1F1 !important; }
+   thumb:hover,scrollbarbutton:hover { -moz-appearance: none !important;   background-color: #60a8fa; !important;}
+   scrollbarbutton { display: none !important; }
+   scrollbar[orient="vertical"] { min-width: 8px !important;}
+}
+
+
 
 .filterOptions{list-style: none;margin-top:1em; margin-bottom:1em;padding-left:0;width:100%; font-size:0.85em; position:relative}
 .filterOptions h2{margin-bottom:auto; margin-top:auto; font-size:1.5em}
@@ -69,7 +84,7 @@ div.sitesearch form input.searchbox, div.sitesearch form input.searchbutton{font
 
 
 
-.RightBar{right:15px; margin-top:5px;margin-right:15px;min-width:280px;  z-index:10; position:fixed; }
+.RightBar{right:15px; margin-top:5px;margin-right:15px;min-width:280px;  z-index:10; position:fixed;overflow-y:scroll }
 .RightNavSection{min-width:200px; border-top:thick solid #60a8fa;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;padding-left:5px; margin-top:5px; padding-bottom:20px}
 .RightNavSection div img{max-width:125px;max-height:150px;}
 .glyphicon{ color:#60a8fa;padding-right:5px;padding-left:10px}
@@ -85,7 +100,8 @@ div.sitesearch form input.searchbox, div.sitesearch form input.searchbutton{font
 .dropdown-menu li a {
 	padding: 5px 10px; font-weight: 300; color: #262626; }
 	
-.multi-column-dropdown {	list-style: none; }
+.multi-column-dropdown {	list-style: none; -webkit-padding-start: 10px; -moz-padding-start: 10px; padding-left: 10px;}
+[dir=ltr] .multi-column-dropdown {   padding-left: 10px; }
 .multi-column-dropdown li a.selectedDisplay, .multi-column-dropdown li a.selectedSort, .multi-column-dropdown li a.selectedItemNumber{
 	display: block; clear: both; white-space: normal; color: #60a8fa;font-weight: bold; }
 .multi-column-dropdown li a .unselectedDisplay,.multi-column-dropdown li a .unselectedItemNumber{
@@ -134,7 +150,7 @@ padding:3px 8px
 #Profile_template{
 clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-right:none; width:100%;height:100%; overflow-x:auto; line-height:2em; position:relative;  
 }
-#Profile_template_Info{ float:left; width:35%;margin-top:5px}
+#Profile_template_Info{ float:left; width:308px;margin-top:5px}
 
 .addinputField{
    float:left; color:#60a8fa;  padding-left:15px; opacity:0.4 }
@@ -198,7 +214,7 @@ clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-r
 #VizSubtitle{clear:both;}
 
 .bar{ z-index:10}
-.bar:hover {  fill: brown;z-index:10 }
+.bar:hover {  fill: brown;z-index:10; cursor:pointer; }
 .axis {  font: 10px sans-serif; }
 .axis path, .axis line {
   fill: none;  stroke: #000;  shape-rendering: crispEdges; }
