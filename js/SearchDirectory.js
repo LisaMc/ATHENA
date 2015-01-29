@@ -18,6 +18,21 @@ Array.prototype.clean = function(deleteValue) {
   return this;
 };
 //----------------------------------------------------------------------------------------------------
+// used to remove duplicate elements from an array (eg [UW, UW, FredHutch] -> [UW, FredHutch]
+function uniqueArray(elem)
+{
+	var n = {},r=[];
+	for(var i = 0; i < elem.length; i++) 
+	{
+		if (!n[elem[i]]) 
+		{
+			n[elem[i]] = true; 
+			r.push(elem[i]); 
+		}
+	}
+	return r;
+}
+//----------------------------------------------------------------------------------------------------
 // determines the scroll position, e.g. $('body').scrollView to return to the top of the body
 //$.fn.scrollView = function () {
 //    return this.each(function () {
@@ -58,7 +73,7 @@ function checkOffset() {
 
 //----------------------------------------------------------------------------------------------------
 // resize side frames based on window height and header/footer position of scroll
-   window.onresize = function() { checkOffset()};	
+   window.onresize = function() { checkOffset(); if(activeContent !== "SearchSpan") updateActiveContent();};	
    $(window).scroll(checkOffset);
 //----------------------------------------------------------------------------------------------------
    
@@ -91,7 +106,7 @@ $(document).ready(function() {
    }
 	checkOffset();       
 	
-    var ColumnTitle = [ {"sTitle": "Index", "sWidth": '50px'}, {"sTitle": "Full.Name", "sWidth": '50px'}, {"sTitle": "Last.Name", "sWidth": '50px'}, {"sTitle": "First.Name", "sWidth": '50px'}, {"sTitle": "Degrees", "sWidth": '50px'}, {"sTitle": "Job.Title.1", "sWidth": '50px'}, {"sTitle": "Primary.Organization", "sWidth": '50px'}, {"sTitle": "Department.1", "sWidth": '50px'}, {"sTitle": "Job.Title.2", "sWidth": '50px'}, {"sTitle": "Organization.2", "sWidth": '50px'}, {"sTitle": "Department.2", "sWidth": '50px'}, {"sTitle": "Job.Title.3", "sWidth": '50px'}, {"sTitle": "Organization.3", "sWidth": '50px'}, {"sTitle": "Department.3", "sWidth": '50px'}, {"sTitle": "Job.Title.4", "sWidth": '50px'}, {"sTitle": "Organization.4", "sWidth": '50px'}, {"sTitle": "Department.4", "sWidth": '50px'}, {"sTitle": "Job.Title.5", "sWidth": '50px'}, {"sTitle": "Organization.5", "sWidth": '50px'}, {"sTitle": "Department.5", "sWidth": '50px'}, {"sTitle": "Phone.Number", "sWidth": '50px'}, {"sTitle": "Email.Address", "sWidth": '50px'}, {"sTitle": "Bio", "sWidth": '50px'}, {"sTitle": "Websites", "sWidth": '50px'}, {"sTitle": "Videos", "sWidth": '50px'}, {"sTitle": "Organ.Site", "sWidth": '50px'}, {"sTitle": "Designation", "sWidth": '50px'}, {"sTitle": "Institutional.Affiliation", "sWidth": '50px'}, {"sTitle": "Focus.Areas", "sWidth": '50px'}, {"sTitle": "Modified", "sWidth": '50px'}, {"sTitle": "Modified.By", "sWidth": '50px'}, {"sTitle": "Member.Photos", "sWidth": '50px'}, {"sTitle": "FH.Primary", "sWidth": '50px'}, {"sTitle": "Departments.and.Divisions", "sWidth": '50px'}, {"sTitle": "Converis.ID", "sWidth": '50px'}, {"sTitle": "Item.Type", "sWidth": '50px'}, {"sTitle": "Path", "sWidth": '50px'}, {"sTitle": "sttr", "sWidth": '50px'}, {"sTitle": "Notes", "sWidth": '50px'}, {"sTitle": "Send", "sWidth": '50px'}, {"sTitle": "Responded", "sWidth": '50px'}, {"sTitle": "omicsField", "sWidth": '50px'}, {"sTitle": "specialty", "sWidth": '50px'}, {"sTitle": "keywords", "sWidth": '50px'}, {"sTitle": "software", "sWidth": '50px'}, {"sTitle": "contact", "sWidth": '50px'}, {"sTitle": "photoHeight", "sWidth": '50px'}, {"sTitle": "photoWidth", "sWidth": '50px'}, {"sTitle": "AllInsts", "sWidth": '50px'}]
+    var ColumnTitle = [ {"sTitle": "Index", "sWidth": '50px'}, {"sTitle": "Full.Name", "sWidth": '50px'}, {"sTitle": "Last.Name", "sWidth": '50px'}, {"sTitle": "First.Name", "sWidth": '50px'}, {"sTitle": "Degrees", "sWidth": '50px'}, {"sTitle": "Job.Title.1", "sWidth": '50px'}, {"sTitle": "Primary.Organization", "sWidth": '50px'}, {"sTitle": "Department.1", "sWidth": '50px'}, {"sTitle": "Job.Title.2", "sWidth": '50px'}, {"sTitle": "Organization.2", "sWidth": '50px'}, {"sTitle": "Department.2", "sWidth": '50px'}, {"sTitle": "Job.Title.3", "sWidth": '50px'}, {"sTitle": "Organization.3", "sWidth": '50px'}, {"sTitle": "Department.3", "sWidth": '50px'}, {"sTitle": "Job.Title.4", "sWidth": '50px'}, {"sTitle": "Organization.4", "sWidth": '50px'}, {"sTitle": "Department.4", "sWidth": '50px'}, {"sTitle": "Job.Title.5", "sWidth": '50px'}, {"sTitle": "Organization.5", "sWidth": '50px'}, {"sTitle": "Department.5", "sWidth": '50px'}, {"sTitle": "Phone.Number", "sWidth": '50px'}, {"sTitle": "Email.Address", "sWidth": '50px'}, {"sTitle": "Bio", "sWidth": '50px'}, {"sTitle": "Websites", "sWidth": '50px'}, {"sTitle": "Videos", "sWidth": '50px'}, {"sTitle": "Organ.Site", "sWidth": '50px'}, {"sTitle": "Designation", "sWidth": '50px'}, {"sTitle": "Institutional.Affiliation", "sWidth": '50px'}, {"sTitle": "Focus.Areas", "sWidth": '50px'}, {"sTitle": "Modified", "sWidth": '50px'}, {"sTitle": "Modified.By", "sWidth": '50px'}, {"sTitle": "Member.Photos", "sWidth": '50px'}, {"sTitle": "FH.Primary", "sWidth": '50px'}, {"sTitle": "Departments.and.Divisions", "sWidth": '50px'}, {"sTitle": "Converis.ID", "sWidth": '50px'}, {"sTitle": "Item.Type", "sWidth": '50px'}, {"sTitle": "Path", "sWidth": '50px'}, {"sTitle": "sttr", "sWidth": '50px'}, {"sTitle": "Notes", "sWidth": '50px'}, {"sTitle": "Send", "sWidth": '50px'}, {"sTitle": "Responded", "sWidth": '50px'}, {"sTitle": "omicsField", "sWidth": '50px'}, {"sTitle": "specialty", "sWidth": '50px'}, {"sTitle": "keywords", "sWidth": '50px'}, {"sTitle": "software", "sWidth": '50px'}, {"sTitle": "contact", "sWidth": '50px'}, {"sTitle": "photoHeight", "sWidth": '50px'}, {"sTitle": "photoWidth", "sWidth": '50px'}, {"sTitle": "AllInsts", "sWidth": '50px'}, {"sTitle": "UniqueKeywords", "sWidth": '50px'}]
  		 $("#DataTable").dataTable({
        		  "aoColumns": ColumnTitle,
          })   // dataTable
@@ -101,7 +116,7 @@ $(document).ready(function() {
 
  	tableRef = $("#DataTable").dataTable();
 
-	d3.json("data/AthenaRainier_merged_byIndex_draft_1-14-15.txt", function(json){
+	d3.json("data/AthenaRainier_merged_byIndex_1-26-15.txt", function(json){
 
 		 var DataTable=json
 		 tableRef.fnAddData(DataTable);
@@ -124,7 +139,7 @@ $(document).ready(function() {
      		
     $(".PopularSearch").click(function(){
         var SearchTerms = this.innerHTML
-        if(SearchTerms.match("Personalized Medicine")) { SearchTerms = "\"Personalized Medicine\" \"Precision Medicine\"" }
+        if(SearchTerms.match("Personalized Medicine")) { SearchTerms = "\"Personalized Medicine\" \"Precision Medicine\" \"Diagnostic test\"" }
         else if(SearchTerms.match("RNAseq")){SearchTerms = "RNAseq RNA-seq RNAseq"}
         else{SearchTerms = "\""+SearchTerms+"\""}
         document.getElementById("QueryFreeInput").value = SearchTerms;
@@ -224,9 +239,6 @@ $(document).ready(function() {
           $("#ProfileResults").html(SortedProfiles)
 
       }
-
-       
-
         updateActiveContent()
     }
 
@@ -275,7 +287,7 @@ $(document).ready(function() {
         checkOffset(); 
     }
 
-  //----------------------------------------------------------------------------------------------------	
+ //----------------------------------------------------------------------------------------------------	
  // Expand and Contract Profile views 
   function toggleContent(elem, content){
                
@@ -367,7 +379,7 @@ $(document).ready(function() {
          //searches for filter String in column (TableColumn) using RegEx (true) without smart filtering (false)
     }
 
-  //----------------------------------------------------------------------------------------------------	
+   //----------------------------------------------------------------------------------------------------
 	function toggle_visibility(activeSpanID, activeDivID){
         activeContent = activeSpanID;
         var els = document.getElementsByClassName('MainFrameDiv');
@@ -490,8 +502,7 @@ $(document).ready(function() {
             tableRef.fnFilter("", 0); // clear index filter
            }
       }
-      
-    //----------------------------------------------------------------------------------------------------
+     //----------------------------------------------------------------------------------------------------
      function FullProfile(elem){
       
       if(elem.className.match("toExpand") != null){
@@ -876,74 +887,22 @@ $(document).ready(function() {
         var e = document.getElementById("PlotFeature");
         var Feature = e.options[e.selectedIndex].text;
         var values = [], reqd = [], LookUpProfiles = []
-      if(Feature == "Institute"){
-          var Insts = [6,9,12,15,18]
-          for (var row=0;row<data.length;row++){
-            var Appts = []
-            for(var i=0;i<Insts.length;i++){
-              var inst = data[row][Insts[i]], instArray = inst.replace(/[;,\/]+\s+/g, ";").split(/[;,\/]+/);
-              for(var j=0;j<instArray.length;j++){   // separate Multiple institution appointments - eg Fred Hutch; Howard Hughes or Fred Hutch; UW
-                  if(instArray[j] != "" &  instArray[j] != "NA"){
-                     if(Appts.indexOf(instArray[j]) == -1){   //if first instance of institute for person (don't count multiple appts for same institute)
-                        Appts.push(instArray[j])
-                        if (typeof LookUpProfiles[instArray[j]] === "undefined") {          // not found
-                               LookUpProfiles[instArray[j]] ={Name: instArray[j], count: 1, Index: [data[row][0]]}   // add Field name and populate array of indices
-                        } else {  // Field already defined
-                               LookUpProfiles[instArray[j]].count += 1
-                               LookUpProfiles[instArray[j]].Index.push( data[row][0])
-                        }    
-                    }
-                  }
-              }
-            }
-          if(Appts.length) values= values.concat(Appts)  
-         }
-         $("#FilterInstitution :checkbox:checked").each(function() {
-            reqd.push($(this).val()) })
+  
+     var Colmn;
+    if(Feature == "keywords"){ Colmn = 49 }
+    else if (Feature == "Institute"){ 
+       Colmn = 48; $("#FilterInstitution :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
+    else if (Feature == "Computational Field"){
+       Colmn = 41; $("#FilterOmics :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
+    else if (Feature == "DiseaseType"){
+       Colmn = 25; $("#FilterDisease :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
+    else if (Feature == "Contact for"){
+       Colmn = 45; $("#FilterContactFor :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
 
-      } else if(Feature == "Contact for"){
-           for(var row=0;row<data.length; row++){
-            var featType = data[row][45]
-            if(featType == "" |  featType == "NA") featType = "not reported"
-            var featArray = featType.split(";")
-            if(featArray.length){
-               values= values.concat(featArray)  
-               for(var j =0;j<featArray.length;j++){
-                 if (typeof LookUpProfiles[featArray[j]] === "undefined") {          // not found
-                               LookUpProfiles[featArray[j]] ={Name: featArray[j], count: 1, Index: [data[row][0]]}   // add Field name and populate array of indices
-                        } else {  // Field already defined
-                               LookUpProfiles[featArray[j]].count += 1
-                               LookUpProfiles[featArray[j]].Index.push( data[row][0])
-                        } 
-              }
-            }
-          }
-         $("#FilterContactFor :checkbox:checked").each(function() {
-            reqd.push($(this).val()) })
-      } else if(Feature == "DiseaseType"){
-         for(var row=0;row<data.length; row++){
-            var disType = data[row][25]
-            if(disType == "" |  disType == "NA") disType = "not reported"
-            var disArray = disType.split(";#")
-            if(disArray.length){
-               values= values.concat(disArray)  
-               for(var j =0;j<disArray.length;j++){
-                 if (typeof LookUpProfiles[disArray[j]] === "undefined") {          // not found
-                               LookUpProfiles[disArray[j]] ={Name: disArray[j], count: 1, Index: [data[row][0]]}   // add Field name and populate array of indices
-                        } else {  // Field already defined
-                               LookUpProfiles[disArray[j]].count += 1
-                               LookUpProfiles[disArray[j]].Index.push( data[row][0])
-                        } 
-              }
-            }
-        }
-         $("#FilterDisease :checkbox:checked").each(function() {
-            reqd.push($(this).val()) })
-      } else if(Feature == "Computational Field"){   
           for(var row=0;row<data.length; row++){
-            var featType = data[row][41]
+            var featType = data[row][Colmn]
             if(featType == "" |  featType == "NA") featType = "not reported"
-            var featArray = featType.split(";")
+            var featArray = uniqueArray(featType.split(";").clean(""))
             if(featArray.length){
              values= values.concat(featArray)  
               for(var j =0;j<featArray.length;j++){
@@ -956,9 +915,6 @@ $(document).ready(function() {
               }
             }
          }
-         $("#FilterOmics :checkbox:checked").each(function() {
-            reqd.push($(this).val()) })
-      }
       
         var groups = getCounts(values, reqd)
         var TooSmall = groups.filter(function(d){ return reqd.indexOf(d.Name) == -1 & d.count <=2 })
@@ -1065,12 +1021,12 @@ $(document).ready(function() {
            canvg(canvas,content);      // Draw svg on canvas
            var theImage = canvas.toDataURL('image/jpg');      // Change img to SVG representation
            
-           sendImageToPDF(theImage);
+           sendImageToPDF(theImage, canvas.clientWidth, canvas.clientHeight);
         }
   }	
   
  //----------------------------------------------------------------------------------------------------
-  function sendImageToPDF(ImageURL){
+  function sendImageToPDF(ImageURL, w, h){
 
      //----------------------------------------------------------------------------------------------------
        var centeredText = function(text, y) {
@@ -1091,7 +1047,14 @@ $(document).ready(function() {
          }
      //----------------------------------------------------------------------------------------------------
        var createPDF = function(imgData) {         
-             doc.addImage(imgData, 'JPEG',0.3, 1.3, 7.7, 7.5); 
+            var ImgWidth = w/96; var ImgHeight = h/96;
+            var scaleFactor = 1
+            if(ImgWidth > 7.5){ 
+              scaleFactor= 7.5/ImgWidth;
+              ImgWidth *= scaleFactor
+              ImgHeight *= scaleFactor }
+
+             doc.addImage(imgData, 'JPEG',0.3, 1.3, ImgWidth, ImgHeight); 
              doc.save('STTRconnect.pdf');
 	     };
 
@@ -1165,11 +1128,31 @@ $(document).ready(function() {
             var email = rows[i][21]
             var Title = rows[i][5] + ", " + rows[i][6]
             var Bio = rows[i][22].replace(/@/g,"\r\n")
-            var AddtlPos   = $("#Profile_"+RowIdx+"_addtlPos")[0].innerHTML.replace(/<.+?>/g,"").replace(/[\r|\n]$/,"")
-            var ContactFor = $("#Profile_"+RowIdx+"_ContactFor")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"")
-            var Disease    = $("#Profile_"+RowIdx+"_Disease")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"").replace(/; $/,"")
-            var Omics      = $("#Profile_"+RowIdx+"_Omics")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"").replace(/; $/,"")
-                     
+            var AddtlPos   = ""
+            var ContactFor = ""
+            var Disease    = ""
+            var Omics      = ""
+
+            if($("#Profile_"+RowIdx)[0].className.match("ProfileNotYetLoaded")){
+               var addtlPos = [8,11,14,17];
+               var AddedPos = ""
+               for(var j=0; j<addtlPos.length; j++){
+                 if(rows[0][addtlPos[j]] != "" & rows[0][addtlPos[j]] != "NA"){
+                    AddedPos = AddedPos + rows[0][addtlPos[j]] + ", " + rows[0][addtlPos[j]+1] + ": " + rows[0][addtlPos[j]+2] + ";"
+                 }           
+               }
+               AddtlPos = AddedPos
+ 
+               if(rows[0][25] !== "" & rows[0][25] !== "NA"){ Disease =  rows[0][25].replace(/#/g,"") }
+               if(rows[0][41] !== "" & rows[0][41] !== "NA"){ Omics = rows[0][41] }   
+               if(rows[0][45] !== "" & rows[0][45] !== "NA"){ ContactFor = rows[0][45]}
+           }else{
+                AddtlPos   = $("#Profile_"+RowIdx+"_addtlPos")[0].innerHTML.replace(/<.+?>/g,"").replace(/[\r|\n]$/,"")
+                ContactFor = $("#Profile_"+RowIdx+"_ContactFor")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"")
+                Disease    = $("#Profile_"+RowIdx+"_Disease")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"").replace(/; $/,"")
+                Omics      = $("#Profile_"+RowIdx+"_Omics")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"").replace(/; $/,"")
+           }
+                      
             verticalOffset += 0.2
             doc.setFontType("bold");   addPDFcontent(Name)
             doc.setFontType("normal"); addPDFcontent(email)
@@ -1186,12 +1169,12 @@ $(document).ready(function() {
                previousText = true;
             }
             if(Disease != ""){  
-               Disease = Disease.replace(/Disease type /, "")
+               Disease = Disease.replace(/Disease type /, "").replace(/&amp;/g, "&")
                if(previousText) Disease = " / " + Disease
                CategoryText  = CategoryText + Disease
                previousText = true;
             }if(Omics != ""){  
-               Omics = Omics.replace(/-omics field /, "")
+               Omics = Omics.replace(/Computational field /, "")
                if(previousText) Omics = " / " + Omics
                CategoryText  = CategoryText + Omics
             }
