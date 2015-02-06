@@ -182,6 +182,12 @@ $(document).ready(function() {
        $("#NumItemsSettings")[0].innerHTML = $(this)[0].innerHTML
        resetPagingSystem()
     })
+    $(".unselectedItemNumber").each(function(){
+      if($(this)[0].innerHTML == "20"){
+        $(this)[0].className = "selectedItemNumber"
+      }
+    })
+
     $(".barPlot").click(function(){  toggle_visibility("barplot", "VISUALIZEdiv") })
     $(".plotOption").change(updateActiveContent);
          // settings within visualization changed & need redrawn
