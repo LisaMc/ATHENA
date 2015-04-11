@@ -73,7 +73,7 @@
   <!-- START BODY ELEMENT -->
   <div class="body" id="body_element"> 
     <div id="mainContent">
-           <div id="SideNav" class="SideNav">
+           <div id="SideNav" class="SideNav dropSecond">
                <div class="filter">
                 <ul id="FilterInstitution" class="filterOptions showContent">
                 <h2><b> Institution </b> </h2>
@@ -151,7 +151,7 @@
    		        
  		  </div> <!-- SideNav -->
 
-     <div id="RightBar" class="RightBar" > 
+     <div id="RightBar" class="RightBar dropFirst" > 
         <div class="RightNavSection"> <b>Profile</b><br>
           <div onclick='EditProfile(this)' style='margin-top:5px;cursor:pointer'>
              <span class='glyphicon glyphicon-pencil' aria-hidden='true'></span>
@@ -212,7 +212,7 @@
 				    </ul>
 			      </div>
 			      <div class="col-sm-4"><h4 style="text-align:center;  text-decoration: underline;">Sort by</h4>
-				    <ul class="multi-column-dropdown"> 
+				    <ul class="multi-column-dropdown" style="min-width:100px"> 
 					  <li><a href="javascript:void(0)" onclick="sortBy(this)" class="selectedSort">name<b class="glyphicon glyphicon-arrow-down sortAscending" style="color:#60a8fa; font-size:0.75em; padding-left:3px"></b></a></li>
                     </ul>
 		          </div>
@@ -453,11 +453,11 @@
      </div></nav><!-- /utility_nav -->
 
      <div class="runningHeader"> 
-    <span id="HomeSpan" style="text-align:center;min-width:200px;font-size:2.5em;font-family:sans-serif;cursor:pointer; position:relative;top:30px; left:10px; float:left; margin-right:25px"><span style="color:#60a8fa;">STTR</span><span style="color:white;font-size:0.8em">connect</span>     </span>
-     <div id="SEARCH_BARdiv" style="width:60%;float:left;">
+    <span id="HomeSpan" class="dropThird" style="text-align:center;min-width:200px;font-size:2.5em;font-family:sans-serif;cursor:pointer; position:relative;left:10px; float:left; margin-right:25px"><span style="color:#60a8fa;">STTR</span><span style="color:white;font-size:0.8em">connect</span>     </span>
+     <div id="SEARCH_BARdiv" class="searchBar" style="width:60%;padding-top:7px;">
        <div class="sitesearch">
             <form id="QueryFreeForm" record="'search', {'keyword': '', 'results':'', 'executionTime':''}" style="width:90%;float:left;border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px" >
- 		 	<input class="searchbox" maxlength="2048" id="QueryFreeInput" name="QueryText" placeholder="SEARCH for..." value="" type="text" style="color:black"/>
+ 		 	<input class="searchbox" maxlength="2048" id="QueryFreeInput" name="QueryText" placeholder="SEARCH for..." value="" type="text" style="color:black;;border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px "/>
     		<input class="searchbutton" value="&gt;" type="submit" style="float:left;border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px"/>    
   			</form>
          

@@ -1,4 +1,6 @@
 var tableRef;
+var GoogleMap;
+var MarkerHash;
 var activeContent = "SearchSpan";
 //DataTable columns: LastName:2, FirstName:3, Degree:4, Job Title, Organization Dept
 //Inst: 6 
@@ -65,14 +67,22 @@ function checkOffset() {
            $("#SideNav").css("height", $(window).height() -100)
            $("#RightBar").css("height", $(window).height() -100)
         }
-     $("#DisplaySettingsDiv").css("width", $("#DataToExport").width())
+ //    $("#DisplaySettingsDiv").css("width", $("#DataToExport").width())
+     $("#DisplaySettingsDiv").css("width", $("#SEARCHdiv").width())
      $("#DataToExport").css("top",  $("#DisplaySettingsDiv").height() + 10)
 }
 
 
 //----------------------------------------------------------------------------------------------------
 // resize side frames based on window height and header/footer position of scroll
-   window.onresize = function() { checkOffset(); if(activeContent !== "SearchSpan") updateActiveContent();};	
+   window.onresize = function() { 
+      checkOffset(); 
+      if(activeContent !== "SearchSpan" && activeContent !== "googleMap") updateActiveContent();
+      if(typeof GoogleMap !== "undefined"){
+        google.maps.event.trigger(GoogleMap, "resize");
+        GoogleMap.setCenter(GoogleMap.getCenter()); 
+      }
+   };	
    $(window).scroll(checkOffset);
 //----------------------------------------------------------------------------------------------------
    
@@ -105,7 +115,8 @@ $(document).ready(function() {
    }
 	checkOffset();       
 	
-    var ColumnTitle = [ {"sTitle": "Index", "sWidth": '50px'}, {"sTitle": "Full.Name", "sWidth": '50px'}, {"sTitle": "Last.Name", "sWidth": '50px'}, {"sTitle": "First.Name", "sWidth": '50px'}, {"sTitle": "Degrees", "sWidth": '50px'}, {"sTitle": "Job.Title.1", "sWidth": '50px'}, {"sTitle": "Primary.Organization", "sWidth": '50px'}, {"sTitle": "Department.1", "sWidth": '50px'}, {"sTitle": "Job.Title.2", "sWidth": '50px'}, {"sTitle": "Organization.2", "sWidth": '50px'}, {"sTitle": "Department.2", "sWidth": '50px'}, {"sTitle": "Job.Title.3", "sWidth": '50px'}, {"sTitle": "Organization.3", "sWidth": '50px'}, {"sTitle": "Department.3", "sWidth": '50px'}, {"sTitle": "Job.Title.4", "sWidth": '50px'}, {"sTitle": "Organization.4", "sWidth": '50px'}, {"sTitle": "Department.4", "sWidth": '50px'}, {"sTitle": "Job.Title.5", "sWidth": '50px'}, {"sTitle": "Organization.5", "sWidth": '50px'}, {"sTitle": "Department.5", "sWidth": '50px'}, {"sTitle": "Phone.Number", "sWidth": '50px'}, {"sTitle": "Email.Address", "sWidth": '50px'}, {"sTitle": "Bio", "sWidth": '50px'}, {"sTitle": "Websites", "sWidth": '50px'}, {"sTitle": "Videos", "sWidth": '50px'}, {"sTitle": "Organ.Site", "sWidth": '50px'}, {"sTitle": "Designation", "sWidth": '50px'}, {"sTitle": "Institutional.Affiliation", "sWidth": '50px'}, {"sTitle": "Focus.Areas", "sWidth": '50px'}, {"sTitle": "Modified", "sWidth": '50px'}, {"sTitle": "Modified.By", "sWidth": '50px'}, {"sTitle": "Member.Photos", "sWidth": '50px'}, {"sTitle": "FH.Primary", "sWidth": '50px'}, {"sTitle": "Departments.and.Divisions", "sWidth": '50px'}, {"sTitle": "Converis.ID", "sWidth": '50px'}, {"sTitle": "Item.Type", "sWidth": '50px'}, {"sTitle": "Path", "sWidth": '50px'}, {"sTitle": "sttr", "sWidth": '50px'}, {"sTitle": "Notes", "sWidth": '50px'}, {"sTitle": "Send", "sWidth": '50px'}, {"sTitle": "Responded", "sWidth": '50px'}, {"sTitle": "omicsField", "sWidth": '50px'}, {"sTitle": "specialty", "sWidth": '50px'}, {"sTitle": "keywords", "sWidth": '50px'}, {"sTitle": "software", "sWidth": '50px'}, {"sTitle": "contact", "sWidth": '50px'}, {"sTitle": "photoHeight", "sWidth": '50px'}, {"sTitle": "photoWidth", "sWidth": '50px'}, {"sTitle": "AllInsts", "sWidth": '50px'}, {"sTitle": "UniqueKeywords", "sWidth": '50px'}]
+    var ColumnTitle = [ {"sTitle": "Index", "sWidth": '50px'}, {"sTitle": "Cancer Type", "sWidth": '50px'}, {"sTitle": "Resource Type", "sWidth": '50px'}, {"sTitle": "Resource", "sWidth": '50px'}, {"sTitle": "Resource Description", "sWidth": '50px'}, {"sTitle": "Resource Organization", "sWidth": '50px'}, {"sTitle": "Resource Link", "sWidth": '50px'}, {"sTitle": "Organization Phone Number", "sWidth": '50px'}, {"sTitle": "Email", "sWidth": '50px'}, {"sTitle": "City/County", "sWidth": '50px'}, {"sTitle": "Address", "sWidth": '50px'}, {"sTitle": "Cost", "sWidth": '50px'}, {"sTitle": "Location", "sWidth": '50px'}, {"sTitle": "Latitude", "sWidth": '50px'}, {"sTitle": "Longitude", "sWidth": '50px'}]
+//"Index", "Cancer Type", "Resource Type", "Resource", "Resource Description", "Resource Organization", "Resource Link", "Organization Phone Number", "Email", "City/County", "Address", "Cost"										
  		 $("#DataTable").dataTable({
        		  "aoColumns": ColumnTitle,
          })   // dataTable
@@ -115,17 +126,18 @@ $(document).ready(function() {
 
  	tableRef = $("#DataTable").dataTable();
 
-	d3.json("data/AthenaRainier_merged_byIndex_1-26-15.txt", function(json){
+	d3.json("data/All_Cancer_Patient_Resources_4-1-15.txt", function(json){
 
 		 var DataTable=json
 		 tableRef.fnAddData(DataTable);
-         tableRef.fnSort([2, "asc"])  //move non-STTR or survey people to end
+         tableRef.fnSort([3, "asc"])  // sort by resource name
 
         document.getElementById("NumberOfResultsDiv").innerHTML = tableRef._('tr', {"filter":"applied"}).length
-        document.getElementById("SearchStringDiv").innerHTML = "(all STTR/Computational people)";
+        document.getElementById("SearchStringDiv").innerHTML = "(National/WWAMI Resources)";
 
         createProfileContainerFromTable();  //loads divs for each of the RowIdx, but not any data (set class to ProfileNotYetLoaded)
         resetPagingSystem()         //checks if profiles being show are in class ProfileNotYetLoaded and calls function
+        drawGoogleMap()
 
         // only called once to generate profiles - id set as "Profile_"+idx where idx = row[][0]
 
@@ -138,8 +150,8 @@ $(document).ready(function() {
      		
     $(".PopularSearch").click(function(){
         var SearchTerms = this.innerHTML
-        if(SearchTerms.match("Personalized Medicine")) { SearchTerms = "\"Personalized Medicine\" \"Precision Medicine\" \"Diagnostic test\"" }
-        else if(SearchTerms.match("RNAseq")){SearchTerms = "RNAseq RNA-seq RNAseq"}
+        if(SearchTerms.match("Yoga")) { SearchTerms = "Yoga" }
+        else if(SearchTerms.match("College Scholarships")){SearchTerms = "College Scholarships"}
         else{SearchTerms = "\""+SearchTerms+"\""}
         document.getElementById("QueryFreeInput").value = SearchTerms;
         $(".toClear").each(function(){ 
@@ -157,8 +169,10 @@ $(document).ready(function() {
              toggle_visibility("SearchSpan", "SEARCHdiv");          });
         $("#ProfileSpan").click(function(){ 
              toggle_visibility("ProfileSpan", "PROFILEdiv");        });
-        $(".VisualizeSpan").click(function(){ 
-             toggle_visibility("", "VISUALIZEdiv");                 });
+        $(".ListSpan").click(function(){ 
+             toggle_visibility("SearchSpan", "SEARCHdiv");                 });
+        $(".Disclaimer").click(function(){ 
+             toggle_visibility("Disclaimer", "DISCLAIMERdiv");                 });
         $("#HomeSpan").click(function(){ 
 //            toggle_visibility("Home", "HOMEdiv");
              if( document.getElementById("ProfileResults") == null)
@@ -175,24 +189,18 @@ $(document).ready(function() {
     $(".toSelectAll").click(function(){selectAll(this, this.parentNode) })
     // update filter selections by sideNav selections
 
-    $(".unselectedItemNumber").click(function(){ 
-       $(".selectedItemNumber")[0].className = "unselectedItemNumber"
-       $(this)[0].className= "selectedItemNumber"
-       $("#NumItemsSettings")[0].innerHTML = $(this)[0].innerHTML
-       resetPagingSystem()
-    })
-    $(".unselectedItemNumber").each(function(){
-      if($(this)[0].innerHTML == "20"){
-        $(this)[0].className = "selectedItemNumber"
-      }
-    })
+//    $(".mapPlot").click(function(){  toggle_visibility("map", "VISUALIZEdiv") })
+//    $(".googleMap").click(function(){  toggle_visibility("googleMap", "VISUALIZEdiv") })
+    
+    $("#userLocation").keydown(function(){ $('#currentLocationCheckbox')[0].checked = false; })
+    $("#locate").click(function(){  searchByLocation() })
+	$('#currentLocationCheckbox').click(function(){  useCurrentLocation(); });	
+     $('#zoom').multiselect({maxHeight:200, buttonWidth: '150px', nonSelectedText: 'Zoom Level'});
 
-    $(".barPlot").click(function(){  toggle_visibility("barplot", "VISUALIZEdiv") })
     $(".plotOption").change(updateActiveContent);
          // settings within visualization changed & need redrawn
 
 	$("#SideNav").css("height", $(window).height() - 100)
-
 		
 }); //document.ready
 
@@ -222,11 +230,11 @@ $(document).ready(function() {
         if(sortDirection.match("sortAscending")){
            elem.children[0].className = elem.children[0].className.replace("glyphicon-arrow-down", "glyphicon-arrow-up")
            elem.children[0].className = elem.children[0].className.replace("sortAscending", "sortDescending")
-           tableRef.fnSort([2, "desc"])  //sort by last name
+           tableRef.fnSort([3, "desc"])  //sort by resource name
         }else {
            elem.children[0].className = elem.children[0].className.replace("glyphicon-arrow-up", "glyphicon-arrow-down")
            elem.children[0].className = elem.children[0].className.replace("sortDescending", "sortAscending")
-           tableRef.fnSort([2, "asc"])  //sort by last name
+           tableRef.fnSort([3, "asc"])  //sort by resource name
         }
          
           var $ProfileList = $("div.ProfileContainer")
@@ -252,9 +260,13 @@ $(document).ready(function() {
   function updateDisplay(elem){
      
          activeContent =  elem.innerHTML.replace(/<.+?>/g,"");
-         if(activeContent == "profiles"){
+         if(activeContent == "list"){
            activeContent = "SearchSpan"
            toggle_visibility("SearchSpan", "SEARCHdiv");
+         } else if (activeContent == "map"){
+           toggle_visibility("map", "VISUALIZEdiv")
+         } else if (activeContent == "googleMap"){
+           toggle_visibility("googleMap", "VISUALIZEdiv")
          } else if (activeContent == "barplot"){
            toggle_visibility("barplot", "VISUALIZEdiv")
          }        
@@ -263,12 +275,13 @@ $(document).ready(function() {
     function updateActiveContent(){
 
         document.getElementById("NumberOfResultsDiv").innerHTML =  tableRef._('tr', {"filter":"applied"}).length
-      if(activeContent != "ProfileSpan"){
+      if(activeContent != "ProfileSpan" & activeContent != "Disclaimer"){
            $("#SearchDisplayOptions")[0].style.display = "block"
            $("#ReportSearchFilterDiv")[0].style.display = "block"
            $("#ReturnToSearch")[0].style.display = "none"
            $("#DataToExport").css("top",  $("#DisplaySettingsDiv").height() + 10)
       }  
+
         var els = document.getElementsByClassName('selectedDisplay');
         for(var i=0; i<els.length; ++i){     //set all displays to none within SearchDisplayOptions
             els[i].className =  'unselectedDisplay';
@@ -278,15 +291,22 @@ $(document).ready(function() {
           $("#SEARCHdiv").css("top", 0)
           $("#SEARCHdiv").css("position", "relative")
 
-          $("#DisplaySettings").text("profiles")
-          document.getElementById("selectedDisplayProfiles").className = "selectedDisplay"
+          $("#DisplaySettings").text("list")
+//          document.getElementById("selectedDisplayProfiles").className = "selectedDisplay"
           getProfilesFromTable();
           resetPagingSystem();
+          drawGoogleMap()
+
         }
-        else if (activeContent == "barplot"){
-          $("#DisplaySettings").text("barplot")
-          document.getElementById("selectedDisplayBarplot").className = "selectedDisplay"
-            drawBarplot();
+        
+        else if (activeContent == "Disclaimer"){
+           $("#SearchDisplayOptions")[0].style.display = "none"
+           $("#ReportSearchFilterDiv")[0].style.display = "none"
+           $("#ReturnToSearch")[0].style.display = "block"
+
+//          $("#DisplaySettings").text("Disclaimer")
+//          document.getElementById("selectedDisplayDisclaimer").className = "selectedDisplay"
+            
         }
            
         checkOffset(); 
@@ -296,11 +316,11 @@ $(document).ready(function() {
  // Expand and Contract Profile views 
   function toggleContent(elem, content){
                
-     if(content.className.match("hideContent") != null){
-        content.className = content.className.replace("hideContent", "showContent")
+     if(content.className.match("hideContentPtRes") != null){
+        content.className = content.className.replace("hideContentPtRes", "showContent")
            elem.className = elem.className.replace("toExpand", "toContract");
      } else {
-        content.className= content.className.replace("showContent", "hideContent");
+        content.className= content.className.replace("showContent", "hideContentPtRes");
            elem.className = elem.className.replace("toContract","toExpand");
      } ;
   };
@@ -309,19 +329,16 @@ $(document).ready(function() {
  // respond to SideNav selections for filtering
 	function toggle_selection(group){
 	
-        if(group == "fil_inst"){
-           tableRef.fnFilter("", 48);  
-           Filter_Selection("FilterInstitution", "ReportInstFilterSpan",48, "<i> from </i>")
+        if(group == "fil_location"){
+           tableRef.fnFilter("", 12);  
+           Filter_Selection("FilterLocation", "ReportLocationFilterSpan",12, "<i> from </i>")
+        } else if(group == "fil_resource"){
+           tableRef.fnFilter("", 2); 
+           Filter_Selection("FilterResource", "ReportResourceFilterSpan",2, "<i> providing </i>")
         } else if(group == "fil_disease"){        
-           tableRef.fnFilter("", 25); 
-           Filter_Selection("FilterDisease", "ReportDiseaseFilterSpan",25, "<i> researching </i>")
-        } else if(group == "fil_omics"){
-           tableRef.fnFilter("", 41); 
-           Filter_Selection("FilterOmics", "ReportOmicsFilterSpan",41, "<i> specializing in </i>")
-        } else if (group == "fil_contact"){
-           tableRef.fnFilter("", 45);
-           Filter_Selection("FilterContactFor", "ReportContactForFilterSpan",45, "<i> available for </i>")
-        }    
+           tableRef.fnFilter("", 1); 
+           Filter_Selection("FilterDisease", "ReportDiseaseFilterSpan",1, "<i> with disease type: </i>")
+        }     
         updateActiveContent();
     }
  //----------------------------------------------------------------------------------------------------	  
@@ -417,10 +434,9 @@ $(document).ready(function() {
    function showAllRows() {
       
       tableRef.fnFilter("");
-      tableRef.fnFilter("", 48);  // clear Inst filter
-      tableRef.fnFilter("", 25); // clear field filter
-      tableRef.fnFilter("", 41);  // clear omics filter
-      tableRef.fnFilter("", 45); // clear contact filter
+      tableRef.fnFilter("", 1);  // clear disease filter
+      tableRef.fnFilter("", 2); // clear resource filter
+      tableRef.fnFilter("", 12);  // clear location filter
 
       tableRef.fnDraw()
    }
@@ -438,16 +454,15 @@ $(document).ready(function() {
         showAllRows();
        
         if(wordArray.length == 0){
-           document.getElementById("SearchStringDiv").innerHTML = "(all STTR/Computational people)";
+           document.getElementById("SearchStringDiv").innerHTML = "(National/WWAMI Resources)";
         }else{
            document.getElementById("SearchStringDiv").innerHTML = searchString;
            SearchTableByStrings(wordArray); 
         }  
         
-        Filter_Selection("FilterInstitution", "ReportInstFilterSpan",48, "<i> from </i>")
-        Filter_Selection("FilterDisease", "ReportDiseaseFilterSpan",25, "<i> specializing in </i>")
-        Filter_Selection("FilterOmics", "ReportOmicsFilterSpan",41, "<i> specializing in </i>")
-        Filter_Selection("FilterContactFor", "ReportContactForFilterSpan",45, "<i> for </i>")
+//        Filter_Selection("FilterLocation", "ReportLocationFilterSpan",12, "<i> from </i>")
+        Filter_Selection("FilterDisease", "ReportDiseaseFilterSpan",1, "<i> specializing in </i>")
+        Filter_Selection("FilterResource", "ReportResourceFilterSpan",2, "<i> specializing in </i>")
    }
 
    //----------------------------------------------------------------------------------------------------
@@ -471,38 +486,36 @@ $(document).ready(function() {
            $("#ReportSearchFilterDiv")[0].style.display = "none"
            $("#ReturnToSearch")[0].style.display = "block"
            
-           if(elem.id == ""){
-                $("#edit_firstname").val("")
-                $("#edit_lastname").val("")
-                $("#edit_degrees").val("")
-                $("#edit_bio").val("")
-                $("#edit_institution").val("")
-                $("#edit_title").val("")
-                $("#edit_website").val("")
-                $("#edit_disease").val("")
-                $("#edit_omics").val("")
-                $("#edit_contact").val("")
-                $("#edit_keywords").val("")  
+     $('#edit_disease').multiselect({numberDisplayed: 3, maxHeight:200, buttonWidth: '250px'});
+     $('#edit_resource').multiselect({numberDisplayed: 3, maxHeight:200, buttonWidth: '250px'});
 
+          if(elem.id == ""){
+
+                $("#edit_name").val("")
+                $("#edit_organization").val("")
+                $("#edit_website").val("")
+                $("#edit_description").val("")
+                $("#edit_phone").val("")
+                $("#edit_email").val("")
+                $("#edit_address").val("")
+                var selectedDisease = $('#edit_disease option:selected');
+                var selectedResource = $('#edit_resource option:selected');
            }
            else{
               var RowIdx = elem.id.match(/\d+/)[0]
               var FilterString = "^"+RowIdx+"$"
                   tableRef.fnFilter(FilterString, 0, true, false); //searches index column for Profile Index
               var row = tableRef._('tr', {"filter":"applied"});   
-                $("#edit_firstname").val(row[0][3])
-                $("#edit_lastname").val(row[0][2])
-                $("#edit_degrees").val(row[0][4])
-                $("#edit_bio").val(row[0][22])
-                $("#edit_institution").val(row[0][6])
-                $("#edit_title").val(row[0][5])
-                $("#edit_website").val(row[0][23])
-                $("#edit_disease").val(row[0][25].replace(/#/, ""))
-                $("#edit_omics").val(row[0][41])
-                $("#edit_contact").val(row[0][45])
-                var keywords = $("#Profile_"+RowIdx+"_keywords")[0].innerHTML.replace(/Keywords\s+/, "")
-                keywords = keywords.replace(/<.+?>/g,"")
-                $("#edit_keywords").val(keywords)
+                $("#edit_name").val(row[0][3])
+                $("#edit_organization").val(row[0][5])
+                $("#edit_website").val(row[0][6])
+                $("#edit_description").val(row[0][4])
+                $("#edit_phone").val(row[0][7])
+                $("#edit_email").val(row[0][8])
+                $("#edit_address").val(row[0][10])
+                $("#edit_disease").val(row[0][1])
+                $("#edit_resource").val(row[0][2])
+                $("#edit_cost").val(row[0][11])
 
             tableRef.fnFilter("", 0); // clear index filter
            }
@@ -522,7 +535,7 @@ $(document).ready(function() {
               els[i].style.display =  'none'; }
         };
       }
-         toggleContent(elem, elem.parentNode.children[4])
+         toggleContent(elem, elem.parentNode.children[3])
       }
 
  //----------------------------------------------------------------------------------------------------
@@ -556,7 +569,7 @@ $(document).ready(function() {
 	  function resetPagingSystem(){
                        
           $("#SorryMessage")[0].style.display= "none"
-           var ItemsPerPage = parseInt($(".selectedItemNumber")[0].innerHTML)
+           var ItemsPerPage = 10
            var number_of_pages = Math.ceil($('#ProfileResults .ActiveProfileContent').length / ItemsPerPage);
 
            var current_link = 0;
@@ -588,7 +601,7 @@ $(document).ready(function() {
 
    //----------------------------------------------------------------------------------------------------
        function go_to_page(page_num) {
-          var show_per_page = parseInt($(".selectedItemNumber")[0].innerHTML)
+          var show_per_page = 10
           var start_from = page_num * show_per_page;
           var end_on = start_from + show_per_page;
            var number_of_pages = Math.ceil($('#ProfileResults .ActiveProfileContent').length / show_per_page);
@@ -651,7 +664,7 @@ $(document).ready(function() {
         document.getElementById("NumberOfResultsDiv").innerHTML = rows.length
         
         if(rows.length == 0){
-           ProfileResults.append("Sorry, your search did not match any profiles.")
+           ProfileResults.append("Sorry, your search did not match any resources.")
            return;
         }
         
@@ -668,7 +681,7 @@ $(document).ready(function() {
 
      $("#VizResults")[0].innerHTML = "";
      $("#VizResults").append("<div id='VizResultsHeader'><div id='scrollToTop' style='text-align:right;color:#60a8fa;font-size:0.9em; cursor:pointer'>back to top</div>"
-        + "<div style='text-align:center; font-size:1.3em'><strong>"+ IndexArray.count+" results for "+IndexArray.Name+"</strong><br/></div></div>");
+        + "<div style='text-align:center; font-size:1.3em'><strong>"+ IndexArray.count+" results with "+IndexArray.Name+"</strong><br/></div></div>");
 
      getProfilesFromArray(IndexArray.Index)  //sets Index values to ProfileActive
      resetPagingSystem()                     // displays first set of profiles to 
@@ -680,7 +693,7 @@ $(document).ready(function() {
      $("#VizResults").css("height",$("#SEARCHdiv")[0].clientHeight)
 
      toggleWaitCursor() 
-     scrollView("VizResults")
+//     scrollView("VizResults")
      $("#scrollToTop").click( function(){
         scrollView("DataToExport")
       })
@@ -702,128 +715,53 @@ $(document).ready(function() {
            var row = tableRef._('tr', {"filter":"applied"});   
            tableRef.fnFilter("",0)
            
-         var Name = "<b>" + row[0][3]+ " " + row[0][2] + "</b>";
-          if(row[0][4] !== ""){ Name= Name.concat(", " + row[0][4]); }
-          var Title = "", Contact="";
-           if(row[0][5] !== ""){ Title = row[0][5] + "<br>"}
-           if(row[0][6] !== ""){ Title = Title + row[0][6] + "<br>"}
-           if(row[0][7] !== ""){ Title = Title + row[0][7] + "<br>"}
-//          if(row[0][20] !== ""){ Contact = row[0][20] + "<br>"}
-           if(row[0][21] !== ""){ Contact = Contact + row[0][21] + "<br>"}
+         var Name = "<b style='font-size:1.2em'>"+ row[0][3] + "</b>";
+          var Organization = "", Contact="", website = "";
+           if(row[0][5] !== ""){ Organization = row[0][5] + "<br>"}
+           if(row[0][6] !== ""){  website = "<a style='color:#60a8fa; margin-right:10px' href='"+row[0][6] + "' target='_blank'>website</a>"} 
+           if(row[0][7] !== "" & row[0][7] !== "NA"){ 
+             phone = ArrayToStringSpan(row[0][7], ";", ["", "#"], ", ")
+             phone = phone.replace(/, <\/span>$/,"</span>")
+             Contact = Contact + phone + "<br/>";
+           }
 
+//           if(row[0][7] !== ""){ Contact = Contact + row[0][7] + "<br>"}
+           if(row[0][8] !== "" & row[0][8].match(/@/) != null){ Contact = Contact + row[0][8] + "<br>"}
+           if(row[0][10] !== ""){ Contact = Contact + "<a href='javascript:void(0)' onclick='locateMarker("+RowIdx+")'><b class='glyphicon glyphicon-map-marker' style='color:#60a8fa; font-size:0.75em; padding-right:3px'></b></a>"
+                                                    + "<span style='width:50px'>" + row[0][10] + "</span><br>"}
 
           $("#Profile_"+RowIdx).append(
-              "<div id=Profile_"+RowIdx+"_edit          onclick='EditProfile(this)' class='Profile_editPencil';><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span><br></div>"
-            + "<div id=Profile_"+RowIdx+"_toggleContent onclick='FullProfile(this)' class='toggleProfileContent toExpand'>&gt;</div>"
-            + "<div id=Profile_"+RowIdx+"_Picture    class='ProfilePicturePosition'></div>"
-            + "<div id=Profile_"+RowIdx+"_Info       class='ProfileInfo'>"+ Name + "<br>"+Title+Contact+"</div>"
-            + "<div id=Profile_"+RowIdx+"_Bio        class='hideContent ProfileBio'></div>"
-            + "<div id=Profile_"+RowIdx+"_addtlPos   class='fullProfile hangingIndent' style='margin-top:5px;'></div>"
-            + "<div id=Profile_"+RowIdx+"_keywords   class='fullProfile hangingIndent' ></div>"
-            + "<div id=Profile_"+RowIdx+"_ContactFor class='fullProfile hangingIndent' ></div>"
-            + "<div id=Profile_"+RowIdx+"_Disease    class='fullProfile hangingIndent' ></div>"
-            + "<div id=Profile_"+RowIdx+"_Omics      class='fullProfile hangingIndent'></div>"
-            + "<div id=Profile_"+RowIdx+"_website    class='fullProfile' style='margin-top:5px;'></div>")
+              "<div class='ResourceMainInfo'>"
+            + "<div id=Profile_"+RowIdx+"_Name         >"+Name + "</div>"
+            + "<div class>"+Organization+"</div>"
+            + "<div id=Profile_"+RowIdx+"_Description  style='margin-top:5px'></div></div>"
+            + "<div id=Profile_"+RowIdx+"_Info         class='ResourceContact'>"+ website +"<br/>"+Contact+"</div>"
+             )
      
-           var picFile = row[0][31]
-           if(picFile == "NA" | picFile == "Yes" | picFile == "No") picFile = "Photo Coming Soon.jpg"
-//            setProfilePicture("#Profile_"+RowIdx+"_Picture", picFile)
-             $("#Profile_"+RowIdx+"_Picture").append("<img title='ProfilePicture' alt='ProfilePic' class='lazy' style='max-height:75px; max-width:50px;height:"+row[0][46]+";width:"+row[0][47]+"' src='/images/Photos/"+ picFile + "' data-src='/images/Photos/Photo Coming Soon.jpg'>")
-// needs synchronous loading so to be appended before cloning in Viz tab
+          var Desc = ""
+          if(row[0][4] !== "" & row[0][4] !== "NA"){
+             Desc = row[0][4].replace(new RegExp('@', 'g'), "<br>") + "<br>";}
+           $("#Profile_"+RowIdx+"_Description").append(Desc)
+           $("#Profile_"+RowIdx+"_Description").append("<div id=Profile_"+RowIdx+"_Category     style='clear:both;'></div>")
 
-  
-          var addtlPos = [8,11,14,17];
-          var AddedPos = ""
-          for(var j=0; j<addtlPos.length; j++){
-             if(row[0][addtlPos[j]] != "" & row[0][addtlPos[j]] != "NA"){
-                AddedPos = AddedPos + row[0][addtlPos[j]] + ", " + row[0][addtlPos[j]+1] + ": " + row[0][addtlPos[j]+2] + ";"
-             }           
+         if(row[0][1] !== "" & row[0][1] !== "NA"){ 
+             var Disease = "<text style='text-decoration:underline; padding-right:1px'>(focus:</text>"
+             Disease = Disease+ ArrayToStringSpan(row[0][1].replace(/#/g,""), ",", ["", "#"], ", ")
+             Disease = Disease.replace(/, <\/span>$/,"</span>")
+             $("#Profile_"+RowIdx+"_Category").append(Disease)
           }
-          if(AddedPos != ""){
-             AddedPos = "<b style='padding-right:5px'>Additional Positions </b>" + ArrayToStringSpan(AddedPos, ";", ["", "#"], "<br>") 
-             $("#Profile_"+RowIdx+"_addtlPos").append(AddedPos)
-             $("#Profile_"+RowIdx+"_addtlPos").css("margin-bottom","5px")
-          }
- 
-          if(row[0][25] !== "" & row[0][25] !== "NA"){ 
-             var Disease = "<b style='padding-right:38px'>Disease type </b>"
-             Disease = Disease+ ArrayToStringSpan(row[0][25].replace(/#/g,""), ";", ["", "#"], "; ")
-             $("#Profile_"+RowIdx+"_Disease").append(Disease + "<br>")
-             $("#Profile_"+RowIdx+"_Disease").css("margin-bottom","5px")
-          }
-          if(row[0][41] !== "" & row[0][41] !== "NA"){ 
-             var Omics = "<b style='padding-right:1px'>Computational field </b>"
-             Omics = Omics + ArrayToStringSpan(row[0][41], ";", ["", "#"], "; ") 
-             $("#Profile_"+RowIdx+"_Omics").append(Omics + "<br>")
-             $("#Profile_"+RowIdx+"_Omics").css("margin-bottom","5px")
+          if(row[0][2] !== "" & row[0][2] !== "NA"){ 
+             var Resource = "<text style='padding-left:5px;padding-right:1px; text-decoration:underline'>type:</text>"
+             Resource = Resource + ArrayToStringSpan(row[0][2], /\/\s*/, ["", "#"], ", ") 
+             Resource = Resource.replace(/, <\/span>$/,"</span>")
+             $("#Profile_"+RowIdx+"_Category").append(Resource + ")<br>")
           }
           
-          if(row[0][45] !== "" & row[0][45] !== "NA"){ 
-             var ContactFor = "<b style='padding-right:45px'>Contact for </b>"
-             ContactFor = ContactFor + ArrayToStringSpan(row[0][45], ";", ["", "#"], "; ")  
-             $("#Profile_"+RowIdx+"_ContactFor").append(ContactFor + "<br>")
-             $("#Profile_"+RowIdx+"_ContactFor").css("margin-bottom","5px")
-         }
-          var Websites = ""
-          if(row[0][23] !== "" & row[0][23] !== "NA"){ 
-            var sites= row[0][23]
-            var siteArray = sites.split(/[; ]+/); 
-            if(siteArray != null){
-              j=siteArray.length;
-              while(j--){ siteArray[j] = "<a href='"+siteArray[j]+"' target='_blank'>"+siteArray[j]+"</a><br>"}
-              Websites = siteArray.join("")
-            }
-            $("#Profile_"+RowIdx+"_website").append(Websites + "<br>")
-          }
-
-          var Keywords = [], Specialty = [];
-          if(row[0][28] !== "" & row[0][28] !== "NA"){ Specialty = row[0][28].toLowerCase().replace(/; /g,";").split(";")}
-          if(row[0][43] !== "" & row[0][43] !== "NA"){ Keywords  = row[0][43].toLowerCase().replace(/; /g,";").split(";")}
-          var Allkeywords = Keywords.concat(Specialty)
-          if(Allkeywords.length){
-            var UniqueKeywords = [];
-            for(kw=0;kw<Allkeywords.length;kw++){
-              if(UniqueKeywords.indexOf(Allkeywords[kw])== -1 & Allkeywords[kw] != "na")
-                 UniqueKeywords.push(Allkeywords[kw])}
-            UniqueKeywords = ArrayToStringSpan(UniqueKeywords.join(";"), ";", ["", "#"], "; ")  + "<br>"
-            $("#Profile_"+RowIdx+"_keywords").append("<b style='padding-right:54px'>Keywords </b>" + UniqueKeywords)
-            $("#Profile_"+RowIdx+"_keywords").css("margin-bottom","5px")
-          }
-
-          var Bio = ""
-          if(row[0][22] !== "" & row[0][22] !== "NA"){
-             Bio = row[0][22].replace(new RegExp('@', 'g'), "<br>") + "<br>";}
-           $("#Profile_"+RowIdx+"_Bio").append(Bio)
             
         
           
       } // createProfilesFromTable
-  //----------------------------------------------------------------------------------------------------
-	  function setProfilePicture(ImageDiv, file){
-        $.ajax({
-             url:'/images/Photos/'+file,
-             type:'HEAD',
-             error: function()    { //file does not exist
-                     $(ImageDiv).append("<img title='ProfilePicture' alt='ProfilePic' class='lazy' style='max-height:75px; max-width:50px' data-src='/images/Photos/Photo Coming Soon.jpg' src='/images/Photos/Photo Coming Soon.jpg'>")
-             },
-             success: function()  { //file exists
-                     $(ImageDiv).append("<img title='ProfilePicture' alt='ProfilePic' class='lazy' style='max-height:75px; max-width:50px' src='/images/Photos/"+ file + "' data-src='/images/Photos/Photo Coming Soon.jpg'>")
-             }
-       });
-      }
-
-  //----------------------------------------------------------------------------------------------------
-	  function setProfilePicture_redo(ImageDiv, file){
-          var img = $("<img />").attr('data-src', 'images/blank.gif').attr('src', '/images/Photos/'+ file ).attr('style','max-height:75px; max-width:50px')
-             .load(function() {
-                 if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
-                   $(ImageDiv).append("<img style='max-height:75px; max-width:50px' data-src='images/blank.gif' src='/images/Photos/Photo Coming Soon.jpg'>")
-                 } else {
-                   $(ImageDiv).append(img);
-                 }
-              });
-    }
- 
+  
  //----------------------------------------------------------------------------------------------------
      function getCounts(arrayList, required) {
         var frequency = {};
@@ -849,172 +787,194 @@ $(document).ready(function() {
         return 0;
     }
 
-  //----------------------------------------------------------------------------------------------------
-   function drawBarplot(){
+//----------------------------------------------------------------------------------------------------	
+   function init_map(){
+
+       var mapCanvas = document.getElementById('googleMapDiv');
+       var mapOptions = {
+         center: new google.maps.LatLng(39.50, -98.35),
+         zoom: 3,  //0 farthest, 22 closest
+         mapTypeId: google.maps.MapTypeId.ROADMAP  //ROADMAP, SATELLITE, HYBRID, or TERRAIN
+       }
+       GoogleMap = new google.maps.Map(mapCanvas, mapOptions);
+
+       var input = document.getElementById('userLocation');
+       var options = {  bounds: GoogleMap.getBounds(), componentRestrictions: {country: 'US'}};
+//       var options = {  bounds: GoogleMap.getBounds(),  types: ['(regions)', '(cities)'], componentRestrictions: {country: 'us'} };
+
+       autocomplete = new google.maps.places.Autocomplete(input, options);
+
+
+    var data = tableRef._('tr', {"filter": "none"}); 
+       MarkerHash = {}; // New object
+       MarkerLatLongHash = {}
  
-        d3.select("#MainGraph").select("svg").remove();
-        $("#MainGraph")[0].innerHTML = "";
-        $("#VizSubtitle")[0].innerHTML = "";
-        $("#VizAddendum")[0].innerHTML = ""
-        $("#VizResults")[0].innerHTML = "";
-        $("#SEARCHdiv")[0].style.display = "none"
-//        $("#DataToExport").scrollView();
-        scrollView("DataToExport")
-        
-        var data = tableRef._('tr', {"filter":"applied"}); 
-        var margin  = {top: 50, right: 20, bottom: 300, left: 40, leftY:30},
-             width  = $(window).width() - 600 - margin.left - margin.right - margin.leftY,
-             height = 700 - margin.top - margin.bottom;
-        
-        if(data.length == 0){
-           $("#MainGraph").append("<p><br/>Your search did not match any profiles.</p>")
-           return;
-        }
-        $("#MainGraphCanvas").css("width", width)
-
-        var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);        
-        var y = d3.scale.linear().range([height, 0]);
-        var xAxis = d3.svg.axis().scale(x).orient("bottom");
-        var yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(d3.format("d"))
-
-        var tip = d3.tip().attr('class', 'd3-tip').offset([-5, 0]).html(function(d) {
-                    return "<strong>"+ d.Name + ":</strong> <span style='color:brown'>" + d.count + "</span>";
-                  })
-
-        var svg = d3.select("#MainGraph").append("svg")
-                    .attr("width", width + margin.left + margin.right + margin.leftY)
-                    .attr("height", height + margin.top + margin.bottom).append("g")
-                    .attr("transform", "translate(" + (margin.left + margin.leftY) + "," + margin.top + ")");
-
-           svg.call(tip);
-
-          
-        var e = document.getElementById("PlotFeature");
-        var Feature = e.options[e.selectedIndex].text;
-        var values = [], reqd = [], LookUpProfiles = []
-  
-     var Colmn;
-    if(Feature == "keywords"){ Colmn = 49 }
-    else if (Feature == "Institute"){ 
-       Colmn = 48; $("#FilterInstitution :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
-    else if (Feature == "Computational Field"){
-       Colmn = 41; $("#FilterOmics :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
-    else if (Feature == "DiseaseType"){
-       Colmn = 25; $("#FilterDisease :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
-    else if (Feature == "Contact for"){
-       Colmn = 45; $("#FilterContactFor :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
-
-          for(var row=0;row<data.length; row++){
-            var featType = data[row][Colmn]
-            if(featType == "" |  featType == "NA") featType = "not reported"
-            var featArray = uniqueArray(featType.split(";").clean(""))
-            if(featArray.length){
-             values= values.concat(featArray)  
-              for(var j =0;j<featArray.length;j++){
-                 if (typeof LookUpProfiles[featArray[j]] === "undefined") {          // not found
-                               LookUpProfiles[featArray[j]] ={Name: featArray[j], count: 1, Index: [data[row][0]]}   // add Field name and populate array of indices
-                        } else {  // Field already defined
-                               LookUpProfiles[featArray[j]].count += 1
-                               LookUpProfiles[featArray[j]].Index.push( data[row][0])
-                        } 
+     for(var row=0;row<data.length; row++){
+           if(data[row][13] !== "" && data[row][14] !== ""){
+              MarkerHash[data[row][0]] = {}
+              if(typeof MarkerLatLongHash[data[row][13]+","+data[row][14]] == "undefined"){
+                 MarkerLatLongHash[data[row][13]+","+data[row][14]] = [data[row][0]]
+                 MarkerHash[data[row][0]].marker = new google.maps.Marker({map: GoogleMap,position: new google.maps.LatLng(+data[row][13], +data[row][14])});
+                 MarkerHash[data[row][0]].infowindow = new google.maps.InfoWindow({content:"<b>"+data[row][5]+"</b><br/>"+data[row][10]+"<br/><a href='"+data[row][6]+"' target='_blank'>"+data[row][3]+"</a>"} );
+                 google.maps.event.addListener(MarkerHash[data[row][0]].marker, 'click', function(innerKey) {  
+                      return function() { MarkerHash[innerKey].infowindow.open(GoogleMap, MarkerHash[innerKey].marker); } }(data[row][0]));
+              } else {
+                 idxArray =MarkerLatLongHash[data[row][13]+","+data[row][14]]
+                 MarkerHash[data[row][0]].marker = MarkerHash[idxArray[0]].marker
+                 var newInfo = MarkerHash[idxArray[0]].infowindow
+                 newInfo.content = newInfo.content + "<br/><a href='"+data[row][6]+"' target='_blank'>"+data[row][3]+"</a>"
+                 MarkerHash[data[row][0]].infowindow = newInfo
+                 
+                 MarkerLatLongHash[data[row][13]+","+data[row][14]].push(data[row][0])
+                 
               }
-            }
-         }
-      
-        var groups = getCounts(values, reqd)
-        var TooSmall = groups.filter(function(d){ return reqd.indexOf(d.Name) == -1 & d.count <=2 })
-        groups = groups.filter(function(d){ return reqd.indexOf(d.Name) != -1 | d.count >2 })
-        groups.sort(ascending_groupName )
-        
-        if(TooSmall.length){
-          $("#VizSubtitle").append("<span style='color:brown; text-align:right'>*Categories with < 3 hits listed below graph</span")
-          $("#VizAddendum").append("<div style='color:brown; text-align:center;font-size:1.3em;'>Categories with < 3 hits: <br/></div>")
-          $("#VizAddendum").append("<span id='SmallCategories' style='color:brown'></span>")
-            for(var j=0;j<TooSmall.length;j++){
-               $("#SmallCategories").append("<span class='smallCategory ActiveWords' style='cursor:pointer'>" + TooSmall[j].Name + "</span><br/>") 
-            }
-        }
-        $(".smallCategory").click(function(){
-          toggleWaitCursor()
-          ShowPlotProfiles(LookUpProfiles[this.innerHTML])})
-
-       if(groups.length == 0){
-        d3.select("#MainGraph").select("svg").remove();
-        $("#MainGraph")[0].innerHTML = "";
-        $("#VizSubtitle")[0].innerHTML = "";
-        return;
-       }        
-         var maxFreq = d3.max(groups, function(d){return d.count});
-
-           x.domain(groups.map(function(d) { return d.Name; }))
-           y.domain([0, maxFreq]);
-
-           var legend = svg.selectAll('.legend')
-                            .data([{Name:"Filtered by", color:"lightblue"},{Name: "Additional", color:"steelblue"}])
-                            .enter()
-                            .append('g')
-                            .attr('class', 'legend')
-                            .attr('transform', function(d, i) {
-                               return 'translate(' + (width/2+i*100-100) + ',-40)';
-                            });
-           legend.append('rect')
-                 .attr('width', 10)
-                 .attr('height', 10)
-                 .style('fill', function(d){ return d.color})
-                 .style('stroke', function(d){ return d.color});
-
-           legend.append('text')
-                 .attr('x', 12)
-                 .attr('y', 10)
-                 .text(function(d) { return d.Name; });
-
-           svg.append("g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(0," + height + ")")
-              .call(xAxis)
-              .selectAll("text")  
-                 .style("text-anchor", "end")
-                 .attr("dx", "-.8em")
-                 .attr("dy", ".15em")
-                 .attr("transform", function(d) {
-                    return "rotate(-65)" 
-                  });;
-
-           svg.append("g")
-              .attr("class", "y axis")
-              .call(yAxis)
-              .append("text")
-              .attr("transform", "rotate(-90)")
-              .attr("y", -1*margin.leftY)
-              .attr("x", -1*(height-margin.top)/2)
-              .attr("dy", "-.71em")
-              .style("text-anchor", "end")
-              .text("counts");
-
-           svg.selectAll(".bar")
-              .data(groups)
-              .enter().append("rect")
-              .attr("class", "bar")
-              .attr("x", function(d) { return x(d.Name); })
-              .attr("width", x.rangeBand())
-              .attr("y", function(d) { return y(d.count); })
-              .attr("height", function(d) { return height - y(d.count); })
-              .attr("fill", function(d){ 
-                 if(reqd.indexOf(d.Name) != -1){ 
-                   return "lightblue"}
-                 return "steelblue";
-                })
-              .on('mouseover', tip.show)
-              .on('mouseout', tip.hide)
-              .on('mouseup', function(d){ ShowPlotProfiles(LookUpProfiles[d.Name])})
-              .on('mousedown', function(){ $('body').toggleClass('wait');})
-
-     function type(d) {
-          d.count = +d.count;
-          return d;
+              google.maps.event.addListener(MarkerHash[data[row][0]].marker, 'click', function(innerKey) {  
+                      return function() { MarkerHash[innerKey].infowindow.open(GoogleMap, MarkerHash[innerKey].marker); } }(data[row][0]));
+           }
        }
 
-} //end drawBarplot
+
+   }
+
+//----------------------------------------------------------------------------------------------------	
+function drawGoogleMap(){
+
+    var data = tableRef._('tr', {"filter":"applied"}); 
+    var LookupProfiles = []
+        LookupProfiles["Location"] = {Name: "Location", count: 0, Index: []} 
+    
+    if(typeof GoogleMap ==="undefined")
+       init_map()
+      
+      for(k in MarkerHash){ 
+        MarkerHash[k].marker.setVisible(false);
+        MarkerHash[k].infowindow.close()
+      } 
+      for(var row=0;row<data.length; row++){
+           if(data[row][13] !== "" && data[row][14] !== ""){
+              MarkerHash[data[row][0]].marker.setVisible(true);
+              LookupProfiles["Location"].count += 1
+              LookupProfiles["Location"].Index.push( data[row][0])
+            }
+      }
+
+ //     toggleWaitCursor()
+ //     ShowPlotProfiles(LookupProfiles["Location"])
+}
+
+
+//----------------------------------------------------------------------------------------------------	
+function locateMarker(idx){
+
+     var FilterString = "^"+idx+"$";
+     tableRef.fnFilter(FilterString, 0, true, false); //searches index column for Profile Index
+     var row = tableRef._('tr', {"filter":"applied"});   
+     tableRef.fnFilter("",0)
+  
+     $("#userLocation").val(row[0][10])
+     var radius = Number($("#zoom").val())
+     if(radius == 0) radius = 16093;
+
+     zoomTo(row[0][13], row[0][14], radius)
+     MarkerHash[idx].infowindow.open(GoogleMap, MarkerHash[idx].marker);
+
+}
+//----------------------------------------------------------------------------------------------------	
+function useCurrentLocation(){
+
+   var browserSupportFlag =  new Boolean();
+   var initialLocation;
+
+   function handleNoGeolocation(errorFlag) {
+      if (errorFlag == true) {
+        alert("Geolocation service failed.");
+      } else {
+        alert("Sorry, your browser doesn't support geolocation");
+      }
+    }
+
+   if($("#currentLocationCheckbox")[0].checked){  
+     $("#userLocation").val("getting current location...")
+     $("#locate").prop("disabled",true);
+     // Try W3C Geolocation (Preferred)
+     if(navigator.geolocation) {
+        browserSupportFlag = true;
+        navigator.geolocation.getCurrentPosition(function(position) {
+//          "https://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+position.coords.longitude+"&key=API_KEY"
+          $("#userLocation").val(position.coords.latitude.toFixed(6)+","+position.coords.longitude.toFixed(6))
+          $("#locate").prop("disabled",false);
+
+        }, function(error) {
+             switch(error.code) {
+               case error.PERMISSION_DENIED:
+                 alert("Please accept the request for Geolocation to use this feature.")
+                 break;
+               case error.POSITION_UNAVAILABLE:
+                 alert("Location information is unavailable.")
+                 break;
+               case error.TIMEOUT:
+                 alert("The request to get user location timed out.")
+                 break;
+               case error.UNKNOWN_ERROR:
+                 alert("An unknown error occurred.")
+                 break;
+            }
+          handleNoGeolocation(browserSupportFlag);
+        }, {frequency:5000,maximumAge: 0, timeout: 10000, enableHighAccuracy:true});
+     } else {    // Browser doesn't support Geolocation
+       browserSupportFlag = false;
+       handleNoGeolocation(browserSupportFlag);
+     }
+  } else{    $("#userLocation").val("")} //allow user to enter a location (not based on GPS)
+}
+
+//----------------------------------------------------------------------------------------------------	
+function zoomTo(latitude, longitude, radius){
+
+       var Location = new google.maps.LatLng(latitude,longitude);
+       var circleOptions = { center: Location, fillOpacity: 0,  strokeOpacity:0,  map: GoogleMap, radius: radius}
+       var myCircle = new google.maps.Circle(circleOptions);
+       GoogleMap.fitBounds(myCircle.getBounds());
+       
+//       ShowPlotProfiles(LookupProfiles["Location"])
+
+
+}
+//----------------------------------------------------------------------------------------------------	
+function searchByLocation(){
+
+    var startLocation = $("#userLocation").val()
+    var radius = Number($("#zoom").val())
+  
+    if(radius == 0) radius = 16093
+  
+    if(startLocation.match(/\-*\d+\.*\d*\,\-*\d+\.*\d*/)){
+       var LatLong = startLocation.split(",")
+       zoomTo(LatLong[0],LatLong[1], radius);
+
+//       GoogleMap.setCenter(initialLocation);
+//       GoogleMap.setZoom(radius)
+    }
+    else if(startLocation !== "") {
+        
+        function callback(results, status) {
+           if (status == google.maps.places.PlacesServiceStatus.OK) {
+             if(results.length >= 1){
+                zoomTo(results[0].geometry.location.k,results[0].geometry.location.D, radius)
+             }
+           }
+        }
+        
+        var request = { location: GoogleMap.getCenter(), radius: radius, query: startLocation }
+  
+        service = new google.maps.places.PlacesService(GoogleMap);
+        service.textSearch(request, callback);
+    }
+    
+  
+}
+
+
 //----------------------------------------------------------------------------------------------------	
   function exportResults(){
 
@@ -1112,14 +1072,17 @@ $(document).ready(function() {
             }
            //----------------------------------------------------------------------------------------------------
 
-         doc.setFontSize(34); doc.setTextColor(96,168,250)
-         doc.setFontType("bold");
+         doc.setFontSize(34); doc.setTextColor(255)
+         doc.setFontType("bold"); 
+         doc.rect(0.5,0.2, 7.5,0.7, "F")
          centeredText("STTRconnect.org", 0.8)
 
+         doc.setFillColor(1); doc.setTextColor(96,168,250)
          doc.setFontType("normal");   doc.setFontSize(size);
          doc.setLineWidth(0.05);
          doc.line( 0.5,0.9, 8,0.9); // horizontal line
 
+        verticalOffset += 0.1
         var innerText = $("#ReportSearchFilterDiv")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"").replace(/\s+/g," ")
          lines = doc.splitTextToSize(innerText, 7.5)
 		 doc.text(0.5, verticalOffset+0.1 + size / 72, lines)
@@ -1129,66 +1092,31 @@ $(document).ready(function() {
          for(var i=0; i < rows.length; i++){   // then reveals ones that haven't been filtered
             var RowIdx = rows[i][0]
  
-            var Name = rows[i][3] + " " + rows[i][2] + ", " + rows[i][4]
-            var email = rows[i][21]
-            var Title = rows[i][5] + ", " + rows[i][6]
-            var Bio = rows[i][22].replace(/@/g,"\r\n")
-            var AddtlPos   = ""
-            var ContactFor = ""
-            var Disease    = ""
-            var Omics      = ""
-
-            if($("#Profile_"+RowIdx)[0].className.match("ProfileNotYetLoaded")){
-               var addtlPos = [8,11,14,17];
-               var AddedPos = ""
-               for(var j=0; j<addtlPos.length; j++){
-                 if(rows[0][addtlPos[j]] != "" & rows[0][addtlPos[j]] != "NA"){
-                    AddedPos = AddedPos + rows[0][addtlPos[j]] + ", " + rows[0][addtlPos[j]+1] + ": " + rows[0][addtlPos[j]+2] + ";"
-                 }           
-               }
-               AddtlPos = AddedPos
- 
-               if(rows[0][25] !== "" & rows[0][25] !== "NA"){ Disease =  rows[0][25].replace(/#/g,"") }
-               if(rows[0][41] !== "" & rows[0][41] !== "NA"){ Omics = rows[0][41] }   
-               if(rows[0][45] !== "" & rows[0][45] !== "NA"){ ContactFor = rows[0][45]}
-           }else{
-                AddtlPos   = $("#Profile_"+RowIdx+"_addtlPos")[0].innerHTML.replace(/<.+?>/g,"").replace(/[\r|\n]$/,"")
-                ContactFor = $("#Profile_"+RowIdx+"_ContactFor")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"")
-                Disease    = $("#Profile_"+RowIdx+"_Disease")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"").replace(/; $/,"")
-                Omics      = $("#Profile_"+RowIdx+"_Omics")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"").replace(/; $/,"")
-           }
+            var Name = rows[i][3] 
+            var email = rows[i][8]
+            var website = rows[i][6]
+            var Organization = rows[i][5] 
+            var Bio = rows[i][4]
+            var Resource   = "Resource type: " +rows[i][2]
+            var Disease    = "Cancer focus: " +rows[i][1]
+            
+            
                       
             verticalOffset += 0.2
+            doc.setLineWidth(0.025);
+            doc.line( 0.5,verticalOffset, 8,verticalOffset); // horizontal line
+
             doc.setFontType("bold");   addPDFcontent(Name)
+            doc.setFontType("italic"); addPDFcontent(Organization)
             doc.setFontType("normal"); addPDFcontent(email)
-            doc.setFontType("italic"); addPDFcontent(Title)
-            if(AddtlPos != ""){
-               AddtlPos = AddtlPos.replace(/Additional Positions [\r\n]*/, "")
-                addPDFcontent(AddtlPos)
-            }
-
-           doc.setFontType("normal"); doc.setTextColor(150);
-           var previousText = false; var CategoryText = ""
-            if(ContactFor != ""){
-               CategoryText = ContactFor.replace(/Contact for /, "").replace(/; $/,"")
-               previousText = true;
-            }
-            if(Disease != ""){  
-               Disease = Disease.replace(/Disease type /, "").replace(/&amp;/g, "&")
-               if(previousText) Disease = " / " + Disease
-               CategoryText  = CategoryText + Disease
-               previousText = true;
-            }if(Omics != ""){  
-               Omics = Omics.replace(/Computational field /, "")
-               if(previousText) Omics = " / " + Omics
-               CategoryText  = CategoryText + Omics
-            }
-           if(CategoryText != "")
-               addPDFcontent(CategoryText)
-
-           doc.setFontType("normal"); doc.setTextColor(0,0,0);
+            addPDFcontent(Disease + "  " + Resource)
+            
+            doc.setTextColor(150);
+            addPDFcontent(website)
+            
+            doc.setFontType("normal"); doc.setTextColor(0,0,0);
             verticalOffset += 0.1
-           addPDFcontent(Bio)
+            addPDFcontent(Bio)
 
         }  
        doc.save('STTRconnect.pdf');
