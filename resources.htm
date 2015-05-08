@@ -1,0 +1,462 @@
+
+<!DOCTYPE HTML>
+<html >
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="keywords" content="basic science research, northweststtr, nwsttr, clinical research, solid tumors, Translational Research Program, solid tumor cancers, solid tumor translational research, Seattle Cancer Care Alliance, population-based research, solid tumor, STTR cancer, fred hutchinson cancer research center, seattle childrens hospital,
+    			Computational Biology, Bioinformatics, Systems Biology, Statistics, Mathematics, Computer Science, Data Management, STTRconnect, Health Informatics" />
+    <meta name="description" content="STTRconnect: Approaches to Translational Health Experiments, Informatics, and Analysis" />
+    <meta name="robots" content="all" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="width" />     
+
+    <meta property="og:title" content="STTRconnect" />
+    <meta property="og:description" content="STTRconnect" /> 
+
+ <!--[if lt IE 9]>
+       <div style='background:white; color:black; width:900px; margin-left:200px'>In order to provide maximum functionality the SIMS application requires use of the latest version of either Chrome, Firefox, Internet Explorer, or Safari.  The SIMS application relies heavily on JavaScript to minimize page redraws.  The ability to run JavaScript on the page is required.</div>
+  <script type="text/javascript">
+       alert("In order to provide maximum functionality the SIMS application requires use of the latest version of either Chrome, Firefox, Internet Explorer, or Safari.  The SIMS application relies heavily on JavaScript to minimize page redraws.  The ability to run JavaScript on the page is required.")
+  </script>
+<![endif]-->  
+
+
+    <title>STTRconnect</title>
+    <link rel="SHORTCUT ICON" type="image/x-icon" href="images/favicon.ico"/>
+    <link rel="ICON" type="image/x-icon" href="images/favicon.ico"/>
+ 
+     <link rel="stylesheet" href="css/bootstrap.min.css">  
+    <link rel="stylesheet" href="css/clientlibs.min.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="css/ptResources.css">
+
+    <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
+	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+    <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script> 
+
+    <script type="text/javascript" src="js/jspdf_and_plugins.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/clientlibs.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap-multiselect.css">  
+
+    <!-- Typekit -->
+    <script type="text/javascript" src="//use.typekit.net/ead0eor.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+	<script type="text/javascript" src="d3/d3.js"></script>
+	<script type="text/javascript" src="d3/d3.geo.js"></script>
+
+   <script src="js/jquery.dataTables.min.js"></script>
+
+  <script src="js/SearchPtResources.js"></script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-58584720-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body class="tk-proxima-nova landingpage page base homepage ">
+
+  <a href="#page_content" title="Jump to content"></a>
+  <a href="#global_nav" title="Jump to site-wide navigation"></a>
+  <a href="#section_navigation" title="Jump to navigation for this section"></a>
+
+  <!-- START BODY ELEMENT -->
+  <div class="body" id="body_element"> 
+    <div id="mainContent">
+           <div id="SideNav" class="SideNav dropSecond">
+              
+               <div class="filter">
+                <ul id="FilterResource" class="filterOptions showContent">
+                <h2><b> Resource Type</b> </h2>
+                <div class='toClear'>clear</div>
+                <div class='toggleFilterExpansion toContract'><b>&gt;</b></div>
+                <div class='toSelectAll'>select all</div>
+             		<li style="padding-top:5px">
+            		    <input class="fil_resource" type="checkbox" value="Clinical Trials">Clinical Trials</li>
+            		<li><input class="fil_resource" type="checkbox" value="Cosmetic">Cosmetic</li>
+            		<li><input class="fil_resource" type="checkbox" value="Education">Education</li>
+            		<li><input class="fil_resource" type="checkbox" value="Financial">Financial</li>
+            		<li><input class="fil_resource" type="checkbox" value="Home Care">Home Care</li>
+            		<li><input class="fil_resource" type="checkbox" value="Legal">Legal</li>
+            		<li><input class="fil_resource" type="checkbox" value="Lodging">Lodging</li>
+            		<li><input class="fil_resource" type="checkbox" value="Navigation">Navigation</li>
+            		<li><input class="fil_resource" type="checkbox" value="Recreation">Recreation</li>
+            		<li><input class="fil_resource" type="checkbox" value="Scholarship">Scholarship</li>
+            		<li><input class="fil_resource" type="checkbox" value="Social Support">Social Support</li>
+            		<li><input class="fil_resource" type="checkbox" value="Transportation">Transportation</li>
+
+                </ul>
+		       </div>	
+		       
+		       <div class="filter">
+                <ul id="FilterDisease" class="filterOptions showContent">
+             	 <h2><b> Cancer focus </b></h2>
+                 <div class='toClear'>clear</div>
+                 <div class='toggleFilterExpansion toContract'><b>&gt;</b></div>
+                 <div class='toSelectAll'>select all</div>
+             	  	<li style="padding-top:5px">
+               		<li><input class="fil_disease" type="checkbox" value="Non-specific">Non-specific</li>
+               		<li><input class="fil_disease" type="checkbox" value="Anal">Anal</li>
+               		<li><input class="fil_disease" type="checkbox" value="Bladder">Bladder</li>
+               		<li><input class="fil_disease" type="checkbox" value="Brain">Brain</li>
+               		<li><input class="fil_disease" type="checkbox" value="Breast">Breast</li>
+               		<li><input class="fil_disease" type="checkbox" value="Cervical">Cervical</li>
+               		<li><input class="fil_disease" type="checkbox" value="Colorectal">Colorectal</li>
+               		<li><input class="fil_disease" type="checkbox" value="Esophageal">Esophageal</li>
+               		<li><input class="fil_disease" type="checkbox" value="Head & Neck">Head & Neck</li>
+               		<li><input class="fil_disease" type="checkbox" value="Kidney">Kidney</li>
+               		<li><input class="fil_disease" type="checkbox" value="Leukemia">Leukemia</li>
+               		<li><input class="fil_disease" type="checkbox" value="Lung">Lung</li>
+               		<li><input class="fil_disease" type="checkbox" value="Lymphoma">Lymphoma</li>
+               		<li><input class="fil_disease" type="checkbox" value="Melanoma">Melanoma</li>
+               		<li><input class="fil_disease" type="checkbox" value="Mesothelioma">Mesothelioma</li>
+               		<li><input class="fil_disease" type="checkbox" value="Ovarian">Ovarian</li>
+               		<li><input class="fil_disease" type="checkbox" value="Pancreas">Pancreas</li>
+               		<li><input class="fil_disease" type="checkbox" value="Pediatric">Pediatric</li>
+               		<li><input class="fil_disease" type="checkbox" value="Prostate">Prostate</li>
+               		<li><input class="fil_disease" type="checkbox" value="Sarcoma">Sarcoma</li>             		
+               		<li><input class="fil_disease" type="checkbox" value="Spinal">Spinal</li>
+               		<li><input class="fil_disease" type="checkbox" value="Stomach">Stomach</li>
+               		<li><input class="fil_disease" type="checkbox" value="Testicular">Testicular</li>
+               		<li><input class="fil_disease" type="checkbox" value="Thyroid">Thyroid</li>
+                </ul> 
+              </div>
+
+      		        
+ 		  </div> <!-- SideNav -->
+
+     <div id="RightBar" class="RightBar dropFirst" > 
+        
+          <div class="RightNavSection"> <b>Popular Searches</b><br>
+             <span class='PopularSearch' style='cursor:pointer; float:left; padding-left:20px ' >Summer Activities</span>            
+<!--             <span class='PopularSearch' style='cursor:pointer; float:left; padding-left:20px ' >College Scholarships</span>  -->
+             <span class='PopularSearch' style='cursor:pointer; float:left; padding-left:20px '>Wigs</span>
+             <span class='PopularSearch' style='cursor:pointer; float:left; padding-left:20px '>Nutrition</span><br/>             
+             
+
+        </div> <!-- PopularSearchdiv -->
+
+        <div class="RightNavSection"></div>
+        <div id="GoogleGraph" >
+          <div id="googleMapDiv"></div>
+          <div id="VizAddendum">
+                 <div style="margin-top:8px; font-size:1.5em ">
+                     <input style="width:80%;float:left" type="text" name="userLocation" id="userLocation" value=''  placeholder="Find on map...">
+                 	 <span style="width:15%;float:left"> <button id="locate" style="padding-top:8px; padding-bottom:8px" class='SubmitProfile'><b class='glyphicon glyphicon-search' style='color:white;'></b></button></span>
+                 </div >
+                 <div style="padding-bottom:10px; clear:both; padding-top:5px">
+ <!--                      <span><b class='glyphicon glyphicon-screenshot' style='color:#60a8fa;font-size:1.3em'></b></span>  -->
+                      <select size="2" id="zoom" style="margin-top:10px;padding-right:5px; " name="zoom">
+        	                    <option value="3218688" >Country</option>
+        	                    <option value="804672">500 miles</option>
+        	                    <option value="160934">100 miles</option>
+        	                    <option value="80467">50 mi</option>
+       	                        <option value="40233">25 mi</option>
+       	                        <option value="16093">10 mi</option>
+       	                        <option value="3218">2 mi</option>
+       	                        <option value="1609">1 mi</option>
+                      </select> 
+                      <span style="margin-left:20px"><input id="currentLocationCheckbox" type="checkbox" value="MyLocation">Use my Location </span>      
+                </div>                
+             </div><!-- /Addendum -->
+          </div> <!-- /GoogleGraph -->
+    
+
+
+    </div> <!-- RightBar -->
+
+      <div id="DisplaySettingsDiv" class="DisplayResultSettings">
+         <div id="SearchDisplayOptions" style="float:left;font-weight:normal;">
+             <ul class="nav navbar-nav"> <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <span style="color:black">Sort by </span><span id="SortSettings" style="color:black;font-weight:bold">name</span> 
+                  <b class="caret" style="color:#60a8fa"></b></a>
+               <ul class="dropdown-menu">
+                <div class="row" style="margin-right:5px;">
+			      <div class="col-sm-4">
+				    <ul class="multi-column-dropdown" style="min-width:100px"> 
+					  <li><a href="javascript:void(0)" onclick="sortBy(this)" class="selectedSort">name<b class="glyphicon glyphicon-arrow-down sortAscending" style="color:#60a8fa; font-size:0.75em; padding-left:3px"></b></a></li>
+                    </ul>
+		          </div>
+		        </div> <!-- /row -->
+	          </ul>
+             </li></ul> <!-- navbar dropdown -->
+
+         </div> <!-- left dropdown display settings -->
+     <div id="ReturnToSearch" style="float:left;font-weight:normal;display:none;cursor:pointer;color:#60a8fa; ">
+         <span class="glyphicon glyphicon-arrow-left" style="color:#60a8fa; font-size:0.75em; padding-right:3px"></span>
+         return to search results
+     </div>       
+            
+         <div id="ExportDiv" style="float:right; cursor:pointer;">
+           <ul class="nav navbar-nav"> <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <span style="color:black">Send to </span> <b class="caret" style="color:#60a8fa"></b> </a>
+                  <ul class="dropdown-menu">
+  			         <h4 style="text-align:center;color:black; text-decoration: underline;margin:0;"> Destination </h4> 
+				     <li><a href="javascript:void(0)" onclick="exportResults()">PDF</a></li>
+				  </ul>
+	      </ul>
+        </div>
+        <div id="ReportSearchFilterDiv" style="clear:both; font-size:1.2em; padding-bottom:5px;color:#60a8fa;">
+             <span id="NumberOfResultsDiv"></span>
+             <span id="ResultsForSpan">results for: </span>
+             <span id="SearchStringDiv"></span>
+             <span id="FilterStringDiv">
+               <span id="ReportResourceFilterSpan"></span>
+               <span id="ReportDiseaseFilterSpan"></span>
+             </span>
+        </div>
+
+      </div> <!-- DisplaySettingsDiv -->
+
+             
+     <div class="body_contents" id="DataToExport">
+    
+     
+     <div id="HOMEdiv" class="MainFrameDiv" style="display:none;">
+<!--       <div style='background:white; color:black; width:900px; margin-left:200px'>In order to provide maximum functionality the SIMS application requires use of the latest version of either Chrome, Firefox, Internet Explorer, or Safari.  The SIMS application relies heavily on JavaScript to minimize page redraws.  The ability to run JavaScript on the page is required.</div>
+-->
+
+<!--        <div class="RightNavSection"> <b>Popular Searches</b><br>
+          <span class='PopularSearch' style='cursor:pointer; float:left; font-size:0.9em' >Yoga</span>
+          <span class='PopularSearch' style='cursor:pointer; float:right; font-size:0.9em' >College Scholarships</span> <br/>            
+          <span class='PopularSearch' style='cursor:pointer; float:left; font-size:0.9em' >Summer Camps</span> <br/>            
+        </div> <!-- PopularSearchdiv -->
+-->
+
+
+	</div>
+	 <div id="SEARCHdiv" class="MainFrameDiv" style="display:block;">
+          <div id="SearchResults">
+           <div id="SearchPaging" style="padding-top:8px">
+             <div id="PagingSubsetSearch" style="color:black;float:left;padding-top:8px">
+               <span>showing </span><span id="showingFirstSearch">1</span> to <span id="showingLastSearch">20</span>
+             </div>
+             <div id="SearchPageSelection" style="float:right"> 
+               <ul class="pagination pagination-sm" style="margin:0"></ul>
+             </div>
+           </div>
+           <div id='ProfileResults' style='line-height:normal;background:#F1F1F1;color:#000;height:100%; padding-bottom:10px; font-size:1.4em'></div>
+           <span id='SorryMessage' style="display:none; clear:both">Sorry, your search did not match any resources.</span>
+          </div>
+     </div>
+
+     <div id="TABLEdiv" class="MainFrameDiv" style="display:none;">
+          <div id="DataTableDiv" >
+               <table cellpadding="0" cellspacing="0" border="0" class="display" id="DataTable"></table>
+          </div>
+     </div>      <!-- /TABLEdiv -->
+
+	 <div id="PROFILEdiv" class="MainFrameDiv" style="display:none">
+          <div id="ProfileDivTitle" style="clear:both;text-align:center; margin-bottom:10px">
+             <h2 style="margin-bottom:1px">Create/Edit your Resource Profile</h2>
+                 (Requires email confirmation)
+          </div>
+          <div id="ProfileTemplate">
+            <div id='TemplateBio' style='background:#fff;color:#000;min-height:350px; min-width:450px'>
+              <form id='Profile_template' action='MAILTO:contact@sttrconnect.org?subject=Create my STTRconnect Patient Resource Profile' method='post' enctype='text/plain' class="form-horizontal" style="overflow:visible; display:inline-block">
+                  <div id=Profile_template_Info_ptRes>
+                    <span style="float:left;width:110px; text-align:right"><b>Name*</b></span><input          value='' class='TemplateBioSearchbox' id="edit_name" name='Resource name' required style='width:250px;float:right' placeholder='Patient resources'><br/>
+                    <span style="float:left;width:110px; text-align:right"><b>Organization* </b></span><input value='' class='TemplateBioSearchbox' id="edit_organization"  name='Organization'  required style='width:250px;float:right' placeholder='Fred Hutch STTR'><br/>
+                    <span style="float:left;width:110px; text-align:right"   >Website</span><input            value='' class='TemplateBioSearchbox' id="edit_website"   name='website' style='width:250px;float:right' placeholder='www.STTRconnect.org'><br/>
+                    <span style="float:left;width:110px; text-align:right"   >Phone Number</span><input       value='' class='TemplateBioSearchbox' id="edit_phone"   name='phone'     style='width:250px;float:right' placeholder=''><br/>
+                    <span style="float:left;width:110px; text-align:right"   >Email</span><input              value='' class='TemplateBioSearchbox' id="edit_email"   name='email'     style='width:250px;float:right' placeholder='contact@sttrconnect.org'><br/>
+                    <span style="float:left;width:110px; text-align:right"   >Address</span><input            value='' class='TemplateBioSearchbox' id="edit_address" name='address'   style='width:250px;float:right' placeholder='1100 Fairview Ave.  Seattle WA 98109'><br/><br/>
+
+                  <div style='clear:both;float:left;margin-top:5px; '> 
+                       <label style="width:110px; text-align:right; margin-right:30px">Cancer Focus</label>
+                          <select id="edit_disease" multiple="multiple" name="focus" style="float:right">
+                        		<option value="Non-specific" selected>Non-specific</option><option value="Anal">Anal</option>
+               		            <option value="Bladder">Bladder</option><option value="Brain">Brain</option>
+               		            <option value="Breast">Breast</option><option value="Colorectal">Colorectal</option>
+               		            <option value="Cervical">Cervical</option><option value="Esophageal">Esophageal</option>
+               		            <option value="Head & Neck">Head & Neck</option>
+               		            <option value="Kidney">Kidney</option><option value="Leukemia">Leukemia</option>
+               		            <option value="Lymphoma">Lymphoma</option><option value="Lung">Lung</option>
+               		            <option value="Melanoma">Melanoma</option><option value="Mesothelioma">Mesothelioma</option>
+               		            <option value="Ovarian">Ovarian</option><option value="Pancreas">Pancreas</option>
+               		            <option value="Pediatric">Pediatric</option><option value="Prostate">Prostate</option>
+               		            <option value="Sarcoma">Sarcoma</option><option value="Spinal">Spinal</option>
+               		            <option value="Stomach">Stomach</option><option value="Testicular">Testicular</option>
+               		            <option value="Thyroid">Thyroid</option><option value="Other">Other</option>
+                        </select>
+                   </div>
+                    <div style='clear:both;float:left;margin-top:5px; '> 
+                       <label style="width:110px; text-align:right; margin-right:30px">Resource Type</label>
+                          <select id="edit_resource" multiple="multiple" name="type"> 
+              		           <option value="Clinical Trials">Clinical Trials</option><option value="Cosmetic">Cosmetic</option>
+             		           <option value="Education">Education</option><option value="Financial">Financial</option>
+             		           <option value="Home Care">Home Care</option><option value="Legal">Legal</option>
+             		           <option value="Lodging">Lodging</option><option value="Navigation">Navigation</option>
+             		           <option value="Recreation">Recreation</option><option value="Scholarship">Scholarship</option>
+             		           <option value="Social Support">Social Support</option><option value="Transportation">Transportation</option>
+             		           <option value="Other">Other</option> 
+                         </select>
+                  </div> 
+                  <div style='float:left; width:50%; position:relative;min-width:350px'>
+                     <span style="text-align:right; padding-right:5px; " class="TemplateTitle_Description">Other Cancer focus or Resource Type?</span>
+                     <input value='' name='Other Type'  id="edit_other" class='TemplateBioSearchbox'  placeholder='please specify' style="width:92%; float:right;">
+                  </div>   
+                  
+                  </div>
+                  <div id='Profile_template_Bio' style='float:left; width:50%; position:relative; text-align:justify;min-width:350px'>
+                    <span style="text-align:right; padding-right:5px; " class="TemplateTitle_Description">Description</span>
+                    <textarea class='TemplateBioSearchbox' value='' type='text'  id="edit_description" name='Description' style='width:92%;float:right; min-height:135px;margin-top:5px' placeholder='A compiled list of no or low cost resources offered through national or WWAMI region providers.'>
+                    </textarea><br>
+                  </div>
+
+                  <div style="clear:both;float:left; width:400px;margin-top:5px">
+                    </div>  
+                        
+                   
+                  <div style="clear:both; float:right">      
+                     <input type='submit' class='SubmitProfile' value='Send' style='margin-right:5px; margin-top:5px;margin-bottom:5px; ' >
+                     <input type='reset' class='SubmitProfile' value='Reset' style='margin-right:5px; margin-top:5px;margin-bottom:5px; ' >
+                  </div>
+              </form>
+            </div> <!-- TemplateBio -->
+        </div>
+     </div><!-- PROFILEdiv -->
+
+     <div id="VISUALIZEdiv" class="MainFrameDiv" style="display:none;">
+         <div id="VizSubtitle" style="text-align:center"></div>
+        <div id="MainGraph" style=" margin-left:auto; margin-top:auto; margin-right:auto;">  </div>
+        <div id="VizResults" style="margin-top: 15px; clear:both; position:relative"></div>
+        <canvas id="MainGraphCanvas"></canvas>
+	
+     </div> <!-- VISUALIZEdiv -->
+
+   <div id="DISCLAIMERdiv" class="MainFrameDiv" style="display:none;">
+         <h2 style="color:#60a8fa">Legal Statement </h2>
+         <div id="DisclaimerText" style="text-align:justify; margin-top:20px; width:90%">
+         <p>This information is provided only as a convenience and does not constitute Fred Hutchinson Cancer Research Center’s endorsement, warranty, or guarantee of any of these resources.  The individuals affiliated with these resources are not employees or agents of Fred Hutchinson Cancer Research Center.  Your use of any of these resources is at your sole risk.  Fred Hutchinson Cancer Research Center is not responsible for any information, services or other materials provided by these resources, and disclaims all liability for any injury you may experience by using such information, services or other materials.  This information is not provided as a professional service or as medical advice for specific patients and is not a substitute for professional medical care.  If you have, or suspect you may have, a health problem, you should consult a licensed health care provider.
+         </p>
+         </div>
+ 	
+     </div> <!-- VISUALIZEdiv -->
+
+
+  </div> <!-- /body_contents -->
+
+    </div><!-- /mainContent -->
+ </div> <!-- body -->  
+    <div id="header_element" class="header" style="position:fixed; z-index:10; height:85px">
+     <div class="header_contents">
+
+       <nav><div class="utility_nav noprint">
+       <ul>
+        <li class="utility_home"><a href="/en.html">Home</a></li>
+        <li><a href="http://sttrcancer.org/en/about-sttr.html">About <span class="droptext">STTR</span></a></li>
+        <li><a href="http://sttrcancer.org/en/education-training.html">Training</a></li>
+        <li><a href="http://sttrcancer.org/en/diseases-we-treat.html">Diseases <span class="droptext">We Treat</span></a></li>
+        <li><a href="http://sttrcancer.org/en/donate.html">Donate</a></li>
+        <li><a href="https://share.fhcrc.org/sites/cancer-center/sttr/" target="_blank" title="Link to the members site opens in a new browser window">Members</a></li>
+        <li><a href="http://sttrcancer.org/en/contact-us.html">Contact <span class="droptext">Us</span></a></li>
+        <li class="search"> <a id="utility_nav_search_icon" href="http://sttrcancer.org/en/util/search.html">Search STTR</a></li>      
+       </ul>
+    
+       <div id="utility_search" class="utility_search">
+         <div class="sitesearch">
+           <form id="utility_search_form" action="/en/util/search.html">
+            <input class="searchbox" type="text" value="" placeholder="Search this site..." name="q" maxlength="2048">
+            <input class="searchbutton" type="submit" value="&gt;">      
+           </form>
+         </div>
+       </div>
+     </div></nav><!-- /utility_nav -->
+
+     <div class="runningHeader"> 
+    <span id="HomeSpan" class="dropThird" style="text-align:center;min-width:200px;font-size:2.5em;font-family:sans-serif;cursor:pointer; position:relative;left:10px; float:left; margin-right:25px">
+        <a href="/Default.htm"> 
+         <span style="color:#60a8fa;">STTR</span><span style="color:white;font-size:0.8em">connect</span>
+        </a></span>
+
+     <div id="SEARCH_BARdiv" class="searchBar" style="width:60%;padding-top:7px;">
+       <div class="sitesearch">
+            <form id="QueryFreeForm" record="'search', {'keyword': '', 'results':'', 'executionTime':''}" style="width:90%;float:left;border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px" >
+ 		 	<input class="searchbox" maxlength="2048" id="QueryFreeInput" name="QueryText" placeholder="SEARCH for..." value="" type="text" style="color:black;;border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px "/>
+    		<input class="searchbutton" value="&gt;" type="submit" style="float:left;border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px"/>    
+  			</form>
+         
+	   </div> <!-- /sitesearch -->
+    </div>  <!--/SEARCH_BARdiv -->
+  
+     </div>
+
+     </div><!-- /header_contents -->
+   </div><!-- /header_element -->
+
+ <!-- footer -->
+ <footer><div id="footer_element" class="footer">
+ 
+    <div style="margin-left:auto; margin-right:auto; margin-top:15px; margin-bottom:10px; width:80%; color:white">
+       <span style="width:33%; float:left"> <b>Contact</b><br/>
+          <a href="MAILTO:contact@sttrconnect.org?subject=STTR patient resources" style='margin-top:5px;cursor:pointer'>
+             <span class='glyphicon glyphicon-envelope' aria-hidden='true'></span>
+             <text style="color:white">Email us your comments or questions</text>
+          </a> 
+          <div onclick='EditProfile(this)' style='margin-top:5px;cursor:pointer'>
+             <span class='glyphicon glyphicon-pencil' aria-hidden='true'></span>
+             Add/Edit a Resource<br/>
+          </div>
+       </span> <!-- Feedback -->
+          
+       <span id="socialmedia" style="width:33%; float:left; text-align:center">
+        <a href="https://www.facebook.com/STTRCancer" target="_blank"><img src="images/sttr-facebook-out.png" alt="Facebook" style="height:40px" /></a>
+        <a href="https://twitter.com/sttrcancer" target="_blank"><img src="images/sttr-twitter-out.png" alt="Twitter" style="height:40px" /></a>
+        <a href="http://www.youtube.com/user/HutchinsonCenter1/featured" target="_blank"><img src="images/sttr-youtube-out.png" alt="YouTube" style="height:40px" /></a>
+        <a href="http://instagram.com/FredHutch" target="_blank"><img src="images/sttr-instagram-out.png" alt="Instagram" style="height:40px" /></a>
+        <a href="http://www.linkedin.com/company/fred-hutchinson-cancer-research-center/careers?trk=top_nav_careers" target="_blank"><img src="images/sttr-linkedin-out.png" alt="LinkedIn" style="height:40px" /></a>
+      </span>
+   
+          
+       <span style="width:auto; float:right"> <b>Legal Policy</b><br/>
+          <span class='Disclaimer' style='cursor:pointer; float:left; font-size:0.9em; padding-left:10px; width:250px; text-align:justify' >This information is provided only as a convenience and does not constitute Fred Hutchinson Cancer Research Center’s endorsement, warranty, or guarantee of any of these resources.<text style="color:#60a8fa">...more</text>  </span>
+       </span> <!-- Legal -->
+    </div>
+ 
+   <div class="footer_content" style="z-index:200; clear:both">
+      <!-- donate feature -->
+
+      <div id="footer-donate">
+        <a href="http://getinvolved.fhcrc.org/site/Donation2?df_id=5340&amp;5340.donation=form1"><img class="rolloverImage" src="images/STTR_footer_donate_button_stat.png" hover="images/STTR_footer_donate_button_stat.png" alt="Donate"/></a>
+        <script type="text/javascript" src="js/textimage.js"></script>        
+      </div>
+      <div id="footer-logos">
+        <a href="http://www.fhcrc.org" target="_blank"><img width="235" height="80" src="images/logo-fred-hutchinson-cancer-research-center_new.png" alt="Fred Hutchinson Cancer Research Center"/></a>
+        <a href="http://www.uwmedicine.org" target="_blank"><img width="236" height="80" src="images/logo-university-of-washington-medicine.png" alt="UW Medicine"/></a>
+        <a href="http://www.seattlecca.org" target="_blank"><img width="219" height="80" src="images/logo-seattle-cancer-care-alliance.png" alt="Seattle Cancer Care Alliance"/></a>
+      </div>
+     
+      <p class="copy">
+      <span class="nobreak">&copy;2014 Fred Hutchinson Cancer Research Center</span>
+      <span class="nobreak">1100 Fairview Ave. N.,</span>
+      <span class="nobreak">P.O. Box 19024,</span> 
+      <span class="nobreak">Seattle, WA 98109</span>
+      <br />
+      <a href="http://www.fhcrc.org/en/util/terms-privacy.html">Terms of Use &amp; Privacy Policy</a>
+      </p>     
+
+   </div><!-- /footer_content -->
+ </div></footer>
+ <!-- /footer -->
+
+  <!-- global non-blocking js last to avoid blocking 
+  <script src="js/site-nonblocking.js" type="text/javascript"></script>
+  -->
+</body>
+</html>
