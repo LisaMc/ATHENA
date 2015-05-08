@@ -46,7 +46,7 @@ function uniqueArray(elem)
  
    var test = $("#"+elem).offset().top
         $('html, body').animate({
-            scrollTop: $("#"+elem).offset().top - 85 - $("#DisplaySettingsDiv").height() - 15  //header offset by 85px + ReportFilter text -10 for padding - defined in css
+            scrollTop: $("#"+elem).offset().top - 105 - $("#DisplaySettingsDiv").height() - 15  //header offset by 105px + ReportFilter text -10 for padding - defined in css
         }, 500);  //lower numbers makes for faster animation
 }
 

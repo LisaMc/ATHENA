@@ -2,12 +2,6 @@ var tableRef;
 var GoogleMap;
 var MarkerHash;
 var activeContent = "SearchSpan";
-//DataTable columns: LastName:2, FirstName:3, Degree:4, Job Title, Organization Dept
-//Inst: 6 
-//Field: 25 (Organ Site) 41 (omics) 
-//Focus: 28, 42-45: specialty, keywords, software, contact
-//Picture: 31
-//Bio: 22
 //----------------------------------------------------------------------------------------------------
 // used to clean the search string of dubious single characters or null text, eg ""
 Array.prototype.clean = function(deleteValue) {
@@ -48,7 +42,7 @@ function uniqueArray(elem)
  
    var test = $("#"+elem).offset().top
         $('html, body').animate({
-            scrollTop: $("#"+elem).offset().top - 85 - $("#DisplaySettingsDiv").height() - 15  //header offset by 85px + ReportFilter text -10 for padding - defined in css
+            scrollTop: $("#"+elem).offset().top - 105 - $("#DisplaySettingsDiv").height() - 15  //header offset by 105px + ReportFilter text -10 for padding - defined in css
         }, 500);  //lower numbers makes for faster animation
 }
 
