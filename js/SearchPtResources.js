@@ -62,7 +62,7 @@ function checkOffset() {
            $("#RightBar").css("height", $(window).height() -100)
         }
  //    $("#DisplaySettingsDiv").css("width", $("#DataToExport").width())
-     $("#DisplaySettingsDiv").css("width", $("#SEARCHdiv").width())
+     $("#DisplaySettingsDiv").css("width", $("#SEARCHdiv").width()+ 5)
      $("#DataToExport").css("top",  $("#DisplaySettingsDiv").height() + 10)
 }
 

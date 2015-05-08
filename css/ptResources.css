@@ -298,12 +298,13 @@ circle {
 }
 @media screen and (max-width:680px){
   .dropSecond{display:none}
-  div.body_contents{margin-left:0;}
+  div.body_contents{margin-left:20px;}
   .DisplayResultSettings{ margin-left:20px} 
   div.sitesearch form input.searchbutton {background-color: #459bfc;}
+  .runningHeader{ padding-top:0}
 }
 
 @media screen and (max-width:600px){
-  .dropThird{display:none}
+  .dropThird{float:left}
   .searchBar{margin-left:10px;}
 }
