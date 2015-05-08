@@ -115,7 +115,7 @@ $(document).ready(function() {
    }
 	checkOffset();       
 	
-    var ColumnTitle = [ {"sTitle": "Index", "sWidth": '50px'}, {"sTitle": "Cancer Type", "sWidth": '50px'}, {"sTitle": "Resource Type", "sWidth": '50px'}, {"sTitle": "Resource", "sWidth": '50px'}, {"sTitle": "Resource Description", "sWidth": '50px'}, {"sTitle": "Resource Organization", "sWidth": '50px'}, {"sTitle": "Resource Link", "sWidth": '50px'}, {"sTitle": "Organization Phone Number", "sWidth": '50px'}, {"sTitle": "Email", "sWidth": '50px'}, {"sTitle": "City/County", "sWidth": '50px'}, {"sTitle": "Address", "sWidth": '50px'}, {"sTitle": "Cost", "sWidth": '50px'}, {"sTitle": "Location", "sWidth": '50px'}, {"sTitle": "Latitude", "sWidth": '50px'}, {"sTitle": "Longitude", "sWidth": '50px'}]
+    var ColumnTitle = [ {"sTitle": "Index", "sWidth": '50px'}, {"sTitle": "Cancer Type", "sWidth": '50px'}, {"sTitle": "Resource Type", "sWidth": '50px'}, {"sTitle": "Resource", "sWidth": '50px'}, {"sTitle": "Resource Description", "sWidth": '50px'}, {"sTitle": "Resource Organization", "sWidth": '50px'}, {"sTitle": "Resource Link", "sWidth": '50px'}, {"sTitle": "Organization Phone Number", "sWidth": '50px'}, {"sTitle": "Email", "sWidth": '50px'}, {"sTitle": "City/County", "sWidth": '50px'}, {"sTitle": "Address", "sWidth": '50px'}, {"sTitle": "Cost", "sWidth": '50px'}, {"sTitle": "Location", "sWidth": '50px'}, {"sTitle": "Latitude", "sWidth": '50px'}, {"sTitle": "Longitude", "sWidth": '50px'}, {"sTitle": "Comment", "sWidth": '50px'}, {"sTitle": "Questionable", "sWidth": '50px'}]
 //"Index", "Cancer Type", "Resource Type", "Resource", "Resource Description", "Resource Organization", "Resource Link", "Organization Phone Number", "Email", "City/County", "Address", "Cost"										
  		 $("#DataTable").dataTable({
        		  "aoColumns": ColumnTitle,
@@ -126,7 +126,7 @@ $(document).ready(function() {
 
  	tableRef = $("#DataTable").dataTable();
 
-	d3.json("data/All_Cancer_Patient_Resources_4-1-15.txt", function(json){
+	d3.json("data/All_Cancer_Patient_Resources_5-6-15_json.txt", function(json){
 
 		 var DataTable=json
 		 tableRef.fnAddData(DataTable);
@@ -150,9 +150,13 @@ $(document).ready(function() {
      		
     $(".PopularSearch").click(function(){
         var SearchTerms = this.innerHTML
-        if(SearchTerms.match("Yoga")) { SearchTerms = "Yoga" }
-        else if(SearchTerms.match("College Scholarships")){SearchTerms = "College Scholarships"}
+//        if(SearchTerms.match("Yoga")) { SearchTerms = "Yoga" }
+        if(SearchTerms.match("Nutrition")){SearchTerms = "Nutrition Diet Supplements Eat Food Meals Groceries"}
+        else if(SearchTerms.match("Summer Activities")){SearchTerms = "Yoga Camp Hike Hiking Walk fishing outdoor garden kayak climb"}
+        else if(SearchTerms.match("College Scholarships")){SearchTerms = "College Collegiate academic \"Educational scholarship\" \"scholarship program\""}
+        
         else{SearchTerms = "\""+SearchTerms+"\""}
+//        SearchTerms = "\""+SearchTerms+"\""
         document.getElementById("QueryFreeInput").value = SearchTerms;
         $(".toClear").each(function(){ 
           var tes2 = this
@@ -337,7 +341,7 @@ $(document).ready(function() {
            Filter_Selection("FilterResource", "ReportResourceFilterSpan",2, "<i> providing </i>")
         } else if(group == "fil_disease"){        
            tableRef.fnFilter("", 1); 
-           Filter_Selection("FilterDisease", "ReportDiseaseFilterSpan",1, "<i> with disease type: </i>")
+           Filter_Selection("FilterDisease", "ReportDiseaseFilterSpan",1, "<i> with cancer focus: </i>")
         }     
         updateActiveContent();
     }
@@ -428,7 +432,7 @@ $(document).ready(function() {
            filterString += "|" + wordArray[i]
         } // if more than one search word
 
-      tableRef.fnFilter(filterString, null, true, false); //searches all columns (null) using RegEx (true)
+      tableRef.fnFilter(filterString, null, true, false); //searches all columns (null) using RegEx (true) without smart filtering (false) [tries to allow words to match across a whole string, rather than in sequence]
    }
   //----------------------------------------------------------------------------------------------------
    function showAllRows() {
@@ -448,7 +452,10 @@ $(document).ready(function() {
         
         wordArray.clean("")
         var i = wordArray.length;
-        while(i--){  wordArray[i] = wordArray[i].replace(/"/g,"");}
+        while(i--){  
+           wordArray[i] = wordArray[i].replace(/"/g,"");
+           wordArray[i] = "\\s+" + wordArray[i];
+        }
         	// STILL NEED TO HANDLE: ANDs!!!
         
         showAllRows();
@@ -727,9 +734,13 @@ $(document).ready(function() {
 
 //           if(row[0][7] !== ""){ Contact = Contact + row[0][7] + "<br>"}
            if(row[0][8] !== "" & row[0][8].match(/@/) != null){ Contact = Contact + row[0][8] + "<br>"}
-           if(row[0][10] !== ""){ Contact = Contact + "<a href='javascript:void(0)' onclick='locateMarker("+RowIdx+")'><b class='glyphicon glyphicon-map-marker' style='color:#60a8fa; font-size:0.75em; padding-right:3px'></b></a>"
-                                                    + "<span style='width:50px'>" + row[0][10] + "</span><br>"}
-
+           if(row[0][10] !== ""){ 
+              if(row[0][13] !== "" && row[0][14] !== ""){
+                  Contact = Contact + "<a href='javascript:void(0)' onclick='locateMarker("+RowIdx+")'><b class='glyphicon glyphicon-map-marker' style='color:#60a8fa; font-size:0.75em; padding-right:3px'></b></a>"
+                                                    + "<span style='width:50px'>" + row[0][10] + "</span><br>"
+              } else{ Contact = Contact + "<span style='width:50px'>" + row[0][10] + "</span><br>"        }
+              
+            }
           $("#Profile_"+RowIdx).append(
               "<div class='ResourceMainInfo'>"
             + "<div id=Profile_"+RowIdx+"_Name         >"+Name + "</div>"
@@ -946,7 +957,7 @@ function searchByLocation(){
     var startLocation = $("#userLocation").val()
     var radius = Number($("#zoom").val())
   
-    if(radius == 0) radius = 16093
+    if(radius == 0) radius = 16093  //100 miles
   
     if(startLocation.match(/\-*\d+\.*\d*\,\-*\d+\.*\d*/)){
        var LatLong = startLocation.split(",")
@@ -960,11 +971,11 @@ function searchByLocation(){
         function callback(results, status) {
            if (status == google.maps.places.PlacesServiceStatus.OK) {
              if(results.length >= 1){
-                zoomTo(results[0].geometry.location.k,results[0].geometry.location.D, radius)
+                zoomTo(results[0].geometry.location.lat(),results[0].geometry.location.lng(), radius)
              }
            }
         }
-        
+
         var request = { location: GoogleMap.getCenter(), radius: radius, query: startLocation }
   
         service = new google.maps.places.PlacesService(GoogleMap);
