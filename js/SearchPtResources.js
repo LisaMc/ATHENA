@@ -40,9 +40,8 @@ function uniqueArray(elem)
 
  function scrollView(elem) {
  
-   var test = $("#"+elem).offset().top
         $('html, body').animate({
-            scrollTop: $("#"+elem).offset().top - 105 - $("#DisplaySettingsDiv").height() - 15  //header offset by 105px + ReportFilter text -10 for padding - defined in css
+            scrollTop: $("#"+elem).offset().top - 105 - $("#DisplaySettingsDiv").height() - 15 //header offset by 105px + ReportFilter text -10 for padding - defined in css
         }, 500);  //lower numbers makes for faster animation
 }
 
@@ -213,7 +212,12 @@ $(document).ready(function() {
          updateActiveContent();
         return false;
       }
-     
+     FreeForm.onkeyup = function(e) {
+        e.preventDefault();
+         SearchAndFilterResults()
+         updateActiveContent();
+        return false;
+      }
    } //window.onload 
 
  //----------------------------------------------------------------------------------------------------	
@@ -583,6 +587,8 @@ $(document).ready(function() {
            navigation_html += "<li><a class='next' onMouseDown = 'toggleWaitCursor()' onMouseUp='next()'>&raquo;</a></li>"
            $('#SearchPageSelection .pagination').html(navigation_html);
            $('#SearchPageSelection .pagination .page:first').addClass('active');
+           $('#SearchPageSelectionBottom .pagination').html(navigation_html);
+           $('#SearchPageSelectionBottom .pagination .page:first').addClass('active');
 
            $('#ProfileResults .ActiveProfileContent').css('display', 'none');
            $('#ProfileResults .ActiveProfileContent').slice(0, ItemsPerPage).css('display', 'block').each(function(){ 
@@ -620,6 +626,7 @@ $(document).ready(function() {
               }
           });
           $('#SearchPageSelection .pagination .active').removeClass('active')
+          $('#SearchPageSelectionBottom .pagination .active').removeClass('active')
           $('.page[longDesc=' + page_num + ']').addClass('active');
           
           $(".displayPageNumber").removeClass("displayPageNumber").addClass("hidePageNumber")
@@ -630,6 +637,7 @@ $(document).ready(function() {
               
           }
           toggleWaitCursor()
+          scrollView("DataToExport")
 
       }
    //----------------------------------------------------------------------------------------------------
@@ -798,7 +806,7 @@ $(document).ready(function() {
        var mapCanvas = document.getElementById('googleMapDiv');
        var mapOptions = {
          center: new google.maps.LatLng(39.50, -98.35),
-         zoom: 3,  //0 farthest, 22 closest
+         zoom: 2,  //0 farthest, 22 closest
          mapTypeId: google.maps.MapTypeId.ROADMAP  //ROADMAP, SATELLITE, HYBRID, or TERRAIN
        }
        GoogleMap = new google.maps.Map(mapCanvas, mapOptions);
@@ -808,7 +816,6 @@ $(document).ready(function() {
 //       var options = {  bounds: GoogleMap.getBounds(),  types: ['(regions)', '(cities)'], componentRestrictions: {country: 'us'} };
 
        autocomplete = new google.maps.places.Autocomplete(input, options);
-
 
     var data = tableRef._('tr', {"filter": "none"}); 
        MarkerHash = {}; // New object
