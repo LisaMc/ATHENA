@@ -114,7 +114,7 @@ $(document).ready(function() {
  	FullTableRef = $("#FullDataTable").dataTable();
 
  		 $("#grantTable").dataTable({
-       		  "aoColumns": [ {"sTitle": "MemberID", "sWidth": '50px'},{"sTitle": "FullName", "sWidth": '50px'}, {"sTitle": "Last", "sWidth": '50px'}, {"sTitle": "First", "sWidth": '50px'}, {"sTitle": "indicator", "sWidth": '50px'}, {"sTitle": "PubList", "sWidth": '50px'}, {"sTitle": "GrantList", "sWidth": '50px'}, {"sTitle": "TrialList", "sWidth": '50px'}],
+       		  "aoColumns": [ {"sTitle": "Serial.Number", "sWidth": '50px'},{"sTitle": "Project.Title", "sWidth": '50px'},{"sTitle": "Tumor.Type.s.", "sWidth": '50px'},{"sTitle": "Administering..IC", "sWidth": '50px'},{"sTitle": "Application.ID", "sWidth": '50px'},{"sTitle": "Project.Number", "sWidth": '50px'},{"sTitle": "Type", "sWidth": '50px'},{"sTitle": "Activity", "sWidth": '50px'},{"sTitle": "IC", "sWidth": '50px'},{"sTitle": "Support.Year", "sWidth": '50px'},{"sTitle": "Suffix", "sWidth": '50px'},{"sTitle": "Subproject.Number", "sWidth": '50px'},{"sTitle": "Contact.PI..Person.ID", "sWidth": '50px'},{"sTitle": "Contact.PI...Project.Leader", "sWidth": '50px'},{"sTitle": "PI.Trim", "sWidth": '50px'},{"sTitle": "MemberID", "sWidth": '50px'},{"sTitle": "Other.PI.or.Project.Leader.s.", "sWidth": '50px'},{"sTitle": "Organization.Name", "sWidth": '50px'},{"sTitle": "ARRA.Indicator", "sWidth": '50px'},{"sTitle": "FY", "sWidth": '50px'},{"sTitle": "FY.Total.Cost", "sWidth": '50px'},{"sTitle": "FY.Total.Cost...Sub.Projects.", "sWidth": '50px'},{"sTitle": "FY.Total", "sWidth": '50px'}]
          })   // dataTable
          .fnAdjustColumnSizing(); 
  	grantRef = $("#grantTable").dataTable();
