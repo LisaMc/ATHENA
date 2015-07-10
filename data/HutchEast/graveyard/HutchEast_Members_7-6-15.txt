@@ -1,0 +1,208 @@
+MemberID	Full Name	Last	First	Column1
+1	Gurinder Atwal	Atwal	Gurinder	x
+2	Kenneth Chang	Chang 	Kenneth	o
+3	Camila Dos Santos	Dos Santos	Camila	x
+4	Mikala Egeblad	Egeblad	Mikala	x
+5	Grigori Enikolopov	Enikolopov	Grigori	x
+6	Douglas Fearon	Fearon	Douglas	x
+7	Thomas Gingeras	Gingeras	Thomas	
+8	Christopher Hammell	Hammell	Christopher	x
+9	Molly Hammell	Hammell	Molly	x
+10	Gregory Hannon	Hannon	Gregory	x
+11	James Hicks	Hicks	James	o
+12	Leemor Joshua-Tor	Joshua-Tor	Leemor	x
+13	Justin Kinney	Kinney	Justin	x
+14	Adrian Krainer 	Krainer 	Adrian	x
+15	Alexander Krasnitz	Krasnitz	Alexander	x
+16	Je H. Lee	Lee	Je H.	x
+17	Scott Lyons	Lyons	Scott	o
+18	Rob Martienssen	Martienssen	Robert	x
+19	W. Richard McCombie	McCombie	W. Richard	x
+20	Alea Mills	Mills	Alea	x
+21	Darryl Pappin	Pappin	Darryl	x
+22	Scott Powers	Powers	Scott	x
+23	Michael Schatz	Schatz	Michael	x
+24	Adam Siepel	Siepel	Adam	x
+25	Raffaella Sordella 	Sordella 	Raffaella	x
+26	David L. Spector	Spector	David L.	x
+27	Arne Stenlund	Stenlund	Arne	x
+28	Bruce W. Stillman 	Stillman 	Bruce W. 	x
+29	Nicholas Tonks	Tonks	Nicholas	x
+30	Lloyd Trotman	Trotman	Lloyd	x
+31	David Tuveson	Tuveson	David	x
+32	Christopher Vakoc	Vakoc	Christopher	x
+33	Linda Van Aelst 	Van Aelst 	Linda	x
+34	Michael Wigler	Wigler	Michael	x
+35	Lingbo Zhang	Zhang	Lingbo	o
+36	Hongwu Zheng 	Zheng 	Hongwu	x
+37	Yi Zhong 	Zhong 	Yi	x
+38	Dinu Florin Albeanu	Albeanu	Dinu Florin	x
+39	Anne Churchland	Churchland	Anne	x
+40	Joshua Dubnau	Dubnau	Joshua	x
+41	Hiro Furukawa	Furukawa	Hiro	x
+42	Jesse Gillis	Gillis	Jesse	x
+43	Z. Josh Huang	Huang	Z. Josh	x
+44	Ivan Iossifov	Iossifov	Ivan	x
+45	David Jackson	Jackson	David	x
+46	Adam Kepecs	Kepecs	Adam	x
+47	Alexei Koulakov	Koulakov	Alexei	x
+48	Dan Levy	Levy	Dan	x
+49	Bo Li	Li	Bo	x
+50	Zachary Lippman	Lippman	Zachary	x
+51	Gholson Lyon	Lyon	Gholson	x
+52	Partha P. Mitra	Mitra	Partha P.	x
+53	Pavel Osten	Osten	Pavel	x
+54	Stephen Shea	Shea	Stephen	x
+55	Marja Timmermans	Timmermans	Marja	x
+56	Jessica Tollkuhn	Tollkuhn	Jessica	x
+57	Glenn Turner	Turner	Glenn	x
+58	Doreen Ware	Ware	Doreen	x
+59	Anthony Zador	Zador	Anthony	x
+60	Steven Allen	Allen	Steven	x
+61	Lionel Blanc	Blanc	Lionel	x
+62	Daniel Budman	Budman	Daniel	x
+63	Nicholas Chiorazzi	Chiorazzi	Nicholas	x
+64	Charles Chu	Chu	Charles	x
+65	Benchang Guo	Guo	Benchang	x
+66	Louis Raphael Kavoussi	Kavoussi	Louis Raphael	x
+67	Jonathan E. Kolitz	Kolitz	Jonathan	x
+68	Annette Lee	Lee	Annette	x
+69	Martin Lesser	Lesser	Martin	x
+70	Jian Yi (Jim) Li	Li	Jian Yi (Jim)	x
+71	Jeffrey Lipton	Lipton	Jeffrey	x
+72	Johnson M. Liu	Liu	Johnson M.	x
+73	John Louis Lovecchio	Lovecchio	John Louis	x
+74	Michaela Oswald	Oswald	Michaela	x
+75	Louis Potters	Potters	Louis	x
+76	Kanti Roop Rai	Rai	Kanti Roop	x
+77	Michael Schulder	Schulder	Michael	x
+78	Barbara Sherry	Sherry	Barbara	x
+79	Henry Simpkins	Simpkins	Henry	x
+80	Sharon Abigail Singh	Singh	Sharon Abigail	x
+81	Samuel Soffer	Soffer	Samuel	x
+82	Bettie Steinberg	Steinberg	Bettie	x
+83	Marc Symons	Symons	Marc	x
+84	Sarah R. Vaiselbuh	Vaiselbuh	Sarah R.	x
+85	Vincent P. Vinciguerra	Vinciguerra	Vincent P.	x
+86	Arnold Brenner	Brenner	Arnold	x
+87	Gabrielle Reid Goldberg	Goldberg	Gabrielle	x
+88	Mark H. Kirschbaum	Kirschbaum	Mark H.	o
+89	Ruby Sharma	Sharma	Ruby	x
+90	Solaiman Futuri	Futuri	Solaiman	x
+91	Carolyn Fein Levy	Fein Levy	Carolyn	x
+92	Karen Michele Kostroff	Kostroff	Karen Michele	x
+93	Jed Michael Pollack	Pollack	Jed Michael	o
+94	Jane E. Carleton	Carleton	Jane E.	o
+95	Veena Susan John	John	Veena Susan	o
+96	Crina D. Vintila	Vintila	Crina D.	o
+97	Ruthee-lu Bayer	Bayer	Ruthee-lu 	x
+98	Thomas Paul Bradley	Bradley	Thomas Paul	x
+99	Craig Devoe	Devoe 	Craig	x
+100	Haralambos Raftopoulos 	Raftopoulos 	Haralambos	x
+101	Tony Philip	Philip	Tony	o
+102	Kit Ling Cheng	Cheng	Kit Ling	o
+103	Laura Lynn Donahue	Donahue	Laura Lynn	o
+104	Lora R. Weiselberg	Weiselberg	Lora R.	o
+105	Michael Seth Buchholtz	Buccholtz	Michael Seth	x
+106	Eileen Sheehy Milano	Milano	Eileen Sheehy	o
+107	James T. D'Olimpio	D'Olimpio	James T.	x
+108	Cristina Maria Ghiuzeli	Ghiuzeli	Cristina Maria	o
+109	Doru Paul	Paul	Doru	x
+110	Kevin Sullivan	Sullivan	Kevin	x
+111	George Raptis	Raptis	George	x
+112	Jean Paul Atallah	Atallah	Jean Paul	x
+113	Shilpi Gupta	Gupta	Shilpi	x
+114	Indira Sahdev	Sahdev	Indira	o
+115	Banu Aygun	Aygun	Banu	x
+116	Jonathan Davi Fish	Fish	Jonathan Davi	x
+117	Joel Aaron Brochstein	Brochstein	Joel Aaron	x
+118	Francine Blei	Blei	Francine	x
+119	Arlene Sara Redner	Redner	Arlene Sara	x
+120	Phillip J. Vigneri	Vigneri	Phillip J.	o
+121	Heather Dawn Zinkin	Zinkin	Heather Dawn	o
+122	Maged Mofied Ghaly	Ghaly	Maged Mofied	o
+123	Rajiv Sharma	Sharma	Rajiv	o
+124	Janna Zeola Andrews	Andrews	Janna Zeola	x
+125	Lucille Nichols Lee	Lee	Lucilee Nichols	o
+126	Evelyn Sue Marienberg	Marienberg	Evelyn Sue	o
+127	Brett Wayne Cox	Cox	Brett Wayne	x
+128	Anuj Goenka	Goenka	Anuj	x
+129	Mark Peter Atlas	Atlas	Mark Peter	x
+130	Adrianna Vlachos	Vlachos	Adrianna	x
+131	Suchitra Shridhar Acharya	Acharya	Suchitra Shridhar	x
+132	Rachel Markowitz Kessel	Kessel	Rachel Markowitz	x
+133	Abena Otema Appiah-Kubi	Appiah-Kubi	Abena Otema	x
+134	Eleny Romanos-Sirakis	Romanos-Sirakis	Eleny	x
+135	Mark A. Hoffman	Hoffman	Mark A.	x
+136	Magdalena Pomykol-Petryk	Pomykol-Petryk	Magdalena	o
+137	Sadia Riaz	Riaz	Sadia	o
+138	Steven R. Savona	Savona	Steven R.	x
+139	Jacqueline Claudia Barrientos	Barrientos	Jacqueline Claudia 	x
+140	Linda A. Russo	Russo	Linda A.	o
+141	Qun Dai	Dai	Qun	x
+142	Terenig Terjanian	Terjanian	Terenig	x
+143	Myra Frances Barginear	Barginear	Myra Frances	x
+144	Amy Sharma	Sharma	Amy	o
+145	Xinhua Zhu	Zhu	Xinhua	o
+146	Dana Shani	Shani	Dana	o
+147	Nagashree Seetharamu	Seetharamu	Nagashree	o
+148	Marcel Odaimi	Odaimi	Marcel	x
+149	Meekoo Dhar	Dhar	Meekoo	x
+150	Philip Louis Friscia	Friscia	Philip Louis	x
+151	Matthew T. Hurford	Hurford	Matthew T.	x
+152	Judith Paula Brody	Brody	Judith Paula	x
+153	Alan Stuart Kadison	Kadison	Alan Stuart	o
+154	Peihong Hsu	Hsu	Peihong	x
+155	Xinmin Zhang	Zhang	Xinmin	x
+156	Richard Allen Lipton	Lipton	Richard Allen	o
+157	Stephanie Falcone Bernik	Bernik	Stephanie Falcone	o
+158	Mansoor H. Beg	Beg	Mansoor H.	x
+159	Joph Steckel	Steckel	Joph	o
+160	Reed Ellis Phillips	Phillips	Reed Ellis	o
+161	John Lawrence Ricci	Ricci	John Lawrence	o
+162	Charles Carmine Conte	Conte	Charles Carmine	o
+163	Antonio I. Picon	Picon	Antonio I.	x
+164	Lawrence C. Wolfe	Wolfe	Lawrence C.	x
+165	Silvat Waseem Sheikh-Fayyaz	Sheikh-Fayyaz	Silvat Waseem	x
+166	Alyssa Yurovitsky	Yurovitsky	Alyssa	x
+167	Andrew William Menzin	Menzin	Andrew William	x
+168	Mitchell Maiman	Maiman	Mitchell	x
+169	Frank Forte	Forte	Frank	x
+170	James Eng Louie	Louie	James Eng	x
+171	Tianyu Yang	Yang	Tianyu	x
+172	Aparna Hima Kolli	Kolli	Aparna Hima	o
+173	Shafinaz Rahayu Hussein	Hussein	Shafinaz Rahayu	x
+174	Randy Levine	Levine	Randy	x
+175	Jonathan Petrus Sandberg Knisely	Knisely	Jonathan Petrus Sandberg	x
+176	Jeannine Ann Villella	Villella	Jeannine Ann	x
+177	Jill Suzanne Whyte	Whyte	Jill Suzanne	x
+178	Antoinette Sakaris	Sakaris	Antoinette	o
+179	Lisa Ann Dos Santos	Dos Santos	Lisa Ann	x
+180	Karin Kuan-Hui Shih	Shih	Karin Kuan-Hui	x
+181	Nisha Bansal	Bansal	Nisha	o
+182	Sewit Teckie	Teckie	Sewit	x
+183	Elizabeth Anne Marshall	Marshall	Elizabeth Anne	x
+184	Manish Arvind Vira	Vira	Manish Arvind	x
+185	James Dennis Sullivan	Sullivan	James Dennis	x
+186	Alexis Matthew Demopoulos	Demopoulos	Alexis Matthew	x
+187	Raza Mohammed Zaidi	Zaidi	Raza Mohammed	o
+188	David E. Bernstein	Bernstein	David E.	x
+189	John Andrew Boockvar	Boockvar	John Andrew	x
+190	Daniel Joel Javit	Javit	Daniel Joel	x
+191	Michael Jonathan Schwartz	Schwartz	Michael Jonathan	x
+192	Lee Richstone	Richstone	Lee	x
+193	Kenar Dinesh Jhaveri	Jhaveri	Kenar Dinesh	x
+194	Amit Garg	Garg	Amit	x
+195	Robert S. Waldbaum	Waldbaum	Robert S.	o
+196	Omid Rofeim	Rofeim	Omid	o
+197	Justin Shinyu Han	Han	Justin Shinyu	x
+198	Neil Tanna	Tanna	Neil	x
+199	Nicholas Bastidas	Bastidas	Nicholas	x
+200	Zeph Okeke	Okeke	Zeph	x
+201	Robert Miles Moldwin	Moldwin	Robert Miles	x
+202	Katy Irene Burris	Burris	Katy Irene	x
+203	Jeanine Adria Daly	Daly	Jeanine Adria	o
+204	Peter David Costantino	Costantino	Peter David	x
+205	Michael A. Diefenbach	Diefenbach	Michael A.	o
+206	Alicia C. McDonald	McDonald	Alicia C.	x
+207	Emanuela Taioli	Taioli	Emanuela	x

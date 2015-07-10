@@ -49,7 +49,7 @@
 
    <script src="js/jquery.dataTables.min.js"></script>
 
-  <script src="js/SearchDirectory.js"></script>
+  <script src="js/SearchHutchEastMembers.js"></script>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -80,12 +80,9 @@
                 <div class='toClear'>clear</div>
                 <div class='toggleFilterExpansion toContract'><b>&gt;</b></div>
                 <div class='toSelectAll'>select all</div>
-             		<li style="padding-top:5px"><input class="fil_inst" type="checkbox" value="Fred Hutch">Fred Hutch</li>
-            		<li><input class="fil_inst" type="checkbox" value="UW">UW</li>
-            		<li><input class="fil_inst" type="checkbox" value="Seattle Children's">Seattle Children's</li>
-            		<li><input class="fil_inst" type="checkbox" value="Sage Bionetworks">Sage</li>
-            		<li><input class="fil_inst" type="checkbox" value="ISB">ISB</li>
-            		<li><input class="fil_inst" type="checkbox" value="Cancer Research and Biostatistics">Cancer Research and Biostatistics</li>
+             		<li style="padding-top:5px"><input class="fil_inst" type="checkbox" value="NSLIJ">NSLIJ</li>
+             		<li><input class="fil_inst" type="checkbox" value="Feinstein Institute">Feinstein Institute</li>
+            		<li><input class="fil_inst" type="checkbox" value="Cold Spring Harbor">Cold Spring Harbor</li>
                 </ul>
 		       </div>	
 		       
@@ -96,76 +93,44 @@
                  <div class='toggleFilterExpansion toContract'><b>&gt;</b></div>
                  <div class='toSelectAll'>select all</div>
              	  	<li style="padding-top:5px"><input class="fil_disease" type="checkbox" value="Bladder">Bladder</li>
+               		<li><input class="fil_disease" type="checkbox" value="Bone">Bone</li>
                		<li><input class="fil_disease" type="checkbox" value="Brain">Brain</li>
                		<li><input class="fil_disease" type="checkbox" value="Breast">Breast</li>
+               		<li><input class="fil_disease" type="checkbox" value="Cervical">Cervical</li>
                		<li><input class="fil_disease" type="checkbox" value="Colorectal">Colorectal</li>
                		<li><input class="fil_disease" type="checkbox" value="Head & Neck">Head & Neck</li>
+               		<li><input class="fil_disease" type="checkbox" value="Leukemia">Leukemia</li>
+               		<li><input class="fil_disease" type="checkbox" value="Liver">Liver</li>
                		<li><input class="fil_disease" type="checkbox" value="Lung">Lung</li>
+               		<li><input class="fil_disease" type="checkbox" value="Lymphoma">Lymphoma</li>
                		<li><input class="fil_disease" type="checkbox" value="Ovary">Ovary</li>
                		<li><input class="fil_disease" type="checkbox" value="Pancreas">Pancreas</li>
                		<li><input class="fil_disease" type="checkbox" value="Prostate">Prostate</li>
                		<li><input class="fil_disease" type="checkbox" value="Sarcoma">Sarcoma</li>             		
                 </ul> 
-              </div>
-
-               <div class="filter">
-                <ul id="FilterOmics" class="filterOptions showContent" >
-             	 <h2><b> Computational field </b></h2>
-                 <div class='toClear'>clear</div>
-                 <div class='toggleFilterExpansion toContract'><b>&gt;</b></div>
-                 <div class='toSelectAll'>select all</div>
-             		<li style="padding-top:5px">
-             		    <input class="fil_omics" type="checkbox" value="Computational Biology">Computational Biology</li>
-            		<li><input class="fil_omics" type="checkbox" value="Bioinformatics">Bioinformatics</li>
-            		<li><input class="fil_omics" type="checkbox" value="Biostatistics">Biostatistics</li>
-            		<li><input class="fil_omics" type="checkbox" value="Applied Math">Applied Math</li>
-             		<li><input class="fil_omics" type="checkbox" value="Systems Biology">Systems Biology</li>
-             		<li><input class="fil_omics" type="checkbox" value="Structural Biology">Structural Biology</li>
-             		<li><input class="fil_omics" type="checkbox" value="AI,Machine Learning,NLP">NLP/Machine learning</li>
-             		<li><input class="fil_omics" type="checkbox" value="Computer Science">CS</li>
-             		<li><input class="fil_omics" type="checkbox" value="Bioengineering">Bioengineering</li>
-             		<li><input class="fil_omics" type="checkbox" value="Clinical Informatics">Clinical (Research) Informatics</li>
-             		<li><input class="fil_omics" type="checkbox" value="Epidemiology">Epidemiology</li>
-             		<li><input class="fil_omics" type="checkbox" value="Imaging">Imaging</li>
-             		<li><input class="fil_omics" type="checkbox" value="Public Health Informatics">Public Health Informatics</li>
-             		<li><input class="fil_omics" type="checkbox" value="Consumer Health Informatics">Consumer Health Informatics</li>
-             		<li><input class="fil_omics" type="checkbox" value="Health Informatics">Health Informatics</li>
-             		<li><input class="fil_omics" type="checkbox" value="Translational Bioinformatics">Translational Bioinformatics</li>
-             		<li><input class="fil_omics" type="checkbox" value="Adopter">Adopter</li>
+              </div>  
+              
+              <div class="filter">
+                <ul id="FilterYear" class="filterOptions showContent">
+                <h2><b> Grant/Publication Year </b> </h2>
+                <div class='toClear'>clear</div>
+                <div class='toggleFilterExpansion toContract'><b>&gt;</b></div>
+                <div class='toSelectAll'>select all</div>
+             		<li style="padding-top:5px"><input class="fil_year" type="checkbox" value="2010">2010</li>
+             		<li><input class="fil_year" type="checkbox" value="2011">2011</li>
+            		<li><input class="fil_year" type="checkbox" value="2012">2012</li>
+            		<li><input class="fil_year" type="checkbox" value="2013">2013</li>
+            		<li><input class="fil_year" type="checkbox" value="2014">2014</li>
+            		<li><input class="fil_year" type="checkbox" value="2015">2015</li>
                 </ul>
-                
-                <ul id="FilterContactFor" class="filterOptions showContent" >
-             	 <h2><b> - to contact for </b></h2>
-                 <div class='toClear'>clear</div>
-                 <div class='toggleFilterExpansion toContract'><b>&gt;</b></div>
-                 <div class='toSelectAll'>select all</div>
-             	  	<li style="padding-top:5px"><input class="fil_contact" type="checkbox" value="Grants">Grants</li>
-               		<li><input class="fil_contact" type="checkbox" value="Collaboration">Collaboration</li>
-               		<li><input class="fil_contact" type="checkbox" value="Consultation">Consultation</li>
-               		<li><input class="fil_contact" type="checkbox" value="Programmatic ideas">Programmatic ideas</li>
-               		<li><input class="fil_contact" type="checkbox" value="Speaking engagements">Speaking engagements</li>
-               		<li><input class="fil_contact" type="checkbox" value="Mentoring">Mentoring</li>             		
-                </ul>
-                
-   		     </div> <!-- computational filter -->
-   		        
+		       </div>			        
  		  </div> <!-- SideNav -->
 
      <div id="RightBar" class="RightBar dropFirst" > 
-        <div class="RightNavSection"> <b>Profile</b><br>
-          <div onclick='EditProfile(this)' style='margin-top:5px;cursor:pointer'>
-             <span class='glyphicon glyphicon-pencil' aria-hidden='true'></span>
-             Create/Edit a Profile<br/>
-          </div>
-        </div> <!-- EditProfilediv -->
 
-        <div class="RightNavSection"> <b>Popular Searches</b><br>
-          <span class='PopularSearch' style='cursor:pointer; float:left; font-size:0.9em' >Personalized Medicine</span>
-          <span class='PopularSearch' style='cursor:pointer; float:right; font-size:0.9em' >RNAseq</span> <br/>            
-          <span class='PopularSearch' style='cursor:pointer; float:left; font-size:0.9em' >Global Health</span>
-          <span class='PopularSearch' style='cursor:pointer; float:right; font-size:0.9em'>Cancer Screening</span><br/>
-          <span class='PopularSearch' style='cursor:pointer; float:left; font-size:0.9em'>Shared Resources</span>
-          <span class='PopularSearch' style='cursor:pointer; float:right; font-size:0.9em'>Immunotherapy</span>
+        <div class="RightNavSection"> <b>Main Pages</b><br>
+          <span style='cursor:pointer; float:left;' class='MainTablePages' >Grants</span>
+          <span style='cursor:pointer; float:right;' class='MainTablePages' >Members</span>
 
         </div> <!-- PopularSearchdiv -->
 
@@ -177,7 +142,7 @@
         </div> <!-- /vizplots -->
        
        <div class="RightNavSection"> <b>Feedback</b><br/>
-          <a href="MAILTO:lmcferri@fredhutch.org?subject=Feedback on STTRconnect" style='margin-top:5px;cursor:pointer'>
+          <a href="MAILTO:contact@sttrconnect.org?subject=Feedback on STTRconnect" style='margin-top:5px;cursor:pointer'>
              <span class='glyphicon glyphicon-envelope' aria-hidden='true'></span>
              Email Us!
           </a> 
@@ -251,8 +216,7 @@
              <span id="FilterStringDiv">
                <span id="ReportInstFilterSpan"></span>
                <span id="ReportDiseaseFilterSpan"></span>
-               <span id="ReportOmicsFilterSpan"></span>
-               <span id="ReportContactForFilterSpan"></span>
+               <span id="ReportYearFilterSpan"></span>
              </span>
         </div>
 
@@ -283,7 +247,12 @@
      <div id="TABLEdiv" class="MainFrameDiv" style="display:none;">
           <div id="DataTableDiv" >
                <table cellpadding="0" cellspacing="0" border="0" class="display" id="DataTable"></table>
+               <table cellpadding="0" cellspacing="0" border="0" class="display" id="FullDataTable"></table>
+               <table cellpadding="0" cellspacing="0" border="0" class="display" id="grantTable"></table>
+               <table cellpadding="0" cellspacing="0" border="0" class="display" id="trialTable"></table>
+               <table cellpadding="0" cellspacing="0" border="0" class="display" id="pubTable"></table>
           </div>
+
      </div>      <!-- /TABLEdiv -->
 
 	 <div id="PROFILEdiv" class="MainFrameDiv" style="display:none">
@@ -393,14 +362,20 @@
           <select id="PlotType" name="PlotType" class="form-control plotOption" value="Barplot">
             <option id="plotBarplot" value="plotBarplot">Barplot</option>
           </select>
-          <label for="PlotFeature">Feature</label>
-          <select id="PlotFeature" name="PlotFeature"  class="form-control plotOption">
+          <label for="PlotCategory">Category</label>
+          <select id="PlotCategory" name="PlotCategory"  class="form-control plotOption">
             <option id="plotInstitute" value="Institute">Institute</option>
-            <option id="plotContact" value="ContactFor">Contact for</option>
-            <option id="plotDisease" value="DiseaseType">DiseaseType</option>
-            <option id="plotOmics" value="omicsField">Computational Field</option>
+             <option id="plotDisease" value="DiseaseType">DiseaseType</option>
           </select>
-          
+         <label for="PlotFeature">Feature</label>
+          <select id="PlotFeature" name="PlotFeature"  class="form-control plotOption">
+            <option id="plotMember" value="Members">Members</option>
+             <option id="plotPublication" value="Publications">Publications</option>
+             <option id="plotGrant" value="Grants">Grants</option>
+             <option id="plotTrial" value="Trials">Trials</option>
+          </select>
+          	<ul style="list-style-type:none" class="fil_NA"><li><input id="fil_NA" type="checkbox" value="ExcludeNA">Exclude Missing Values</li></ul>
+               	
         </div>
         <div id="VizSubtitle" style="text-align:center"></div>
         <div id="MainGraph" style=" margin-left:auto; margin-top:auto; margin-right:auto"></div>
@@ -431,32 +406,32 @@
      <div class="header_contents">
 
        <nav><div class="utility_nav noprint">
-       <ul>       
-     <li class="utility_home"><a href="/en.html">Home</a></li>
-     <li><a href="https://share.fhcrc.org/sites/cancer-center/sttr/" target="_blank" title="Link to the members site opens in a new browser window">Members</a></li>
-     <li><a href="http://sttrcancer.org/en/contact-us.html">Contact <span class="droptext">Us</span></a></li>
+       <ul>
+        <li class="utility_home"><a href="/en.html">Home</a></li>
+        <li><a href="https://share.fhcrc.org/sites/cancer-center/sttr/" target="_blank" title="Link to the members site opens in a new browser window">Members</a></li>
+        <li><a href="http://sttrcancer.org/en/contact-us.html">Contact <span class="droptext">Us</span></a></li>
       <li class="utility_donate_button"><a href="https://secure2.convio.net/fhcrc/site/Donation2?df_id=5340&5340.donation=form1" target="_blank"><img class="rolloverImage" src="images/sttr_donate_button_static.png" data-hover="images/sttr_donate_button_static.png"></a></li>
-    </ul>
-    <div id="utility_search" class="utility_search">
-     <div class="sitesearch">
+       </ul>
+    
+       <div id="utility_search" class="utility_search">
+         <div class="sitesearch">
       <form id="utility_search_form" action="http://sttrcancer.org/en/util/search.html">
-       <input class="searchbox" type="text" value="" placeholder="Search this site..." name="q" maxlength="2048">
+            <input class="searchbox" type="text" value="" placeholder="Search this site..." name="q" maxlength="2048">
        <input class="searchbutton" type="image" src="images/sttr_search_magnifying_glass_icon.png" alt="Search" name="submit">
-      </form>
-     </div>
-    </div>
-      
-       
-       
+           </form>
+         </div>
+       </div>
      </div></nav><!-- /utility_nav -->
 
      <div class="runningHeader"> 
     <span id="HomeSpan" class="dropThird" style="text-align:center;min-width:200px;font-size:2.5em;font-family:sans-serif;cursor:pointer; position:relative;left:10px; float:left; margin-right:25px">
         <a href="/Default.htm"> 
-         <span style="color:#60a8fa;">STTR</span><span style="color:white;font-size:0.8em">connect</span>
+         <div style="height:40px; border-bottom: #60a8fa thin solid">
+            <span style="color:#60a8fa;">STTR</span><span style="color:white;font-size:0.8em;">connect</span> </div>
+         <div style="color:white;font-size:0.4em;">Hutch East</div>
         </a></span>
 
-     <div id="SEARCH_BARdiv" class="searchBar" style="width:60%;padding-top:7px;">
+     <div id="SEARCH_BARdiv" class="searchBar" style="width:60%;padding-top:15px;">
        <div class="sitesearch">
             <form id="QueryFreeForm" record="'search', {'keyword': '', 'results':'', 'executionTime':''}" style="width:90%;float:left;border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px" >
  		 	<input class="searchbox" maxlength="2048" id="QueryFreeInput" name="QueryText" placeholder="SEARCH for..." value="" type="text" style="color:black;;border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px "/>
