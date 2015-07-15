@@ -126,24 +126,24 @@ $(document).ready(function() {
   	trialRef = $("#trialTable").dataTable();
 
 		 $("#pubTable").dataTable({
-       		  "aoColumns": [ {"sTitle": "Index", "sWidth": '50px'},{"sTitle": "Author", "sWidth": '50px'}, {"sTitle": "MemberID", "sWidth": '50px'}, {"sTitle": "AuthorOrder", "sWidth": '50px'}, {"sTitle": "Authors", "sWidth": '50px'}, {"sTitle": "Title", "sWidth": '50px'},	{"sTitle": "Citation", "sWidth": '50px'},	{"sTitle": "Year", "sWidth": '50px'},	{"sTitle": "PMID", "sWidth": '50px'},	{"sTitle": "Tumor Type", "sWidth": '50px'}],
+       		  "aoColumns": [ {"sTitle": "Index", "sWidth": '50px'},{"sTitle": "Author", "sWidth": '50px'}, {"sTitle": "MemberID", "sWidth": '50px'}, {"sTitle": "AuthorOrder", "sWidth": '50px'}, {"sTitle": "Authors", "sWidth": '50px'}, {"sTitle": "Title", "sWidth": '50px'},	{"sTitle": "Citation", "sWidth": '50px'},	{"sTitle": "Year", "sWidth": '50px'},	{"sTitle": "PMID", "sWidth": '50px'},	{"sTitle": "Tumor Type", "sWidth": '50px'},	{"sTitle": "AnyInstitution", "sWidth": '50px'}],
          })   // dataTable
          .fnAdjustColumnSizing(); 
 	pubRef = $("#pubTable").dataTable();
 
 
 
-	d3.json("data/HutchEast/HutchEast_GrantDescriptionProjNum_7-8-15_json.txt", function(json){
+	d3.json("data/HutchEast/HutchEast_GrantDescriptionProjNum_7-14-15_json.txt", function(json){
 		 var grantData=json
 		 grantRef.fnAddData(grantData);
-  	   d3.json("data/HutchEast/HutchEast_ClinicalTrials_7-8-15_json.txt", function(json){
+  	   d3.json("data/HutchEast/HutchEast_ClinicalTrials_7-14-15_json.txt", function(json){
 		 var trialData=json
 		 trialRef.fnAddData(trialData);
-    	d3.json("data/HutchEast/HutchEast_Publications_7-8-15_json.txt", function(json){
+    	d3.json("data/HutchEast/HutchEast_PublicationsCrossRefInst_7-14-15_json.txt", function(json){
 		 var pubData=json		 
 		 pubRef.fnAddData(pubData);
 
-	d3.json("data/HutchEast/HutchEast_MembersCrossRef_7-8-15_json.txt", function(jsonMems){
+	d3.json("data/HutchEast/HutchEast_MembersCrossRef_7-14-15_json.txt", function(jsonMems){
 
 		 var DataTable=jsonMems
 		 tableRef.fnAddData(DataTable);
@@ -210,6 +210,7 @@ $(document).ready(function() {
 
     $(".barPlot").click(function(){  toggle_visibility("barplot", "VISUALIZEdiv") })
     $(".plotOption").change(updateActiveContent);
+    $(".plotFeatureOption").change(updateGroupOptions);
  	$('.fil_NA :checkbox').click(function(){
  	 drawBarplot(); });	
 
@@ -326,9 +327,11 @@ $(document).ready(function() {
      if(content.className.match("hideContent") != null){
         content.className = content.className.replace("hideContent", "showContent")
            elem.className = elem.className.replace("toExpandlist", "toContractlist");
+           elem.className = elem.className.replace("toExpand", "toContract");
      } else {
         content.className= content.className.replace("showContent", "hideContent");
            elem.className = elem.className.replace("toContractlist","toExpandlist");
+           elem.className = elem.className.replace("toContract","toExpand");
      } ;
   };
 
@@ -515,6 +518,23 @@ $(document).ready(function() {
      //----------------------------------------------------------------------------------------------------
      function FullProfile(elem){
       
+      if(elem.className.match("toExpand") != null){
+          var els = elem.parentNode.children
+          for(var i=0; i<els.length; ++i){     //set all displays to none
+            els[i].style.display =  'block';
+        };
+      }else{
+          var els = elem.parentNode.children
+          for(var i=0; i<els.length; ++i){     //set all displays to none
+            if(els[i].className.match("fullProfile") != null){
+              els[i].style.display =  'none'; }
+        };
+      }
+         toggleContent(elem, elem.parentNode.children[3])
+      }
+     //----------------------------------------------------------------------------------------------------
+     function ExpandList(elem){
+      
       if(elem.className.match("toExpandlist") != null){
           var els = elem.parentNode.children
           for(var i=0; i<els.length; ++i){     //set all displays to none
@@ -674,7 +694,7 @@ $(document).ready(function() {
 
      $("#VizResults")[0].innerHTML = "";
      $("#VizResults").append("<div id='VizResultsHeader'><div id='scrollToTop' style='text-align:right;color:#60a8fa;font-size:0.9em; cursor:pointer'>back to top</div>"
-        + "<div style='text-align:center; font-size:1.3em'><strong>"+ IndexArray.count+" results for "+IndexArray.Name+"</strong><br/></div></div>");
+        + "<div style='text-align:center; font-size:1.3em'><strong>"+ IndexArray.count+" results for "+IndexArray.name+"</strong><br/></div></div>");
 
      getProfilesFromArray(IndexArray.Index)  //sets Index values to ProfileActive
      resetPagingSystem()                     // displays first set of profiles to 
@@ -701,6 +721,15 @@ $(document).ready(function() {
            FullTableRef.fnFilter("",0)
            
          var Name =  "<b>"+row[0][1]+"</b>" ;
+          if(row[0][4] !== ""){ Name= Name.concat(", " + row[0][4]); }
+          var Title = "", Contact="";
+           if(row[0][5] !== ""){ Title = row[0][5] + "<br>"}
+           if(row[0][8] !== ""){ Title = Title + row[0][8] + "<br>"}
+           if(row[0][6] !== ""){ Title = Title + row[0][6] + "<br>"}
+           if(row[0][9] !== ""){ Contact = Contact + row[0][9] + "<br>"}
+           if(row[0][10] !== ""){ Contact = Contact + row[0][10] + "<br>"}
+
+         
          var pubSpan=      "<span id='pubSpan' style='display:none; padding-top:10px' class='fullProfile hideContent'>", 
              grantSpan=  "<span id='grantSpan' style='display:none; padding-top:10px' class='fullProfile hideContent'>", 
              trialSpan = "<span id='trialSpan' style='display:none; padding-top:10px' class='fullProfile hideContent'>";
@@ -717,8 +746,8 @@ $(document).ready(function() {
             if(seenIndices.indexOf(grants[i][0]) !== -1) continue;
             seenIndices.push(grants[i][0])
 
-           var Title = "", Org="", Funder="", FYcost="";
-           if(grants[i][1] !== ""){ Title = grants[i][1] }
+           var grantTitle = "", Org="", Funder="", FYcost="";
+           if(grants[i][1] !== ""){ grantTitle = grants[i][1] }
            if(grants[i][17] !== ""){ Org = grants[i][17] }
            if(grants[i][14] !== ""){ PI = grants[i][14] }
            if(grants[i][14] !== ""){ Funder = grants[i][3] }
@@ -733,7 +762,7 @@ $(document).ready(function() {
               if(thisGrant[j][22] !== ""){ FYcost = FYcost + ": $" + thisGrant[j][22] }
            }
            FYcost = FYcost.replace(/^;/,"")
-           grantSpan = grantSpan +  Title +"<br>"+Org+ "<br>"+Funder+ " ("+FYcost+") <br/><br/>"
+           grantSpan = grantSpan +  grantTitle +"<br>"+Org+ "<br>"+Funder+ " ("+FYcost+") <br/><br/>"
          }
         } //grant
         grantSpan = grantSpan + "</span>"
@@ -749,13 +778,13 @@ $(document).ready(function() {
          pubs = pubs.sort(function (a, b) { return a[7] < b[7] ? 1 : a[7] > b[7] ? -1 : 0; });
          for(var i=0;i<pubs.length; i++){
 
-           var Authors = "", Title = "",Citation="", Year="", PMID="";
+           var Authors = "", pubTitle = "",Citation="", Year="", PMID="";
            if(pubs[i][4] !== ""){ Authors = pubs[i][4] }
-           if(pubs[i][5] !== ""){ Title = pubs[i][5] }
+           if(pubs[i][5] !== ""){ pubTitle = pubs[i][5] }
            if(pubs[i][6] !== ""){ Citation = pubs[i][6] }
            if(pubs[i][7] !== ""){ Year = pubs[i][7] }
            if(pubs[i][8] !== ""){ PMID = "PMID: " + pubs[i][8] }
-           pubSpan = pubSpan  + Authors +".'"+Title+ "' "+Citation+ " ("+Year+") "+ PMID + "<br/><br/>"
+           pubSpan = pubSpan  + Authors +".'"+pubTitle+ "' "+Citation+ " ("+Year+") "+ PMID + "<br/><br/>"
          }
          numPubs = row[0][26].split(";").length
         }
@@ -771,29 +800,84 @@ $(document).ready(function() {
          trials = trials.sort(function (a, b) { return a[6] < b[6] ? 1 : a[6] > b[6] ? -1 : 0; });
          for(var i=0;i<trials.length; i++){
 
-           var Org = "", Title = "",Phase="", Age="",  TumorType="";
-           if(trials[i][2] !== ""){ Title = trials[i][2]  }
-           if(trials[i][10] !== ""){ Title = Title + " ("+trials[i][11] +")<br/>"}
+           var Org = "", trialTitle = "",Phase="", Age="",  TumorType="";
+           if(trials[i][2] !== ""){ trialTitle = trials[i][2]  }
+           if(trials[i][10] !== ""){ trialTitle = trialTitle + " ("+trials[i][11] +")<br/>"}
            if(trials[i][1] !== ""){ Org = trials[i][1] }
            if(trials[i][7] !== ""){ Org = Org + ", "+trials[i][7] }
            if(trials[i][6] !== ""){ Phase = "; "+trials[i][6] }
            if(trials[i][11] !== ""){ TumorType = "; "+trials[i][12] }
            if(trials[i][9] !== ""){ Age = "<br/>Age: " + trials[i][10] }
-           trialSpan = trialSpan +Title+Org+ " "+Phase+ " "
+           trialSpan = trialSpan +trialTitle+Org+ " "+Phase+ " "
                        + TumorType + Age + "<br/><br/>";
          }
         numTrials = row[0][28].split(";").length
         }
         trialSpan = trialSpan + "</span>"
-        
-
-          $("#Profile_"+RowIdx).append(
-              "<div id=Profile_"+RowIdx+"_Info    >"+ Name +"</div>"
-            + "<div id=Profile_"+RowIdx+"_Grants> <div style='font-style:italic; cursor:pointer; clear:both;padding-left:8px' onclick='FullProfile(this)' class='toExpandlist'><span style= 'color:#60a8fa; text-decoration:none; font-style:normal;min-width:35px;float:left'>("+numGrants+")</span><span style='float:left'>Grants</span></div>"+ grantSpan +"</div>"
-            + "<div id=Profile_"+RowIdx+"_Pubs>   <div style='font-style:italic; cursor:pointer; clear:both;padding-left:8px' onclick='FullProfile(this)' class='toExpandlist'><span style= 'text-decoration:none; font-style:normal;color:#60a8fa;min-width:35px;float:left'>("+numPubs+")</span><span style='float:left'>Publications</span></div>"+ pubSpan +"</div>"
-            + "<div id=Profile_"+RowIdx+"_Trials> <div style='font-style:italic; cursor:pointer; clear:both;padding-left:8px' onclick='FullProfile(this)' class='toExpandlist'><span style= 'text-decoration:none; font-style:normal;color:#60a8fa;min-width:35px;float:left'>("+numTrials+")</span><span style='float:left'>Clinical Trials</span></div>"+ trialSpan +"</div>"
-          )
+             
+         $("#Profile_"+RowIdx).append(
+              "<div id=Profile_"+RowIdx+"_edit          onclick='EditProfile(this)' class='Profile_editPencil';><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span><br></div>"
+            + "<div id=Profile_"+RowIdx+"_toggleContent onclick='FullProfile(this)' class='toggleProfileContent toExpand'>&gt;</div>"
+            + "<div id=Profile_"+RowIdx+"_Info       class='ProfileInfo'>"+ Name + "<br>"+Title+Contact+"</div>"
+            + "<div id=Profile_"+RowIdx+"_Bio        class='hideContent ProfileBio'></div>"
+            + "<div id=Profile_"+RowIdx+"_Grants> <div style='font-style:italic; cursor:pointer; clear:both;padding-left:8px' onclick='ExpandList(this)' class='toExpandlist'><span style= 'color:#60a8fa; text-decoration:none; font-style:normal;min-width:35px;float:left'>("+numGrants+")</span><span style='float:left'>Grants</span></div>"+ grantSpan +"</div>"
+            + "<div id=Profile_"+RowIdx+"_Pubs>   <div style='font-style:italic; cursor:pointer; clear:both;padding-left:8px' onclick='ExpandList(this)' class='toExpandlist'><span style= 'text-decoration:none; font-style:normal;color:#60a8fa;min-width:35px;float:left'>("+numPubs+")</span><span style='float:left'>Publications</span></div>"+ pubSpan +"</div>"
+            + "<div id=Profile_"+RowIdx+"_Trials> <div style='font-style:italic; cursor:pointer; clear:both;padding-left:8px' onclick='ExpandList(this)' class='toExpandlist'><span style= 'text-decoration:none; font-style:normal;color:#60a8fa;min-width:35px;float:left'>("+numTrials+")</span><span style='float:left'>Clinical Trials</span></div>"+ trialSpan +"</div>"
+            + "<div id=Profile_"+RowIdx+"_addtlPos   class='fullProfile hangingIndent' style='margin-top:5px;'></div>"
+            + "<div id=Profile_"+RowIdx+"_keywords   class='fullProfile hangingIndent' ></div>"
+            + "<div id=Profile_"+RowIdx+"_Disease    class='fullProfile hangingIndent' ></div>"
+            + "<div id=Profile_"+RowIdx+"_website    class='fullProfile' style='margin-top:5px;'></div>")
      
+  
+          var addtlPos = [7,16];
+          var AddedPos = ""
+          for(var j=0; j<addtlPos.length; j++){
+             if(row[0][addtlPos[j]] != "" & row[0][addtlPos[j]] != "NA"){
+                AddedPos = AddedPos + row[0][addtlPos[j]] + ";"
+             }           
+          }
+          if(AddedPos != ""){
+             AddedPos = "<b style='padding-right:5px'>Additional Positions </b>" + ArrayToStringSpan(AddedPos, ";", ["", "#"], "<br>") 
+             $("#Profile_"+RowIdx+"_addtlPos").append(AddedPos)
+             $("#Profile_"+RowIdx+"_addtlPos").css("margin-bottom","5px")
+          }
+ 
+          if(row[0][14] !== "" & row[0][14] !== "NA"){ 
+             var Disease = "<b style='padding-right:38px'>Disease type </b>"
+             Disease = Disease+ ArrayToStringSpan(row[0][14].replace(/#/g,""), ";", ["", "#"], "; ")
+             $("#Profile_"+RowIdx+"_Disease").append(Disease + "<br>")
+             $("#Profile_"+RowIdx+"_Disease").css("margin-bottom","5px")
+          }
+            var Websites = ""
+          if(row[0][12] !== "" & row[0][12] !== "NA"){ 
+            var sites= row[0][12]
+            var siteArray = sites.split(/[; ]+/); 
+            if(siteArray != null){
+              j=siteArray.length;
+              while(j--){ siteArray[j] = "<a href='"+siteArray[j]+"' target='_blank'>"+siteArray[j]+"</a><br>"}
+              Websites = siteArray.join("")
+            }
+            $("#Profile_"+RowIdx+"_website").append(Websites + "<br>")
+          }
+
+          var Keywords = [], Specialty = [];
+          if(row[0][24] !== "" & row[0][24] !== "NA"){ Specialty = row[0][24].toLowerCase().replace(/; /g,";").split(";")}
+          if(row[0][25] !== "" & row[0][25] !== "NA"){ Keywords  = row[0][25].toLowerCase().replace(/; /g,";").split(";")}
+          var Allkeywords = Keywords.concat(Specialty)
+          if(Allkeywords.length){
+            var UniqueKeywords = [];
+            for(kw=0;kw<Allkeywords.length;kw++){
+              if(UniqueKeywords.indexOf(Allkeywords[kw])== -1 & Allkeywords[kw] != "na")
+                 UniqueKeywords.push(Allkeywords[kw])}
+            UniqueKeywords = ArrayToStringSpan(UniqueKeywords.join(";"), ";", ["", "#"], "; ")  + "<br>"
+            $("#Profile_"+RowIdx+"_keywords").append("<b style='padding-right:54px'>Keywords </b>" + UniqueKeywords)
+            $("#Profile_"+RowIdx+"_keywords").css("margin-bottom","5px")
+          }
+
+          var Bio = ""
+          if(row[0][11] !== "" & row[0][11] !== "NA"){
+             Bio = row[0][11].replace(new RegExp('@', 'g'), "<br>") + "<br>";}
+           $("#Profile_"+RowIdx+"_Bio").append(Bio)
         
           
       } // createProfilesFromTable
@@ -848,6 +932,117 @@ $(document).ready(function() {
         return 0;
     }
 
+//----------------------------------------------------------------------------------------------------
+  function updateGroupOptions()
+  {  
+        var f = document.getElementById("PlotFeature");
+        var Feature = f.options[f.selectedIndex].text;
+        
+        var Group = document.getElementById("PlotGroup")
+        removeOptions(Group);
+        var GroupList = []
+        
+        if(Feature == "Members"){
+           GroupList = ["Degrees", "Department","Institute", "None"]
+        } else if(Feature == "Publications"){
+           GroupList = ["Author Order", "Year","Institute", "None"]
+        } else if(Feature == "Grants"){
+           GroupList = ["Sponsor", "Activity", "Year","Institute", "None"]
+        } else if(Feature == "Trials"){
+           GroupList = ["Phase", "Sponsor","Institute", "None"]
+        }
+
+        for(var i=0;i<GroupList.length;i++){
+          var option = document.createElement("option");
+          option.text = GroupList[i];
+          Group.add(option, Group[0]);
+        }
+
+       updateActiveContent()
+  }
+//----------------------------------------------------------------------------------------------------
+  function removeOptions(selectbox)
+  {  //removeOptions(document.getElementById("mySelectObject"));
+    var i;
+    for(i=selectbox.options.length-1;i>=0;i--)
+    {
+        selectbox.remove(i);
+    }
+   }
+//----------------------------------------------------------------------------------------------------
+function generateBarplotArray(data, Colmn, grpCol, memCol, reqd){
+         
+          var values = [], LookUpProfiles = [], uniqueGroups = [];
+  
+//          var seenIndices = []         
+ 
+          for(var row=0;row<data.length; row++){
+//           if(seenIndices.indexOf(data[row][0]) !== -1) continue;
+//            seenIndices.push(data[row][0])
+            
+            var featType = data[row][Colmn]
+            if(featType == "" |  featType == "NA") featType = "not reported"
+            var featArray = uniqueArray(featType.split(";").clean(""))
+            values= values.concat(featArray)  
+
+            var groupArray = []
+            if(grpCol !== -1){
+               var groupType = data[row][grpCol]
+               if(groupType == "" |  groupType == "NA") groupType = "not reported"
+               groupArray = uniqueArray(groupType.split(";").clean(""))
+               uniqueGroups = uniqueGroups.concat(groupArray)
+            } else{
+                uniqueGroups = groupArray = ["All"]
+            }
+            if(featArray.length ){
+             
+ //             var DivideResult = featArray.length * groupArray.length 
+              var DivideResult =1
+              var memIDs = data[row][memCol].split(";") 
+              for(var j =0;j<featArray.length;j++){
+                 if (typeof LookUpProfiles[featArray[j]] === "undefined") {          // not found
+                          LookUpProfiles[featArray[j]] ={Name: featArray[j], count: 1, Index:  [memIDs[0]], groups:[] }   // add Field name and populate array of indices
+                          
+                          for( var k=0;k<groupArray.length; k++){
+                               LookUpProfiles[featArray[j]][groupArray[k]] = 1/DivideResult
+                               LookUpProfiles[featArray[j]].groups[groupArray[k]] = [memIDs[0]]
+                               for(var m=1;m<memIDs.length;m++) {
+                                   LookUpProfiles[featArray[j]].groups[groupArray[k]].push( memIDs[m])
+                               }
+                          }
+                } else {  // Field already defined
+                               LookUpProfiles[featArray[j]].count += 1
+                               LookUpProfiles[featArray[j]].Index.push( data[row][memCol].split(";")[0])
+                               for( var k=0;k<groupArray.length; k++){
+                                  if(typeof LookUpProfiles[featArray[j]][groupArray[k]] === "undefined"){
+                                          LookUpProfiles[featArray[j]][groupArray[k]]  = 1/DivideResult
+                                          LookUpProfiles[featArray[j]].groups[groupArray[k]] = [memIDs[0]]
+                                  } else {LookUpProfiles[featArray[j]][groupArray[k]] += 1/DivideResult 
+                                          LookUpProfiles[featArray[j]].groups[groupArray[k]].push( memIDs[0])
+                                  }
+                                 
+                                  for(var m=1;m<memIDs.length;m++) {
+                                     LookUpProfiles[featArray[j]].groups[groupArray[k]].push( memIDs[m])
+                                  }
+                               }
+                        } 
+                        
+              }
+            } 
+         }
+         var uniqueFeatures = uniqueArray(values)
+         uniqueGroups = uniqueArray(uniqueGroups).sort()
+         
+        reqd.forEach(function(d) {
+           if(uniqueFeatures.indexOf(d) == -1) { uniqueFeatures.push(d)  } 
+           if(typeof LookUpProfiles[d] == "undefined") LookUpProfiles[d] = {Name: d, count: 0, Index:  [], groups:[] }
+        });
+
+         
+         return([LookUpProfiles, uniqueFeatures, uniqueGroups])
+    }
+
+ 
   //----------------------------------------------------------------------------------------------------
    function drawBarplot(){
  
@@ -877,7 +1072,7 @@ $(document).ready(function() {
         var yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(d3.format("d"))
 
         var tip = d3.tip().attr('class', 'd3-tip').offset([-5, 0]).html(function(d) {
-                    return "<strong>"+ d.Name + ":</strong> <span style='color:brown'>" + d.count + "</span>";
+                    return "<strong>"+ d.name + ":</strong> <span style='color:brown'>" + d.count + "</span>";
                   })
 
         var svg = d3.select("#MainGraph").append("svg")
@@ -892,9 +1087,11 @@ $(document).ready(function() {
         var Category = e.options[e.selectedIndex].text;
         var f = document.getElementById("PlotFeature");
         var Feature = f.options[f.selectedIndex].text;
-        var values = [], reqd = [], LookUpProfiles = []
+        var g = document.getElementById("PlotGroup");
+        var Group = g.options[g.selectedIndex].text;
+
   
-     var Colmn;
+     var Colmn, grpCol =-1;
   
         var selectedFieldarray = []
        $("#FilterDisease :checkbox:checked").each(function() 
@@ -912,185 +1109,146 @@ selectedFieldarray = []
         selectedFieldarray = [].concat.apply([],selectedFieldarray)
         var filterInst_String = selectedFieldarray.join("|");
 
-  
+// Members [ Index, Full.Name, Last.Name, First.Name, Degrees, Job.Title, Primary.Organization, Other..Practice..Affiliations., Department, Phone.Number, Email, Bio, Websites, Videos, Tumor.Type.s., Designation, Institutional.Affiliation, Focus.Areas, Member.Photos, FH.Primary, Departments.and.Divisions, Converis.ID, STTR.member, omicsField, specialty, keywords, PubList, GrantList, TrialList]
+//Grants  [ Serial.Number,Project.Title,Tumor.Type.s.,Administering..IC,Application.ID,Project.Number,Type,Activity,IC,Support.Year,Suffix,Subproject.Number,Contact.PI..Person.ID,Contact.PI...Project.Leader,PI.Trim,MemberID,Other.PI.or.Project.Leader.s.,Organization.Name,ARRA.Indicator,FY,FY.Total.Cost,FY.Total.Cost...Sub.Projects.,FY.Total]
+//trials [ Index,Inst, Title, PI, LocalPI, MemberID,	Phase,	Sponsor,	Sponsor Type,	Type,	Age,	Trial IDs,	Tumor Type],
+//pubs [ Index,Author, MemberID, AuthorOrder, Authors, Title,	Citation,	Year,	PMID,	Tumor Type", "sWidth": '50px'}],
+ 
+  var LookUpProfiles = [], uniqueFeatures = [], uniqueGroups = [], reqd = []
+ 
   if(Feature == "Members"){  
-
-   if(Category == "keywords"){ Colmn = 49 }
-    else if (Category == "Institute"){ 
+     if (Category == "Institute"){ 
        Colmn = 6; $("#FilterInstitution :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
      else if (Category == "DiseaseType"){
        Colmn = 14; $("#FilterDisease :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
- 
-      var seenIndices = []
-          for(var row=0;row<data.length; row++){
-            if(seenIndices.indexOf(data[row][0]) !== -1) continue;
-            seenIndices.push(data[row][0])
-            
-            var featType = data[row][Colmn]
-            if(featType == "" |  featType == "NA") featType = "not reported"
-            var featArray = uniqueArray(featType.split(";").clean(""))
-            if(featArray.length){
-             values= values.concat(featArray)  
-              for(var j =0;j<featArray.length;j++){
-                 if (typeof LookUpProfiles[featArray[j]] === "undefined") {          // not found
-                               LookUpProfiles[featArray[j]] ={Name: featArray[j], count: 1, Index: [data[row][0]]}   // add Field name and populate array of indices
-                        } else {  // Field already defined
-                               LookUpProfiles[featArray[j]].count += 1
-                               LookUpProfiles[featArray[j]].Index.push( data[row][0])
-                        } 
-              }
-            }
-         }
+       
+     if(Group == "Degrees"){         grpCol = 4}   
+     else if(Group == "Department"){ grpCol = 8}   
+     else if(Group == "Institute"){  grpCol = 6}   
+    
+    plotTables = generateBarplotArray(data, Colmn, grpCol, 0, reqd)
+    LookUpProfiles = plotTables[0], uniqueFeatures = plotTables[1], uniqueGroups = plotTables[2]
+    
    } else if(Feature ==  "Publications"){
          
-          pubRef.fnFilter(filterDisease_String, 9, true, false);    
-          pubRef.fnFilter(filterYear_String, 7, true, false);    
-         var pubs = pubRef._('tr', {"filter":"applied"}); 
-         pubRef.fnFilter("", 9);    
-         pubRef.fnFilter("", 7);    
+     pubRef.fnFilter(filterDisease_String, 9, true, false);    
+     pubRef.fnFilter(filterYear_String, 7, true, false);    
+     var pubs = pubRef._('tr', {"filter":"applied"}); 
+     pubRef.fnFilter("", 9);    
+     pubRef.fnFilter("", 7);    
 
-         if (Category == "Institute"){ }
-         else if (Category == "DiseaseType"){
-            Colmn = 9; $("#FilterDisease :checkbox:checked").each(function() {  reqd.push($(this).val()) })
-         
-          for(var row=0;row<pubs.length; row++){
-            
-            var featType = pubs[row][Colmn]
-            if(featType == "" |  featType == "NA") featType = "not reported"
-            var featArray = uniqueArray(featType.split(";").clean(""))
-            if(featArray.length){
-             values= values.concat(featArray)  
-              for(var j =0;j<featArray.length;j++){
-                 if (typeof LookUpProfiles[featArray[j]] === "undefined") {          // not found
-                               LookUpProfiles[featArray[j]] ={Name: featArray[j], count: 1, Index: [pubs[row][2].split(";")[0]]}   // add Field name and populate array of indices
-                        } else {  // Field already defined
-                               LookUpProfiles[featArray[j]].count += 1
-                               LookUpProfiles[featArray[j]].Index.push( pubs[row][2].split(";")[0])
-                        } 
-                for(k=1;k<pubs[row][2].split(";").length;k++) {LookUpProfiles[featArray[j]].Index.push( pubs[row][2].split(";")[k])}
-              }
-            }
-         }
-         } //DiseaseType (to be moved later)
-  
+     if(Group == "Year"){              grpCol = 7}   
+     else if(Group == "Author Order"){ grpCol = 3}   
+     else if(Group == "Institute"){  grpCol = 10}   
+
+     if      (Category == "Institute")  {Colmn = 10; $("#FilterInstitution :checkbox:checked").each(function() {  reqd.push($(this).val()) })} 
+     else if (Category == "DiseaseType"){Colmn = 9;  $("#FilterDisease :checkbox:checked").each(function() {      reqd.push($(this).val()) })}
+ 
+    plotTables = generateBarplotArray(pubs, Colmn, grpCol, 2, reqd)
+    LookUpProfiles = plotTables[0], uniqueFeatures = plotTables[1], uniqueGroups = plotTables[2]
+
    } else if(Feature ==  "Grants"){
          
-         grantRef.fnFilter(filterDisease_String, 2, true, false);    
-         grantRef.fnFilter(filterYear_String, 19, true, false);    
-         var grants = grantRef._('tr', {"filter":"applied"}); 
-         grantRef.fnFilter("", 2);    
-         grantRef.fnFilter("", 19);    
+     grantRef.fnFilter(filterDisease_String, 2, true, false);    
+     grantRef.fnFilter(filterYear_String, 19, true, false);    
+     var grants = grantRef._('tr', {"filter":"applied"}); 
+     grantRef.fnFilter("", 2);    
+     grantRef.fnFilter("", 19);    
          
-         if (Category == "Institute"){ }
-         else if (Category == "DiseaseType"){
-            Colmn = 2; $("#FilterDisease :checkbox:checked").each(function() {  reqd.push($(this).val()) })
-         
-          for(var row=0;row<grants.length; row++){
-            
-            var featType = grants[row][Colmn]
-            if(featType == "" |  featType == "NA") featType = "not reported"
-            var featArray = uniqueArray(featType.split(";").clean(""))
-            if(featArray.length){
-             values= values.concat(featArray)  
-              for(var j =0;j<featArray.length;j++){
-                 if (typeof LookUpProfiles[featArray[j]] === "undefined") {          // not found
-                               LookUpProfiles[featArray[j]] ={Name: featArray[j], count: 1, Index: [grants[row][15].split(";")[0]]}   // add Field name and populate array of indices
-                        } else {  // Field already defined
-                               LookUpProfiles[featArray[j]].count += 1
-                               LookUpProfiles[featArray[j]].Index.push( grants[row][15].split(";")[0])
-                        } 
-                for(k=1;k<grants[row][15].split(";").length;k++) {LookUpProfiles[featArray[j]].Index.push( grants[row][15].split(";")[k])}
-              }
-            }
-         }
-         } //DiseaseType (to be moved later)
-  
-   }else if(Feature ==  "Trials"){
-         
-         trialRef.fnFilter(filterDisease_String, 12, true, false);    
-         var trials = trialRef._('tr', {"filter":"applied"}); 
-         trialRef.fnFilter("", 12);    
-
-         if (Category == "Institute"){ 
-          Colmn = 1; $("#FilterInstitution :checkbox:checked").each(function() {  reqd.push($(this).val()) })
-         } else if (Category == "DiseaseType"){
-            Colmn = 12; $("#FilterDisease :checkbox:checked").each(function() {  reqd.push($(this).val()) })
-         } 
-          for(var row=0;row<trials.length; row++){
-            
-            var featType = trials[row][Colmn]
-            if(featType == "" |  featType == "NA") featType = "not reported"
-            var featArray = uniqueArray(featType.split(";").clean(""))
-            if(featArray.length){
-             values= values.concat(featArray)  
-              for(var j =0;j<featArray.length;j++){
-                 if (typeof LookUpProfiles[featArray[j]] === "undefined") {          // not found
-                               LookUpProfiles[featArray[j]] ={Name: featArray[j], count: 1, Index: [trials[row][5].split(";")[0]]}   // add Field name and populate array of indices
-                        } else {  // Field already defined
-                               LookUpProfiles[featArray[j]].count += 1
-                               LookUpProfiles[featArray[j]].Index.push( trials[row][5].split(";")[0])
-                        } 
-                for(k=1;k<trials[row][5].split(";").length;k++) {LookUpProfiles[featArray[j]].Index.push( trials[row][5].split(";")[k])}
-              }
-            }
-         }
-         
-  
-   }
-   
-        var groups = getCounts(values, reqd)
-   graphResults = groups
-        if(document.getElementById("fil_NA").checked){ groups = groups.filter(function(d) { return d.Name != "not reported" }) }
-        var TooSmall = groups.filter(function(d){ return reqd.indexOf(d.Name) == -1 & d.count <=0 })
-        groups = groups.filter(function(d){ return reqd.indexOf(d.Name) != -1 | d.count >0 })
-        groups.sort(ascending_groupName )
+     if (Category == "Institute"){ Colmn = 17; $("#FilterInstitution :checkbox:checked").each(function() {       reqd.push($(this).val()) })}
+     else if (Category == "DiseaseType"){    Colmn = 2; $("#FilterDisease :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
         
+     if(Group == "Year"){          grpCol = 19}   
+     else if(Group == "Activity"){ grpCol = 7}   
+     else if(Group == "Sponsor"){  grpCol = 3}   
+     else if(Group == "Institute"){grpCol = 17}   
     
-        if(TooSmall.length){
-          $("#VizSubtitle").append("<span style='color:brown; text-align:right'>*Categories with < 3 hits listed below graph</span")
-          $("#VizAddendum").append("<div style='color:brown; text-align:center;font-size:1.3em;'>Categories with < 3 hits: <br/></div>")
-          $("#VizAddendum").append("<span id='SmallCategories' style='color:brown'></span>")
-            for(var j=0;j<TooSmall.length;j++){
-               $("#SmallCategories").append("<span class='smallCategory ActiveWords' style='cursor:pointer'>" + TooSmall[j].Name + "</span><br/>") 
-            }
-        }
-        $(".smallCategory").click(function(){
-          toggleWaitCursor()
-          ShowPlotProfiles(LookUpProfiles[this.innerHTML])})
+    plotTables = generateBarplotArray(grants, Colmn, grpCol, 15, reqd)
+    LookUpProfiles = plotTables[0], uniqueFeatures = plotTables[1], uniqueGroups = plotTables[2]
 
-       if(groups.length == 0){
+   } else if(Feature ==  "Trials"){
+         
+     trialRef.fnFilter(filterDisease_String, 12, true, false);    
+     var trials = trialRef._('tr', {"filter":"applied"}); 
+     trialRef.fnFilter("", 12);    
+
+     if      (Category == "Institute"){  Colmn = 1;  $("#FilterInstitution :checkbox:checked").each(function() {  reqd.push($(this).val()) })} 
+     else if (Category == "DiseaseType"){Colmn = 12; $("#FilterDisease :checkbox:checked").each(function() {      reqd.push($(this).val()) })} 
+   
+     if(Group == "Phase"){         grpCol = 6}   
+     else if(Group == "Sponsor"){  grpCol = 7}   
+     else if(Group == "Institute"){  grpCol = 1}   
+     
+    plotTables = generateBarplotArray(trials, Colmn, grpCol, 5, reqd)         
+    LookUpProfiles = plotTables[0], uniqueFeatures = plotTables[1], uniqueGroups = plotTables[2]
+
+   }
+  
+   var color = d3.scale.ordinal().range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+   color.domain(uniqueGroups);
+  
+   if(uniqueFeatures.length == 0){
         d3.select("#MainGraph").select("svg").remove();
         $("#MainGraph")[0].innerHTML = "";
         $("#VizSubtitle")[0].innerHTML = "";
         return;
        }        
-         var maxFreq = d3.max(groups, function(d){return d.count});
 
-           x.domain(groups.map(function(d) { return d.Name; }))
+
+  uniqueFeatures.forEach(function(d) {
+    var y0 = 0;
+    LookUpProfiles[d].yGroup = color.domain().map(function(name) { 
+       if(typeof LookUpProfiles[d][name] !== "undefined") 
+             return {name: name, y0: y0, y1: y0 += +LookUpProfiles[d][name], count:+LookUpProfiles[d][name], Index: LookUpProfiles[d].groups[name] };
+       return {name: name, y0: y0, y1: y0 += 0, count:0, Index: LookUpProfiles[d].groups[name]};   });
+    LookUpProfiles[d].total = LookUpProfiles[d].yGroup[LookUpProfiles[d].yGroup.length - 1].y1;
+  }); 
+        
+  if(document.getElementById("fil_NA").checked){ uniqueFeatures = uniqueFeatures.filter(function(d) { return d != "not reported" }) }
+  uniqueFeatures.sort()
+
+          $("#VizSubtitle").append("<span style='color:brown; text-align:right'>Note: Multiple memberships are duplicated among groups</span")    
+    
+//        if(TooSmall.length){
+//
+//          $("#VizAddendum").append("<div style='color:brown; text-align:center;font-size:1.3em;'>Categories with < 3 hits: <br/></div>")
+//          $("#VizAddendum").append("<span id='SmallCategories' style='color:brown'></span>")
+//            for(var j=0;j<TooSmall.length;j++){
+//               $("#SmallCategories").append("<span class='smallCategory ActiveWords' style='cursor:pointer'>" + TooSmall[j].Name + "</span><br/>") 
+//            }
+//        }
+//        $(".smallCategory").click(function(){
+//          toggleWaitCursor()
+//          ShowPlotProfiles(LookUpProfiles[this.innerHTML])})
+
+         var maxFreq = d3.max(uniqueFeatures, function(d){return LookUpProfiles[d].total});
+
+           x.domain(uniqueFeatures)
            y.domain([0, maxFreq]);
 
            var legend = svg.selectAll('.legend')
-                            .data([{Name:"Filtered by", color:"lightblue"},{Name: "Additional", color:"steelblue"}])
+                            .data(color.domain().slice())
                             .enter()
                             .append('g')
                             .attr('class', 'legend')
                             .attr('transform', function(d, i) {
-                               return 'translate(' + (width/2+i*100-100) + ',-40)';
+//                               return 'translate(' + (width/2+i*100-100) + ',-40)';
+                               return 'translate(' + ((i%3)*175) + ','+(-60+20*(Math.floor(i/3)+1))+')';
                             });
            legend.append('rect')
                  .attr('width', 10)
                  .attr('height', 10)
-                 .style('fill', function(d){ return d.color})
-                 .style('stroke', function(d){ return d.color});
+                 .style('fill', function(d){ return color(d)})
+                 .style('stroke', function(d){ return color(d)});
 
            legend.append('text')
                  .attr('x', 12)
                  .attr('y', 10)
-                 .text(function(d) { return d.Name; });
+                 .text(function(d) { return d; });
 
            svg.append("g")
               .attr("class", "x axis")
-              .attr("transform", "translate(0," + height + ")")
+              .attr("transform", "translate(0," + (height+20*(Math.floor(uniqueGroups.length/3)+1)) + ")")
               .call(xAxis)
               .selectAll("text")  
                  .style("text-anchor", "end")
@@ -1102,37 +1260,36 @@ selectedFieldarray = []
 
            svg.append("g")
               .attr("class", "y axis")
+              .attr("transform", "translate(0," + (20*(Math.floor(uniqueGroups.length/3)+1)) + ")")
               .call(yAxis)
               .append("text")
               .attr("transform", "rotate(-90)")
               .attr("y", -1*margin.leftY)
-              .attr("x", -1*(height-margin.top)/2)
+              .attr("x", -1*(height-margin.top)/2 )
               .attr("dy", "-.71em")
               .style("text-anchor", "end")
               .text("counts");
 
-           svg.selectAll(".bar")
-              .data(groups)
-              .enter().append("rect")
-              .attr("class", "bar")
-              .attr("x", function(d) { return x(d.Name); })
-              .attr("width", x.rangeBand())
-              .attr("y", function(d) { return y(d.count); })
-              .attr("height", function(d) { return height - y(d.count); })
-              .attr("fill", function(d){ 
-                 if(reqd.indexOf(d.Name) != -1){ 
-                   return "lightblue"}
-                 return "steelblue";
-                })
-              .on('mouseover', tip.show)
-              .on('mouseout', tip.hide)
-              .on('mouseup', function(d){ ShowPlotProfiles(LookUpProfiles[d.Name])})
-              .on('mousedown', function(){ $('body').toggleClass('wait');})
+   var Ygroups = svg.selectAll(".bar")
+      .data(uniqueFeatures)
+    .enter().append("g")
+      .attr("class", "g")
+      .attr("transform", function(d) { return "translate(" + x(LookUpProfiles[d].Name) + ","+(20*(Math.floor(uniqueGroups.length/3)+1))+")"; });
 
-     function type(d) {
-          d.count = +d.count;
-          return d;
-       }
+  Ygroups.selectAll("rect")
+      .data(function(d) { return LookUpProfiles[d].yGroup; })
+    .enter().append("rect")
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.y1); })
+      .attr("height", function(d) { return y(d.y0) - y(d.y1); })
+      .style("fill", function(d) { return color(d.name); })
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide)
+      .on('mouseup', function(d){ ShowPlotProfiles(d)})
+      .on('mousedown', function(){ $('body').toggleClass('wait');})
+;
+
+
 
 } //end drawBarplot
 //----------------------------------------------------------------------------------------------------	

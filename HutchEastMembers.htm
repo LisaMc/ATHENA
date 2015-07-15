@@ -358,22 +358,26 @@
 
      <div id="VISUALIZEdiv" class="MainFrameDiv" style="display:none;">
         <div id="VizTitle" style="text-align:center">
-          <label for="PlotType">Plot Type</label>
-          <select id="PlotType" name="PlotType" class="form-control plotOption" value="Barplot">
-            <option id="plotBarplot" value="plotBarplot">Barplot</option>
-          </select>
+          
           <label for="PlotCategory">Category</label>
           <select id="PlotCategory" name="PlotCategory"  class="form-control plotOption">
             <option id="plotInstitute" value="Institute">Institute</option>
              <option id="plotDisease" value="DiseaseType">DiseaseType</option>
           </select>
          <label for="PlotFeature">Feature</label>
-          <select id="PlotFeature" name="PlotFeature"  class="form-control plotOption">
+          <select id="PlotFeature" name="PlotFeature"  class="form-control plotFeatureOption">
             <option id="plotMember" value="Members">Members</option>
              <option id="plotPublication" value="Publications">Publications</option>
              <option id="plotGrant" value="Grants">Grants</option>
              <option id="plotTrial" value="Trials">Trials</option>
           </select>
+        <label for="PlotGroup">Group</label>
+          <select id="PlotGroup" name="PlotGroup"  class="form-control plotOption">
+             <option value="None">None</option>
+             <option value="Institute">Institute</option>
+             <option value="Department">Department</option>
+             <option value="Degrees">Degrees</option>
+           </select>
           	<ul style="list-style-type:none" class="fil_NA"><li><input id="fil_NA" type="checkbox" value="ExcludeNA">Exclude Missing Values</li></ul>
                	
         </div>

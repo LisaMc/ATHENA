@@ -215,6 +215,7 @@ clear:both;margin-bottom:5px;border: solid black 2px; border-left:none; border-r
 .TemplateBioSearchbox{ line-height:normal; }
 
 .plotOption{width:auto; display:inline-block}
+.plotFeatureOption{width:auto; display:inline-block}
 #VizSubtitle{clear:both;}
 
 .bar{ z-index:10}
