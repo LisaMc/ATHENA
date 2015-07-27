@@ -1,5 +1,8 @@
-var tableRef, pubRef, trialRef, grantRef, FullTableRef;
+var tableRef, pubRef, trialRef, grantRef,locTable, FullTableRef;
 var graphResults;
+var GoogleMap;
+var MarkerHash;
+
 var activeContent = "SearchSpan";
 //----------------------------------------------------------------------------------------------------
 // used to clean the search string of dubious single characters or null text, eg ""
@@ -131,19 +134,27 @@ $(document).ready(function() {
          .fnAdjustColumnSizing(); 
 	pubRef = $("#pubTable").dataTable();
 
+		 $("#locTable").dataTable({
+       		  "aoColumns": [ {"sTitle": "Index", "sWidth": '50px'},{"sTitle": "Affiliation", "sWidth": '50px'}, {"sTitle": "Latitude", "sWidth": '50px'}, {"sTitle": "Longitude", "sWidth": '50px'}],
+         })   // dataTable
+         .fnAdjustColumnSizing(); 
+	locRef = $("#locTable").dataTable();
 
 
-	d3.json("data/HutchEast/HutchEast_GrantDescriptionProjNum_7-14-15_json.txt", function(json){
+
+	d3.json("data/HutchEast/HutchEast_GrantDescriptionProjNum_7-24-15_json.txt", function(json){
 		 var grantData=json
 		 grantRef.fnAddData(grantData);
-  	   d3.json("data/HutchEast/HutchEast_ClinicalTrials_7-14-15_json.txt", function(json){
+  	   d3.json("data/HutchEast/HutchEast_ClinicalTrials_7-24-15_json.txt", function(json){
 		 var trialData=json
 		 trialRef.fnAddData(trialData);
-    	d3.json("data/HutchEast/HutchEast_PublicationsCrossRefInst_7-14-15_json.txt", function(json){
+    	d3.json("data/HutchEast/HutchEast_PublicationsCrossRefInst_7-24-15_json.txt", function(json){
 		 var pubData=json		 
 		 pubRef.fnAddData(pubData);
-
-	d3.json("data/HutchEast/HutchEast_MembersCrossRef_7-14-15_json.txt", function(jsonMems){
+       d3.json("data/HutchEast/HutchEast_Locations_7-24-15_json.txt", function(json){
+		  var locData=json		 
+		  locRef.fnAddData(locData);
+	   d3.json("data/HutchEast/HutchEast_MembersCrossRef_7-24-15_json.txt", function(jsonMems){
 
 		 var DataTable=jsonMems
 		 tableRef.fnAddData(DataTable);
@@ -153,14 +164,14 @@ $(document).ready(function() {
          var uniqueIDs = uniqueArray(rows.map(function(value,index) { return value[0]; }))
  
         document.getElementById("NumberOfResultsDiv").innerHTML = uniqueIDs.length
-        document.getElementById("SearchStringDiv").innerHTML = "(all HutchEast)";
+        document.getElementById("SearchStringDiv").innerHTML = "(all Affiliates)";
 
         createProfileContainerFromTable();  //loads divs for each of the RowIdx, but not any data (set class to ProfileNotYetLoaded)
         resetPagingSystem()         //checks if profiles being show are in class ProfileNotYetLoaded and calls function
 
         // only called once to generate profiles - id set as "Profile_"+idx where idx = row[][0]
 
-	});      });     });     });  //end json
+	});      });     });     });  });  //end json
    	$(".toExpand").click(function(){toggleContent(this, this.parentNode) })
     $(".toContract").click(function(){toggleContent(this, this.parentNode) })
     // toggle short vs long profile view - parentNode references Profile_idx
@@ -168,7 +179,7 @@ $(document).ready(function() {
     $(".MainTablePages").click(function(){
         var SearchTerms = this.innerHTML
         if(SearchTerms.match("Grants")){ window.location.href = "../HutchEast.htm";}
-        if(SearchTerms.match("Members")){window.location.href = "../HutchEastMembers.htm";}
+        if(SearchTerms.match("Members")){window.location.href = "../CancerMatrix.htm";}
       })
      // run canned search based on query text
     
@@ -209,12 +220,17 @@ $(document).ready(function() {
     })
 
     $(".barPlot").click(function(){  toggle_visibility("barplot", "VISUALIZEdiv") })
+    $(".mapPlot").click(function(){  toggle_visibility("mapplot", "VISUALIZEdiv") })
     $(".plotOption").change(updateActiveContent);
     $(".plotFeatureOption").change(updateGroupOptions);
  	$('.fil_NA :checkbox').click(function(){
  	 drawBarplot(); });	
 
          // settings within visualization changed & need redrawn
+   $("#userLocation").keydown(function(){ $('#currentLocationCheckbox')[0].checked = false; })
+    $("#locate").click(function(){  searchByLocation() })
+	$('#currentLocationCheckbox').click(function(){  useCurrentLocation(); });	
+     $('#zoom').multiselect({maxHeight:200, buttonWidth: '150px', nonSelectedText: 'Zoom Level'});
 
 	$("#SideNav").css("height", $(window).height() - 100)
 
@@ -282,7 +298,9 @@ $(document).ready(function() {
            toggle_visibility("SearchSpan", "SEARCHdiv");
          } else if (activeContent == "barplot"){
            toggle_visibility("barplot", "VISUALIZEdiv")
-         }        
+         } else if (activeContent == "mapplot"){
+           toggle_visibility("mapplot", "VISUALIZEdiv")
+         }         
   }	
 //----------------------------------------------------------------------------------------------------
     function updateActiveContent(){
@@ -302,6 +320,9 @@ $(document).ready(function() {
             els[i].className =  'unselectedDisplay';
         };
 
+       $("#googleMapMainDiv")[0].style.display =  "none";        $("#MainGraph")[0].style.display  = "none"; 
+       $("#VizTitle")[0].style.display =  "none"; $("#VizAddendum")[0].style.display =  "none"; 
+       
        if(activeContent == "SearchSpan"){
           $("#SEARCHdiv").css("top", 0)
           $("#SEARCHdiv").css("position", "relative")
@@ -313,10 +334,19 @@ $(document).ready(function() {
         }
         else if (activeContent == "barplot"){
           $("#DisplaySettings").text("barplot")
+          $("#MainGraph")[0].style.display  = "block"; 
+          $("#VizTitle")[0].style.display =  "block"; 
+          $("#VizAddendum")[0].style.display =  "block"; 
           document.getElementById("selectedDisplayBarplot").className = "selectedDisplay"
             drawBarplot();
         }
-           
+        else if (activeContent == "mapplot"){
+          $("#DisplaySettings").text("mapplot")
+          $("#googleMapMainDiv")[0].style.display = "block"
+
+          document.getElementById("selectedDisplayMapplot").className = "selectedDisplay"
+            drawGoogleMap();
+        }  
         checkOffset(); 
     }
 
@@ -463,7 +493,7 @@ $(document).ready(function() {
         showAllRows();
        
         if(wordArray.length == 0){
-           document.getElementById("SearchStringDiv").innerHTML = "(all HutchEast)";
+           document.getElementById("SearchStringDiv").innerHTML = "(all Affiliates)";
         }else{
            document.getElementById("SearchStringDiv").innerHTML = searchString;
            SearchTableByStrings(wordArray); 
@@ -943,7 +973,7 @@ $(document).ready(function() {
         var GroupList = []
         
         if(Feature == "Members"){
-           GroupList = ["Degrees", "Department","Institute", "None"]
+           GroupList = ["Institute", "None"]
         } else if(Feature == "Publications"){
            GroupList = ["Author Order", "Year","Institute", "None"]
         } else if(Feature == "Grants"){
@@ -1064,23 +1094,6 @@ function generateBarplotArray(data, Colmn, grpCol, memCol, reqd){
            $("#MainGraph").append("<p><br/>Your search did not match any profiles.</p>")
            return;
         }
-        $("#MainGraphCanvas").css("width", width)
-
-        var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);        
-        var y = d3.scale.linear().range([height, 0]);
-        var xAxis = d3.svg.axis().scale(x).orient("bottom");
-        var yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(d3.format("d"))
-
-        var tip = d3.tip().attr('class', 'd3-tip').offset([-5, 0]).html(function(d) {
-                    return "<strong>"+ d.name + ":</strong> <span style='color:brown'>" + d.count + "</span>";
-                  })
-
-        var svg = d3.select("#MainGraph").append("svg")
-                    .attr("width", width + margin.left + margin.right + margin.leftY)
-                    .attr("height", height + margin.top + margin.bottom).append("g")
-                    .attr("transform", "translate(" + (margin.left + margin.leftY) + "," + margin.top + ")");
-
-           svg.call(tip);
 
           
         var e = document.getElementById("PlotCategory");
@@ -1133,9 +1146,17 @@ selectedFieldarray = []
          
      pubRef.fnFilter(filterDisease_String, 9, true, false);    
      pubRef.fnFilter(filterYear_String, 7, true, false);    
+     pubRef.fnFilter(filterInst_String, 10, true, false);    
      var pubs = pubRef._('tr', {"filter":"applied"}); 
      pubRef.fnFilter("", 9);    
+     pubRef.fnFilter("", 10);    
      pubRef.fnFilter("", 7);    
+
+       if(pubs.length == 0){
+           $("#MainGraph").append("<p><br/>Your query did not match any results.</p>")
+           return;
+        }
+  
 
      if(Group == "Year"){              grpCol = 7}   
      else if(Group == "Author Order"){ grpCol = 3}   
@@ -1154,6 +1175,12 @@ selectedFieldarray = []
      var grants = grantRef._('tr', {"filter":"applied"}); 
      grantRef.fnFilter("", 2);    
      grantRef.fnFilter("", 19);    
+
+       if(grants.length == 0){
+           $("#MainGraph").append("<p><br/>Your query did not match any results.</p>")
+           return;
+        }
+
          
      if (Category == "Institute"){ Colmn = 17; $("#FilterInstitution :checkbox:checked").each(function() {       reqd.push($(this).val()) })}
      else if (Category == "DiseaseType"){    Colmn = 2; $("#FilterDisease :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
@@ -1171,6 +1198,12 @@ selectedFieldarray = []
      trialRef.fnFilter(filterDisease_String, 12, true, false);    
      var trials = trialRef._('tr', {"filter":"applied"}); 
      trialRef.fnFilter("", 12);    
+
+       if(trials.length == 0){
+           $("#MainGraph").append("<p><br/>Your query did not match any results.</p>")
+           return;
+        }
+
 
      if      (Category == "Institute"){  Colmn = 1;  $("#FilterInstitution :checkbox:checked").each(function() {  reqd.push($(this).val()) })} 
      else if (Category == "DiseaseType"){Colmn = 12; $("#FilterDisease :checkbox:checked").each(function() {      reqd.push($(this).val()) })} 
@@ -1206,6 +1239,25 @@ selectedFieldarray = []
         
   if(document.getElementById("fil_NA").checked){ uniqueFeatures = uniqueFeatures.filter(function(d) { return d != "not reported" }) }
   uniqueFeatures.sort()
+
+        $("#MainGraphCanvas").css("width", width)
+
+        var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);        
+        var y = d3.scale.linear().range([height, 0]);
+        var xAxis = d3.svg.axis().scale(x).orient("bottom");
+        var yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(d3.format("d"))
+
+        var tip = d3.tip().attr('class', 'd3-tip').offset([-5, 0]).html(function(d) {
+                    return "<strong>"+ d.name + ":</strong> <span style='color:brown'>" + d.count + "</span>";
+                  })
+
+        var svg = d3.select("#MainGraph").append("svg")
+                    .attr("width", width + margin.left + margin.right + margin.leftY)
+                    .attr("height", height + margin.top + margin.bottom).append("g")
+                    .attr("transform", "translate(" + (margin.left + margin.leftY) + "," + margin.top + ")");
+
+           svg.call(tip);
+
 
           $("#VizSubtitle").append("<span style='color:brown; text-align:right'>Note: Multiple memberships are duplicated among groups</span")    
     
@@ -1292,6 +1344,211 @@ selectedFieldarray = []
 
 
 } //end drawBarplot
+
+
+//----------------------------------------------------------------------------------------------------	
+   function init_map(){
+
+       var mapCanvas = document.getElementById('googleMapMainDiv');
+       var mapOptions = {
+         center: new google.maps.LatLng(40.50, -73.5),
+         zoom: 7,  //0 farthest, 22 closest
+         mapTypeId: google.maps.MapTypeId.ROADMAP  //ROADMAP, SATELLITE, HYBRID, or TERRAIN
+       }
+       GoogleMap = new google.maps.Map(mapCanvas, mapOptions);
+
+       var input = document.getElementById('userLocation');
+       var options = {  bounds: GoogleMap.getBounds(), componentRestrictions: {country: 'US'}};
+//       var options = {  bounds: GoogleMap.getBounds(),  types: ['(regions)', '(cities)'], componentRestrictions: {country: 'us'} };
+
+       autocomplete = new google.maps.places.Autocomplete(input, options);
+
+    var data = tableRef._('tr', {"filter": "none"}); 
+       MarkerHash = {}; // New object
+       MarkerLatLongHash = {}
+       
+ 
+     for(var row=0;row<data.length; row++){
+           if(data[row][7] !== ""){
+              var markerList = data[row][7].split(", ")
+              for(var m=0;m<markerList.length;m++){
+                locRef.fnFilter(markerList[m], 1, true, false); //searches index column for Profile Index
+                var locInfo = locRef._('tr', {"filter":"applied"});   
+                locRef.fnFilter("",1)
+
+                if(locInfo.length >0 ){
+                  if(typeof MarkerHash[markerList[m]] == "undefined"){
+                      MarkerHash[markerList[m]] = {}
+                      MarkerHash[markerList[m]].name = markerList[m]
+                      MarkerHash[markerList[m]].Index = [data[row][0]]
+                      MarkerHash[markerList[m]].marker = new google.maps.Marker({map: GoogleMap,position: new google.maps.LatLng(+locInfo[0][3], +locInfo[0][4])});
+                      MarkerHash[markerList[m]].infowindow = new google.maps.InfoWindow({content:"<b>"+locInfo[0][1]+"</b><br/><a href='javascript:void(0)' onclick='intersectMapList(this)'id='mapMarkerInfo'>View Subset of Profiles from Location</a> "} );
+                      google.maps.event.addListener(MarkerHash[markerList[m]].marker, 'click', function(innerKey) {  
+                         return function() { MarkerHash[innerKey].infowindow.open(GoogleMap, MarkerHash[innerKey].marker); } }(markerList[m]));
+                   }else {   MarkerHash[markerList[m]].Index.push(data[row][0]) }
+                }
+              }  
+           }
+       }
+
+
+   }
+
+//----------------------------------------------------------------------------------------------------	
+function intersectMapList(elem){
+
+  var locName = elem.parentNode.children[0].innerHTML;
+  var locIndex = MarkerHash[locName].Index;
+
+  var data = tableRef._('tr', {"filter": "applied"}); 
+  var IndexArray = {};
+      IndexArray.Index = [];
+      IndexArray.name = locName;
+
+  for(i=0;i<data.length;i++){
+     if(locIndex.indexOf(data[i][0]) !== -1)
+       IndexArray.Index.push(data[i][0])
+  }
+  IndexArray.count = IndexArray.Index.length
+  
+  toggleWaitCursor()
+  ShowPlotProfiles(IndexArray)
+
+}
+//----------------------------------------------------------------------------------------------------	
+function drawGoogleMap(){
+
+     scrollView("DataToExport")
+     $("#VizSubtitle")[0].innerHTML = "";
+     $("#VizAddendum")[0].innerHTML = ""
+     $("#VizResults")[0].innerHTML = "";
+     $("#SEARCHdiv")[0].style.display = "none"
+
+    var data = tableRef._('tr', {"filter":"applied"}); 
+    var LookupProfiles = []
+        LookupProfiles["Location"] = {Name: "Location", count: 0, Index: []} 
+    
+     if(typeof GoogleMap ==="undefined")
+       init_map()
+ 
+      
+      for(k in MarkerHash){ 
+        MarkerHash[k].marker.setVisible(false);
+        MarkerHash[k].infowindow.close()
+      } 
+      for(var row=0;row<data.length; row++){
+           if(data[row][7] !== ""){
+              var markerList = data[row][7].split(", ")
+              for(var m=0;m<markerList.length;m++){
+                if(typeof MarkerHash[markerList[m]] !== "undefined")
+                  MarkerHash[markerList[m]].marker.setVisible(true);
+//                LookupProfiles["Location"].count += 1
+//                LookupProfiles["Location"].Index.push( data[row][0])
+              }
+           }
+     }
+
+ //     toggleWaitCursor()
+ //     ShowPlotProfiles(LookupProfiles["Location"])
+}
+
+
+//----------------------------------------------------------------------------------------------------	
+function useCurrentLocation(){
+
+   var browserSupportFlag =  new Boolean();
+   var initialLocation;
+
+   function handleNoGeolocation(errorFlag) {
+      if (errorFlag == true) {
+        alert("Geolocation service failed.");
+      } else {
+        alert("Sorry, your browser doesn't support geolocation");
+      }
+    }
+
+   if($("#currentLocationCheckbox")[0].checked){  
+     $("#userLocation").val("getting current location...")
+     $("#locate").prop("disabled",true);
+     // Try W3C Geolocation (Preferred)
+     if(navigator.geolocation) {
+        browserSupportFlag = true;
+        navigator.geolocation.getCurrentPosition(function(position) {
+//          "https://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+position.coords.longitude+"&key=API_KEY"
+          $("#userLocation").val(position.coords.latitude.toFixed(6)+","+position.coords.longitude.toFixed(6))
+          $("#locate").prop("disabled",false);
+
+        }, function(error) {
+             switch(error.code) {
+               case error.PERMISSION_DENIED:
+                 alert("Please accept the request for Geolocation to use this feature.")
+                 break;
+               case error.POSITION_UNAVAILABLE:
+                 alert("Location information is unavailable.")
+                 break;
+               case error.TIMEOUT:
+                 alert("The request to get user location timed out.")
+                 break;
+               case error.UNKNOWN_ERROR:
+                 alert("An unknown error occurred.")
+                 break;
+            }
+          handleNoGeolocation(browserSupportFlag);
+        }, {frequency:5000,maximumAge: 0, timeout: 10000, enableHighAccuracy:true});
+     } else {    // Browser doesn't support Geolocation
+       browserSupportFlag = false;
+       handleNoGeolocation(browserSupportFlag);
+     }
+  } else{    $("#userLocation").val("")} //allow user to enter a location (not based on GPS)
+}
+
+//----------------------------------------------------------------------------------------------------	
+function zoomTo(latitude, longitude, radius){
+
+       var Location = new google.maps.LatLng(latitude,longitude);
+       var circleOptions = { center: Location, fillOpacity: 0,  strokeOpacity:0,  map: GoogleMap, radius: radius}
+       var myCircle = new google.maps.Circle(circleOptions);
+       GoogleMap.fitBounds(myCircle.getBounds());
+       
+//       ShowPlotProfiles(LookupProfiles["Location"])
+
+
+}
+//----------------------------------------------------------------------------------------------------	
+function searchByLocation(){
+
+    var startLocation = $("#userLocation").val()
+    var radius = Number($("#zoom").val())
+  
+    if(radius == 0) radius = 16093  //100 miles
+  
+    if(startLocation.match(/\-*\d+\.*\d*\,\-*\d+\.*\d*/)){
+       var LatLong = startLocation.split(",")
+       zoomTo(LatLong[0],LatLong[1], radius);
+
+//       GoogleMap.setCenter(initialLocation);
+//       GoogleMap.setZoom(radius)
+    }
+    else if(startLocation !== "") {
+        
+        function callback(results, status) {
+           if (status == google.maps.places.PlacesServiceStatus.OK) {
+             if(results.length >= 1){
+                zoomTo(results[0].geometry.location.lat(),results[0].geometry.location.lng(), radius)
+             }
+           }
+        }
+
+        var request = { location: GoogleMap.getCenter(), radius: radius, query: startLocation }
+  
+        service = new google.maps.places.PlacesService(GoogleMap);
+        service.textSearch(request, callback);
+    }
+    
+  
+}
+
+
 //----------------------------------------------------------------------------------------------------	
   function exportResults(){
 

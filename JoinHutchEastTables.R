@@ -1,9 +1,9 @@
 options(stringsAsFactors = F)
 
-grantDesc <- read.delim("data/HutchEast/HutchEast_GrantDescription_7-14-15.txt", header=T, sep="\t")
-trials    <- read.delim("data/HutchEast/HutchEast_ClinicalTrials_7-14-15.txt", header=T, sep="\t")
-members   <- read.delim("data/HutchEast/HutchEast_Members_7-14-15.txt", header=T, sep="\t")
-pubs      <- read.delim("data/HutchEast/HutchEast_Publications_7-14-15.txt", header=T, sep="\t")
+grantDesc <- read.delim("data/HutchEast/HutchEast_GrantDescription_7-24-15.txt", header=T, sep="\t")
+trials    <- read.delim("data/HutchEast/HutchEast_ClinicalTrials_7-24-15.txt", header=T, sep="\t")
+members   <- read.delim("data/HutchEast/HutchEast_Members_7-24-15.txt", header=T, sep="\t")
+pubs      <- read.delim("data/HutchEast/HutchEast_Publications_7-24-15.txt", header=T, sep="\t")
 
 grantDesc[!is.na(grantDesc$Subproject.Number), "Serial.Number"] <- grantDesc[!is.na(grantDesc$Subproject.Number), "Subproject.Number"]
 if(colnames(grantDesc)[1] !="Serial.Number"){ 
@@ -45,6 +45,6 @@ for(i in 1:nrow(trials)){
 }
 FullTable[, "TrialList"] <- sapply( FullTable[, "TrialList"], function(trial) { sub("^;", "", paste(unique(unlist(strsplit(trial, ";"))), collapse=";"))})
 
-write.table(grantDesc,file="data/HutchEast/HutchEast_GrantDescriptionProjNum_7-14-15.txt", col.names=T,row.names=F, sep="\t", quote=F)
-write.table(FullTable,file="data/HutchEast/HutchEast_MembersCrossRef_7-14-15.txt", col.names=T,row.names=F, sep="\t", quote=F)
-write.table(pubsTable,file="data/HutchEast/HutchEast_PublicationsCrossRefInst_7-14-15.txt", col.names=T,row.names=F, sep="\t", quote=F)
+write.table(grantDesc,file="data/HutchEast/HutchEast_GrantDescriptionProjNum_7-24-15.txt", col.names=T,row.names=F, sep="\t", quote=F)
+write.table(FullTable,file="data/HutchEast/HutchEast_MembersCrossRef_7-24-15.txt", col.names=T,row.names=F, sep="\t", quote=F)
+write.table(pubsTable,file="data/HutchEast/HutchEast_PublicationsCrossRefInst_7-24-15.txt", col.names=T,row.names=F, sep="\t", quote=F)
