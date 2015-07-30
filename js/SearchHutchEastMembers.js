@@ -1,4 +1,5 @@
 var tableRef, pubRef, trialRef, grantRef,locTable, FullTableRef;
+var ColRef = {};
 var graphResults;
 var GoogleMap;
 var MarkerHash;
@@ -103,7 +104,7 @@ $(document).ready(function() {
    }
 	checkOffset();       
 	
-    var ColumnTitle = [ {"sTitle": "Index", "sWidth": '50px'}, {"sTitle": "Full.Name", "sWidth": '50px'}, {"sTitle": "Last.Name", "sWidth": '50px'}, {"sTitle": "First.Name", "sWidth": '50px'}, {"sTitle": "Degrees", "sWidth": '50px'}, {"sTitle": "Job.Title", "sWidth": '50px'}, {"sTitle": "Primary.Organization", "sWidth": '50px'}, {"sTitle": "Other..Practice..Affiliations.", "sWidth": '50px'}, {"sTitle": "Department", "sWidth": '50px'}, {"sTitle": "Phone.Number", "sWidth": '50px'}, {"sTitle": "Email", "sWidth": '50px'}, {"sTitle": "Bio", "sWidth": '50px'}, {"sTitle": "Websites", "sWidth": '50px'}, {"sTitle": "Videos", "sWidth": '50px'}, {"sTitle": "Tumor.Type.s.", "sWidth": '50px'}, {"sTitle": "Designation", "sWidth": '50px'}, {"sTitle": "Institutional.Affiliation", "sWidth": '50px'}, {"sTitle": "Focus.Areas", "sWidth": '50px'}, {"sTitle": "Member.Photos", "sWidth": '50px'}, {"sTitle": "FH.Primary", "sWidth": '50px'}, {"sTitle": "Departments.and.Divisions", "sWidth": '50px'}, {"sTitle": "Converis.ID", "sWidth": '50px'}, {"sTitle": "STTR.member", "sWidth": '50px'}, {"sTitle": "omicsField", "sWidth": '50px'}, {"sTitle": "specialty", "sWidth": '50px'}, {"sTitle": "keywords", "sWidth": '50px'}, {"sTitle": "PubList", "sWidth": '50px'}, {"sTitle": "GrantList", "sWidth": '50px'}, {"sTitle": "TrialList", "sWidth": '50px'}]
+    var ColumnTitle = [ {"sTitle": "Index", "sWidth": '50px'}, {"sTitle": "Full.Name", "sWidth": '50px'}, {"sTitle": "Last.Name", "sWidth": '50px'}, {"sTitle": "First.Name", "sWidth": '50px'}, {"sTitle": "Degrees", "sWidth": '50px'}, {"sTitle": "Job.Title", "sWidth": '50px'}, {"sTitle": "Primary.Organization", "sWidth": '50px'}, {"sTitle": "Cancer.Primary", "sWidth": '50px'}, {"sTitle": "Other..Practice..Affiliations.", "sWidth": '50px'}, {"sTitle": "Department", "sWidth": '50px'}, {"sTitle": "Phone.Number", "sWidth": '50px'}, {"sTitle": "Email", "sWidth": '50px'}, {"sTitle": "Bio", "sWidth": '50px'}, {"sTitle": "Websites", "sWidth": '50px'}, {"sTitle": "Videos", "sWidth": '50px'}, {"sTitle": "Tumor.Type.s.", "sWidth": '50px'}, {"sTitle": "Designation", "sWidth": '50px'}, {"sTitle": "Institutional.Affiliation", "sWidth": '50px'}, {"sTitle": "Focus.Areas", "sWidth": '50px'}, {"sTitle": "Member.Photos", "sWidth": '50px'}, {"sTitle": "FH.Primary", "sWidth": '50px'}, {"sTitle": "Departments.and.Divisions", "sWidth": '50px'}, {"sTitle": "Converis.ID", "sWidth": '50px'}, {"sTitle": "STTR.member", "sWidth": '50px'}, {"sTitle": "omicsField", "sWidth": '50px'}, {"sTitle": "specialty", "sWidth": '50px'}, {"sTitle": "keywords", "sWidth": '50px'}, {"sTitle": "PubList", "sWidth": '50px'}, {"sTitle": "GrantList", "sWidth": '50px'}, {"sTitle": "TrialList", "sWidth": '50px'}]
 
  		 $("#DataTable").dataTable({
        		  "aoColumns": ColumnTitle,
@@ -140,26 +141,30 @@ $(document).ready(function() {
          .fnAdjustColumnSizing(); 
 	locRef = $("#locTable").dataTable();
 
-
-
-	d3.json("data/HutchEast/HutchEast_GrantDescriptionProjNum_7-24-15_json.txt", function(json){
+    ColRef.Member = {Name: 1, LastName: 2, FirstName: 3, Degrees: 4, Title: 5, Institute: 6, CancerPrimary: 7, Affiliation: 8, Department: 9, Phone: 10, 
+                     email: 11, bio: 12, website: 13, TumorType: 15, Designation: 16, keyword: 26, pubs: 27, grants: 28, trials:29 };
+    ColRef.Trials = {Institute: 1, Title: 2, MemberID: 5, Phase: 6, Sponsor: 7, SponsorType: 8, Purpose: 9, age: 10, ID: 11, TumorType: 12 };
+    ColRef.Grants = {Title: 1, TumorType: 2, Sponsor: 3, Activity: 7, MemberID: 15, Institute: 17, Year: 19,  Cost: 22 };
+    ColRef.Publication = { MemberID: 2, FirstLast: 3, Authors: 4, Title: 5, Citation: 6, Year: 7, PMID: 8, TumorType: 9, Institute: 10};
+    
+	d3.json("data/HutchEast/HutchEast_GrantDescriptionProjNum_7-29-15_json.txt", function(json){
 		 var grantData=json
 		 grantRef.fnAddData(grantData);
   	   d3.json("data/HutchEast/HutchEast_ClinicalTrials_7-24-15_json.txt", function(json){
 		 var trialData=json
 		 trialRef.fnAddData(trialData);
-    	d3.json("data/HutchEast/HutchEast_PublicationsCrossRefInst_7-24-15_json.txt", function(json){
+    	d3.json("data/HutchEast/HutchEast_PublicationsCrossRefInst_7-29-15_json.txt", function(json){
 		 var pubData=json		 
 		 pubRef.fnAddData(pubData);
        d3.json("data/HutchEast/HutchEast_Locations_7-24-15_json.txt", function(json){
 		  var locData=json		 
 		  locRef.fnAddData(locData);
-	   d3.json("data/HutchEast/HutchEast_MembersCrossRef_7-24-15_json.txt", function(jsonMems){
+	   d3.json("data/HutchEast/HutchEast_MembersCrossRef_7-29-15_json.txt", function(jsonMems){
 
 		 var DataTable=jsonMems
 		 tableRef.fnAddData(DataTable);
 		 FullTableRef.fnAddData(DataTable);
-         tableRef.fnSort([2, "asc"])  //sort by name
+         tableRef.fnSort([ColRef.Member.LastName, "asc"])  //sort by name
          var rows = tableRef._('tr', {"filter":"applied"})
          var uniqueIDs = uniqueArray(rows.map(function(value,index) { return value[0]; }))
  
@@ -189,8 +194,6 @@ $(document).ready(function() {
              toggle_visibility("SearchSpan", "SEARCHdiv");          });
         $("#ProfileSpan").click(function(){ 
              toggle_visibility("ProfileSpan", "PROFILEdiv");        });
-        $(".VisualizeSpan").click(function(){ 
-             toggle_visibility("", "VISUALIZEdiv");                 });
         $("#HomeSpan").click(function(){ 
 //            toggle_visibility("Home", "HOMEdiv");
              if( document.getElementById("ProfileResults") == null)
@@ -220,7 +223,12 @@ $(document).ready(function() {
     })
 
     $(".barPlot").click(function(){  toggle_visibility("barplot", "VISUALIZEdiv") })
-    $(".mapPlot").click(function(){  toggle_visibility("mapplot", "VISUALIZEdiv") })
+    $(".mapPlot").mousedown(function(){  
+       toggleWaitCursor() })
+    $(".mapPlot").mouseup(function(){  
+       toggle_visibility("mapplot", "VISUALIZEdiv"); 
+       toggleWaitCursor() })
+    $(".profilePlot").click(function(){  toggle_visibility("profiles", "SEARCHdiv") })
     $(".plotOption").change(updateActiveContent);
     $(".plotFeatureOption").change(updateGroupOptions);
  	$('.fil_NA :checkbox').click(function(){
@@ -267,7 +275,7 @@ $(document).ready(function() {
         }else {
            elem.children[0].className = elem.children[0].className.replace("glyphicon-arrow-up", "glyphicon-arrow-down")
            elem.children[0].className = elem.children[0].className.replace("sortDescending", "sortAscending")
-           tableRef.fnSort([2, "asc"])  //sort by last name
+           tableRef.fnSort([ColRef.Member.LastName, "asc"])  //sort by last name
         }
          
           var $ProfileList = $("div.ProfileContainer")
@@ -370,14 +378,17 @@ $(document).ready(function() {
 	function toggle_selection(group){
 	
         if(group == "fil_inst"){
-           tableRef.fnFilter("", 6);  
-           Filter_Selection("FilterInstitution", "ReportInstFilterSpan",6, "<i> from </i>")
+           tableRef.fnFilter("", ColRef.Member.Institute);  
+           Filter_Selection("FilterInstitution", "ReportInstFilterSpan",ColRef.Member.Institute, "<i> from </i>")
         } else if(group == "fil_disease"){        
-           tableRef.fnFilter("", 14); 
-           Filter_Selection("FilterDisease", "ReportDiseaseFilterSpan",14, "<i> researching </i>")
+           tableRef.fnFilter("", ColRef.Member.TumorType); 
+           Filter_Selection("FilterDisease", "ReportDiseaseFilterSpan",ColRef.Member.TumorType, "<i> researching </i>")
+        } else if(group == "fil_cancer"){        
+           tableRef.fnFilter("", ColRef.Member.CancerPrimary); 
+           Filter_Selection("FilterCancer", "ReportCancerFilterSpan",ColRef.Member.CancerPrimary, "<i> with primary focus on </i>")
         } else if(group == "fil_year"){        
 //           tableRef.fnFilter("", 14); 
-           Filter_Selection("FilterYear", "ReportYearFilterSpan",null, "<i> with grants/publications in </i>")
+//           Filter_Selection("FilterYear", "ReportYearFilterSpan",null, "<i> with grants/publications in </i>")
         }
             updateActiveContent();
     }
@@ -474,8 +485,10 @@ $(document).ready(function() {
    function showAllRows() {
       
       tableRef.fnFilter("");
-      tableRef.fnFilter("", 6);  // clear Inst filter
-      tableRef.fnFilter("", 14); // clear field filter
+      tableRef.fnFilter("", ColRef.Member.Institute);  
+      tableRef.fnFilter("", ColRef.Member.TumorType); 
+      tableRef.fnFilter("", ColRef.Member.CancerPrimary);
+      tableRef.fnFilter("", ColRef.Member.Year); 
 
       tableRef.fnDraw()
    }
@@ -499,8 +512,9 @@ $(document).ready(function() {
            SearchTableByStrings(wordArray); 
         }  
         
-        Filter_Selection("FilterInstitution", "ReportInstFilterSpan",6, "<i> from </i>")
-        Filter_Selection("FilterDisease", "ReportDiseaseFilterSpan",14, "<i> specializing in </i>")
+        Filter_Selection("FilterInstitution", "ReportInstFilterSpan",ColRef.Member.Institute, "<i> from </i>")
+        Filter_Selection("FilterDisease", "ReportDiseaseFilterSpan",ColRef.Member.TumorType, "<i> specializing in </i>")
+        Filter_Selection("FilterCancer", "ReportCancerFilterSpan",ColRef.Member.CancerPrimary, "<i> with primary focus on </i>")
    }
 
    //----------------------------------------------------------------------------------------------------
@@ -536,11 +550,11 @@ $(document).ready(function() {
               var FilterString = "^"+RowIdx+"$"
                   tableRef.fnFilter(FilterString, 0, true, false); //searches index column for Profile Index
               var row = tableRef._('tr', {"filter":"applied"});   
-                $("#edit_firstname").val(row[0][3])
-                $("#edit_lastname").val(row[0][14])
-                $("#edit_institution").val(row[0][9])
-                $("#edit_title").val(row[0][1])
-                $("#edit_disease").val(row[0][2].replace(/#/, ""))
+                $("#edit_firstname").val(row[0][ColRef.Member.FirstName])
+                $("#edit_lastname").val(row[0][ColRef.Member.LastName])
+                $("#edit_institution").val(row[0][ColRef.Member.Institute])
+                $("#edit_title").val(row[0][ColRef.Member.Title])
+                $("#edit_disease").val(row[0][ColRef.Member.TumorType].replace(/#/, ""))
 
             tableRef.fnFilter("", 0); // clear index filter
            }
@@ -750,14 +764,14 @@ $(document).ready(function() {
            var row = FullTableRef._('tr', {"filter":"applied"});   
            FullTableRef.fnFilter("",0)
            
-         var Name =  "<b>"+row[0][1]+"</b>" ;
-          if(row[0][4] !== ""){ Name= Name.concat(", " + row[0][4]); }
+         var Name =  "<b>"+row[0][ColRef.Member.Name]+"</b>" ;
+          if(row[0][ColRef.Member.Degrees] !== ""){ Name= Name.concat(", " + row[0][ColRef.Member.Degrees]); }
           var Title = "", Contact="";
-           if(row[0][5] !== ""){ Title = row[0][5] + "<br>"}
-           if(row[0][8] !== ""){ Title = Title + row[0][8] + "<br>"}
-           if(row[0][6] !== ""){ Title = Title + row[0][6] + "<br>"}
-           if(row[0][9] !== ""){ Contact = Contact + row[0][9] + "<br>"}
-           if(row[0][10] !== ""){ Contact = Contact + row[0][10] + "<br>"}
+           if(row[0][ColRef.Member.Title] !== ""){ Title = row[0][ColRef.Member.Title] + "<br>"}
+           if(row[0][ColRef.Member.Department] !== ""){ Title = Title + row[0][ColRef.Member.Department] + "<br>"}
+           if(row[0][ColRef.Member.Institute] !== ""){ Title = Title + row[0][ColRef.Member.Institute] + "<br>"}
+           if(row[0][ColRef.Member.Phone] !== ""){ Contact = Contact + row[0][ColRef.Member.Phone] + "<br>"}
+           if(row[0][ColRef.Member.email] !== ""){ Contact = Contact + row[0][ColRef.Member.email] + "<br>"}
 
          
          var pubSpan=      "<span id='pubSpan' style='display:none; padding-top:10px' class='fullProfile hideContent'>", 
@@ -765,7 +779,7 @@ $(document).ready(function() {
              trialSpan = "<span id='trialSpan' style='display:none; padding-top:10px' class='fullProfile hideContent'>";
         var numGrants=0, numPubs=0, numTrials=0;
          
-         var grantIDs = "^"+row[0][27].split(";").join("$|^") + "$";
+         var grantIDs = "^"+row[0][ColRef.Member.grants].split(";").join("$|^") + "$";
         if(grantIDs.length >2){
          grantRef.fnFilter(grantIDs, 0, true, false); //searches all columns (null) using RegEx (true)
          var grants = grantRef._('tr', {"filter":"applied"});   
@@ -777,19 +791,18 @@ $(document).ready(function() {
             seenIndices.push(grants[i][0])
 
            var grantTitle = "", Org="", Funder="", FYcost="";
-           if(grants[i][1] !== ""){ grantTitle = grants[i][1] }
-           if(grants[i][17] !== ""){ Org = grants[i][17] }
-           if(grants[i][14] !== ""){ PI = grants[i][14] }
-           if(grants[i][14] !== ""){ Funder = grants[i][3] }
+           if(grants[i][ColRef.Grants.Title] !== ""){ grantTitle = grants[i][ColRef.Grants.Title] }
+           if(grants[i][ColRef.Grants.Institute] !== ""){ Org = grants[i][ColRef.Grants.Institute] }
+           if(grants[i][ColRef.Grants.Sponsor] !== ""){ Funder = grants[i][ColRef.Grants.Sponsor] }
            
          grantRef.fnFilter(grants[i][0], 0, true, false); //searches all columns (null) using RegEx (true)
          var thisGrant = grantRef._('tr', {"filter":"applied"});   
          grantRef.fnFilter("",0)
-           thisGrant = thisGrant.sort(function (a, b) { return a[19] < b[19] ? -1 : a[19] > b[19] ? 1 : 0; });
+           thisGrant = thisGrant.sort(function (a, b) { return a[ColRef.Grants.Year] < b[ColRef.Grants.Year] ? -1 : a[ColRef.Grants.Year] > b[ColRef.Grants.Year] ? 1 : 0; });
            for(var j=0;j<thisGrant.length; j++){
               FYcost = FYcost + "; "
-              if(thisGrant[j][19] !== ""){ FYcost = FYcost + thisGrant[j][19] }
-              if(thisGrant[j][22] !== ""){ FYcost = FYcost + ": $" + thisGrant[j][22] }
+              if(thisGrant[j][ColRef.Grants.Year] !== ""){ FYcost = FYcost + thisGrant[j][ColRef.Grants.Year] }
+              if(thisGrant[j][ColRef.Grants.Cost] !== ""){ FYcost = FYcost + ": $" + thisGrant[j][ColRef.Grants.Cost] }
            }
            FYcost = FYcost.replace(/^;/,"")
            grantSpan = grantSpan +  grantTitle +"<br>"+Org+ "<br>"+Funder+ " ("+FYcost+") <br/><br/>"
@@ -798,50 +811,50 @@ $(document).ready(function() {
         grantSpan = grantSpan + "</span>"
         if(typeof seenIndices !== "undefined") numGrants = seenIndices.length
         
-         var pubIDs = "^"+row[0][26].split(";").join("$|^") + "$";
+         var pubIDs = "^"+row[0][ColRef.Member.pubs].split(";").join("$|^") + "$";
         if(pubIDs.length >2){
 
          pubRef.fnFilter(pubIDs, 0, true, false); //searches all columns (null) using RegEx (true)
          var pubs = pubRef._('tr', {"filter":"applied"});   
          pubRef.fnFilter("",0)
 
-         pubs = pubs.sort(function (a, b) { return a[7] < b[7] ? 1 : a[7] > b[7] ? -1 : 0; });
+         pubs = pubs.sort(function (a, b) { return a[ColRef.Publication.Year] < b[ColRef.Publication.Year] ? 1 : a[ColRef.Publication.Year] > b[ColRef.Publication.Year] ? -1 : 0; });
          for(var i=0;i<pubs.length; i++){
 
            var Authors = "", pubTitle = "",Citation="", Year="", PMID="";
-           if(pubs[i][4] !== ""){ Authors = pubs[i][4] }
-           if(pubs[i][5] !== ""){ pubTitle = pubs[i][5] }
-           if(pubs[i][6] !== ""){ Citation = pubs[i][6] }
-           if(pubs[i][7] !== ""){ Year = pubs[i][7] }
-           if(pubs[i][8] !== ""){ PMID = "PMID: " + pubs[i][8] }
+           if(pubs[i][ColRef.Publication.Authors] !== ""){ Authors = pubs[i][ColRef.Publication.Authors] }
+           if(pubs[i][ColRef.Publication.Title] !== ""){ pubTitle = pubs[i][ColRef.Publication.Title] }
+           if(pubs[i][ColRef.Publication.Citation] !== ""){ Citation = pubs[i][ColRef.Publication.Citation] }
+           if(pubs[i][ColRef.Publication.Year] !== ""){ Year = pubs[i][ColRef.Publication.Year] }
+           if(pubs[i][ColRef.Publication.PMID] !== ""){ PMID = "PMID: " + pubs[i][ColRef.Publication.PMID] }
            pubSpan = pubSpan  + Authors +".'"+pubTitle+ "' "+Citation+ " ("+Year+") "+ PMID + "<br/><br/>"
          }
-         numPubs = row[0][26].split(";").length
+         numPubs = row[0][ColRef.Member.pubs].split(";").length
         }
          pubSpan = pubSpan + "</span>"
 
          
-         var trialIDs = "^"+row[0][28].split(";").join("$|^") + "$";
+         var trialIDs = "^"+row[0][ColRef.Member.trials].split(";").join("$|^") + "$";
         if(trialIDs.length >2){
          trialRef.fnFilter(trialIDs, 0, true, false); //searches all columns (null) using RegEx (true)
          var trials = trialRef._('tr', {"filter":"applied"});   
          trialRef.fnFilter("",0)
 
-         trials = trials.sort(function (a, b) { return a[6] < b[6] ? 1 : a[6] > b[6] ? -1 : 0; });
+         trials = trials.sort(function (a, b) { return a[ColRef.Trials.Phase] < b[ColRef.Trials.Phase] ? 1 : a[ColRef.Trials.Phase] > b[ColRef.Trials.Phase] ? -1 : 0; });
          for(var i=0;i<trials.length; i++){
 
            var Org = "", trialTitle = "",Phase="", Age="",  TumorType="";
-           if(trials[i][2] !== ""){ trialTitle = trials[i][2]  }
-           if(trials[i][10] !== ""){ trialTitle = trialTitle + " ("+trials[i][11] +")<br/>"}
-           if(trials[i][1] !== ""){ Org = trials[i][1] }
-           if(trials[i][7] !== ""){ Org = Org + ", "+trials[i][7] }
-           if(trials[i][6] !== ""){ Phase = "; "+trials[i][6] }
-           if(trials[i][11] !== ""){ TumorType = "; "+trials[i][12] }
-           if(trials[i][9] !== ""){ Age = "<br/>Age: " + trials[i][10] }
+           if(trials[i][ColRef.Trials.Title] !== ""){ trialTitle = trials[i][ColRef.Trials.Title]  }
+           if(trials[i][ColRef.Trials.ID] !== ""){ trialTitle = trialTitle + " ("+trials[i][ColRef.Trials.ID] +")<br/>"}
+           if(trials[i][ColRef.Trials.Institute] !== ""){ Org = trials[i][ColRef.Trials.Institute] }
+           if(trials[i][ColRef.Trials.Sponsor] !== ""){ Org = Org + ", "+trials[i][ColRef.Trials.Sponsor] }
+           if(trials[i][ColRef.Trials.Phase] !== ""){ Phase = "; "+trials[i][ColRef.Trials.Phase] }
+           if(trials[i][ColRef.Trials.TumorType] !== ""){ TumorType = "; "+trials[i][ColRef.Trials.TumorType] }
+           if(trials[i][ColRef.Trials.age] !== ""){ Age = "<br/>Age: " + trials[i][ColRef.Trials.age] }
            trialSpan = trialSpan +trialTitle+Org+ " "+Phase+ " "
                        + TumorType + Age + "<br/><br/>";
          }
-        numTrials = row[0][28].split(";").length
+        numTrials = row[0][ColRef.Member.trials].split(";").length
         }
         trialSpan = trialSpan + "</span>"
              
@@ -859,7 +872,7 @@ $(document).ready(function() {
             + "<div id=Profile_"+RowIdx+"_website    class='fullProfile' style='margin-top:5px;'></div>")
      
   
-          var addtlPos = [7,16];
+          var addtlPos = [ColRef.Member.Affiliation];
           var AddedPos = ""
           for(var j=0; j<addtlPos.length; j++){
              if(row[0][addtlPos[j]] != "" & row[0][addtlPos[j]] != "NA"){
@@ -872,15 +885,15 @@ $(document).ready(function() {
              $("#Profile_"+RowIdx+"_addtlPos").css("margin-bottom","5px")
           }
  
-          if(row[0][14] !== "" & row[0][14] !== "NA"){ 
+          if(row[0][ColRef.Member.TumorType] !== "" & row[0][ColRef.Member.TumorType] !== "NA"){ 
              var Disease = "<b style='padding-right:38px'>Disease type </b>"
-             Disease = Disease+ ArrayToStringSpan(row[0][14].replace(/#/g,""), ";", ["", "#"], "; ")
+             Disease = Disease+ ArrayToStringSpan(row[0][ColRef.Member.TumorType].replace(/#/g,""), ";", ["", "#"], "; ")
              $("#Profile_"+RowIdx+"_Disease").append(Disease + "<br>")
              $("#Profile_"+RowIdx+"_Disease").css("margin-bottom","5px")
           }
             var Websites = ""
-          if(row[0][12] !== "" & row[0][12] !== "NA"){ 
-            var sites= row[0][12]
+          if(row[0][ColRef.Member.website] !== "" & row[0][ColRef.Member.website] !== "NA"){ 
+            var sites= row[0][ColRef.Member.website]
             var siteArray = sites.split(/[; ]+/); 
             if(siteArray != null){
               j=siteArray.length;
@@ -891,8 +904,7 @@ $(document).ready(function() {
           }
 
           var Keywords = [], Specialty = [];
-          if(row[0][24] !== "" & row[0][24] !== "NA"){ Specialty = row[0][24].toLowerCase().replace(/; /g,";").split(";")}
-          if(row[0][25] !== "" & row[0][25] !== "NA"){ Keywords  = row[0][25].toLowerCase().replace(/; /g,";").split(";")}
+          if(row[0][ColRef.Member.keyword] !== "" & row[0][ColRef.Member.keyword] !== "NA"){ Specialty = row[0][ColRef.Member.keyword].toLowerCase().replace(/; /g,";").split(";")}
           var Allkeywords = Keywords.concat(Specialty)
           if(Allkeywords.length){
             var UniqueKeywords = [];
@@ -904,9 +916,9 @@ $(document).ready(function() {
             $("#Profile_"+RowIdx+"_keywords").css("margin-bottom","5px")
           }
 
-          var Bio = ""
-          if(row[0][11] !== "" & row[0][11] !== "NA"){
-             Bio = row[0][11].replace(new RegExp('@', 'g'), "<br>") + "<br>";}
+          var Bio = "Professional bio coming soon..."
+          if(row[0][ColRef.Member.bio] !== "" & row[0][ColRef.Member.bio] !== "NA"){
+             Bio = row[0][ColRef.Member.bio].replace(new RegExp('@', 'g'), "<br>") + "<br>";}
            $("#Profile_"+RowIdx+"_Bio").append(Bio)
         
           
@@ -977,9 +989,9 @@ $(document).ready(function() {
         } else if(Feature == "Publications"){
            GroupList = ["Author Order", "Year","Institute", "None"]
         } else if(Feature == "Grants"){
-           GroupList = ["Sponsor", "Activity", "Year","Institute", "None"]
+           GroupList = ["Sponsor", "Year","Institute", "None"]
         } else if(Feature == "Trials"){
-           GroupList = ["Phase", "Sponsor","Institute", "None"]
+           GroupList = ["Phase","Institute", "None"]
         }
 
         for(var i=0;i<GroupList.length;i++){
@@ -1131,26 +1143,26 @@ selectedFieldarray = []
  
   if(Feature == "Members"){  
      if (Category == "Institute"){ 
-       Colmn = 6; $("#FilterInstitution :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
+       Colmn = ColRef.Member.Institute; $("#FilterInstitution :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
      else if (Category == "DiseaseType"){
-       Colmn = 14; $("#FilterDisease :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
+       Colmn = ColRef.Member.TumorType; $("#FilterDisease :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
        
-     if(Group == "Degrees"){         grpCol = 4}   
-     else if(Group == "Department"){ grpCol = 8}   
-     else if(Group == "Institute"){  grpCol = 6}   
+     if(Group == "Degrees"){         grpCol = ColRef.Member.Degrees}   
+     else if(Group == "Department"){ grpCol = ColRef.Member.Department}   
+     else if(Group == "Institute"){  grpCol = ColRef.Member.Institute}   
     
     plotTables = generateBarplotArray(data, Colmn, grpCol, 0, reqd)
     LookUpProfiles = plotTables[0], uniqueFeatures = plotTables[1], uniqueGroups = plotTables[2]
     
    } else if(Feature ==  "Publications"){
          
-     pubRef.fnFilter(filterDisease_String, 9, true, false);    
-     pubRef.fnFilter(filterYear_String, 7, true, false);    
-     pubRef.fnFilter(filterInst_String, 10, true, false);    
+     pubRef.fnFilter(filterDisease_String, ColRef.Publication.TumorType, true, false);    
+     pubRef.fnFilter(filterYear_String, ColRef.Publication.Year, true, false);    
+     pubRef.fnFilter(filterInst_String, ColRef.Publication.Institute, true, false);    
      var pubs = pubRef._('tr', {"filter":"applied"}); 
-     pubRef.fnFilter("", 9);    
-     pubRef.fnFilter("", 10);    
-     pubRef.fnFilter("", 7);    
+     pubRef.fnFilter("", ColRef.Publication.TumorType);    
+     pubRef.fnFilter("", ColRef.Publication.Year);    
+     pubRef.fnFilter("", ColRef.Publication.Institute);    
 
        if(pubs.length == 0){
            $("#MainGraph").append("<p><br/>Your query did not match any results.</p>")
@@ -1158,23 +1170,25 @@ selectedFieldarray = []
         }
   
 
-     if(Group == "Year"){              grpCol = 7}   
-     else if(Group == "Author Order"){ grpCol = 3}   
-     else if(Group == "Institute"){  grpCol = 10}   
+     if(Group == "Year"){              grpCol = ColRef.Publication.Year}   
+     else if(Group == "Author Order"){ grpCol = ColRef.Publication.FirstLast}   
+     else if(Group == "Institute"){  grpCol = ColRef.Publication.Institute}   
 
-     if      (Category == "Institute")  {Colmn = 10; $("#FilterInstitution :checkbox:checked").each(function() {  reqd.push($(this).val()) })} 
-     else if (Category == "DiseaseType"){Colmn = 9;  $("#FilterDisease :checkbox:checked").each(function() {      reqd.push($(this).val()) })}
+     if      (Category == "Institute")  {Colmn = ColRef.Publication.Institute; $("#FilterInstitution :checkbox:checked").each(function() {  reqd.push($(this).val()) })} 
+     else if (Category == "DiseaseType"){Colmn = ColRef.Publication.TumorType;  $("#FilterDisease :checkbox:checked").each(function() {      reqd.push($(this).val()) })}
  
     plotTables = generateBarplotArray(pubs, Colmn, grpCol, 2, reqd)
     LookUpProfiles = plotTables[0], uniqueFeatures = plotTables[1], uniqueGroups = plotTables[2]
 
    } else if(Feature ==  "Grants"){
          
-     grantRef.fnFilter(filterDisease_String, 2, true, false);    
-     grantRef.fnFilter(filterYear_String, 19, true, false);    
+     grantRef.fnFilter(filterInst_String, ColRef.Grants.Institute, true, false);    
+     grantRef.fnFilter(filterDisease_String, ColRef.Grants.TumorType, true, false);    
+     grantRef.fnFilter(filterYear_String, ColRef.Grants.Year, true, false);    
      var grants = grantRef._('tr', {"filter":"applied"}); 
-     grantRef.fnFilter("", 2);    
-     grantRef.fnFilter("", 19);    
+     grantRef.fnFilter("", ColRef.Grants.Institute);    
+     grantRef.fnFilter("", ColRef.Grants.TumorType);    
+     grantRef.fnFilter("", ColRef.Grants.Year);    
 
        if(grants.length == 0){
            $("#MainGraph").append("<p><br/>Your query did not match any results.</p>")
@@ -1182,22 +1196,24 @@ selectedFieldarray = []
         }
 
          
-     if (Category == "Institute"){ Colmn = 17; $("#FilterInstitution :checkbox:checked").each(function() {       reqd.push($(this).val()) })}
-     else if (Category == "DiseaseType"){    Colmn = 2; $("#FilterDisease :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
+     if (Category == "Institute"){ Colmn = ColRef.Grants.Institute; $("#FilterInstitution :checkbox:checked").each(function() {       reqd.push($(this).val()) })}
+     else if (Category == "DiseaseType"){    Colmn = ColRef.Grants.TumorType; $("#FilterDisease :checkbox:checked").each(function() {  reqd.push($(this).val()) })}
         
-     if(Group == "Year"){          grpCol = 19}   
-     else if(Group == "Activity"){ grpCol = 7}   
-     else if(Group == "Sponsor"){  grpCol = 3}   
-     else if(Group == "Institute"){grpCol = 17}   
+     if(Group == "Year"){          grpCol = ColRef.Grants.Year}   
+     else if(Group == "Activity"){ grpCol = ColRef.Grants.Activity}   
+     else if(Group == "Sponsor"){  grpCol = ColRef.Grants.Sponsor}   
+     else if(Group == "Institute"){grpCol = ColRef.Grants.Institute}   
     
-    plotTables = generateBarplotArray(grants, Colmn, grpCol, 15, reqd)
+    plotTables = generateBarplotArray(grants, Colmn, grpCol, ColRef.Grants.MemberID, reqd)
     LookUpProfiles = plotTables[0], uniqueFeatures = plotTables[1], uniqueGroups = plotTables[2]
 
    } else if(Feature ==  "Trials"){
          
-     trialRef.fnFilter(filterDisease_String, 12, true, false);    
+     trialRef.fnFilter(filterInst_String, ColRef.Trials.Institute, true, false);    
+     trialRef.fnFilter(filterDisease_String, ColRef.Trials.TumorType, true, false);    
      var trials = trialRef._('tr', {"filter":"applied"}); 
-     trialRef.fnFilter("", 12);    
+     trialRef.fnFilter("", ColRef.Trials.TumorType);    
+     trialRef.fnFilter("", ColRef.Trials.Institute);    
 
        if(trials.length == 0){
            $("#MainGraph").append("<p><br/>Your query did not match any results.</p>")
@@ -1205,14 +1221,14 @@ selectedFieldarray = []
         }
 
 
-     if      (Category == "Institute"){  Colmn = 1;  $("#FilterInstitution :checkbox:checked").each(function() {  reqd.push($(this).val()) })} 
-     else if (Category == "DiseaseType"){Colmn = 12; $("#FilterDisease :checkbox:checked").each(function() {      reqd.push($(this).val()) })} 
+     if      (Category == "Institute"){  Colmn = ColRef.Trials.Institute;  $("#FilterInstitution :checkbox:checked").each(function() {  reqd.push($(this).val()) })} 
+     else if (Category == "DiseaseType"){Colmn = ColRef.Trials.TumorType; $("#FilterDisease :checkbox:checked").each(function() {      reqd.push($(this).val()) })} 
    
-     if(Group == "Phase"){         grpCol = 6}   
-     else if(Group == "Sponsor"){  grpCol = 7}   
-     else if(Group == "Institute"){  grpCol = 1}   
+     if(Group == "Phase"){         grpCol = ColRef.Trials.Phase}   
+     else if(Group == "Sponsor"){  grpCol = ColRef.Trials.Sponsor}   
+     else if(Group == "Institute"){  grpCol = ColRef.Trials.Institute}   
      
-    plotTables = generateBarplotArray(trials, Colmn, grpCol, 5, reqd)         
+    plotTables = generateBarplotArray(trials, Colmn, grpCol, ColRef.Trials.MemberID, reqd)         
     LookUpProfiles = plotTables[0], uniqueFeatures = plotTables[1], uniqueGroups = plotTables[2]
 
    }
@@ -1369,8 +1385,8 @@ selectedFieldarray = []
        
  
      for(var row=0;row<data.length; row++){
-           if(data[row][7] !== ""){
-              var markerList = data[row][7].split(", ")
+           if(data[row][ColRef.Member.Affiliation] !== ""){
+              var markerList = data[row][ColRef.Member.Affiliation].split(", ")
               for(var m=0;m<markerList.length;m++){
                 locRef.fnFilter(markerList[m], 1, true, false); //searches index column for Profile Index
                 var locInfo = locRef._('tr', {"filter":"applied"});   
@@ -1437,8 +1453,8 @@ function drawGoogleMap(){
         MarkerHash[k].infowindow.close()
       } 
       for(var row=0;row<data.length; row++){
-           if(data[row][7] !== ""){
-              var markerList = data[row][7].split(", ")
+           if(data[row][ColRef.Member.Affiliation] !== ""){
+              var markerList = data[row][ColRef.Member.Affiliation].split(", ")
               for(var m=0;m<markerList.length;m++){
                 if(typeof MarkerHash[markerList[m]] !== "undefined")
                   MarkerHash[markerList[m]].marker.setVisible(true);
@@ -1448,7 +1464,6 @@ function drawGoogleMap(){
            }
      }
 
- //     toggleWaitCursor()
  //     ShowPlotProfiles(LookupProfiles["Location"])
 }
 
@@ -1700,17 +1715,17 @@ function searchByLocation(){
          for(var i=0; i < rows.length; i++){   // then reveals ones that haven't been filtered
             var RowIdx = rows[i][0]
  
-            var Name = rows[i][3] + " " + rows[i][2] + ", " + rows[i][4]
-            var email = rows[i][21]
-            var Title = rows[i][5] + ", " + rows[i][6]
-            var Bio = rows[i][22].replace(/@/g,"\r\n")
+            var Name = rows[i][ColRef.Member.FirstName] + " " + rows[i][ColRef.Member.LastName] + ", " + rows[i][ColRef.Member.Degrees]
+            var email = rows[i][ColRef.Member.email]
+            var Title = rows[i][ColRef.Member.Title] + ", " + rows[i][ColRef.Member.Institute]
+            var Bio = rows[i][ColRef.Member.bio].replace(/@/g,"\r\n")
             var AddtlPos   = ""
             var ContactFor = ""
             var Disease    = ""
             var Omics      = ""
 
             if($("#Profile_"+RowIdx)[0].className.match("ProfileNotYetLoaded")){
-               var addtlPos = [8,11,14,17];
+               var addtlPos = [ColRef.Member.Affiliation];
                var AddedPos = ""
                for(var j=0; j<addtlPos.length; j++){
                  if(rows[0][addtlPos[j]] != "" & rows[0][addtlPos[j]] != "NA"){
@@ -1719,14 +1734,10 @@ function searchByLocation(){
                }
                AddtlPos = AddedPos
  
-               if(rows[0][25] !== "" & rows[0][25] !== "NA"){ Disease =  rows[0][25].replace(/#/g,"") }
-               if(rows[0][41] !== "" & rows[0][41] !== "NA"){ Omics = rows[0][41] }   
-               if(rows[0][45] !== "" & rows[0][45] !== "NA"){ ContactFor = rows[0][45]}
+               if(rows[0][ColRef.Member.TumorType] !== "" & rows[0][ColRef.Member.TumorType] !== "NA"){ Disease =  rows[0][ColRef.Member.TumorType].replace(/#/g,"") }
            }else{
                 AddtlPos   = $("#Profile_"+RowIdx+"_addtlPos")[0].innerHTML.replace(/<.+?>/g,"").replace(/[\r|\n]$/,"")
-                ContactFor = $("#Profile_"+RowIdx+"_ContactFor")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"")
                 Disease    = $("#Profile_"+RowIdx+"_Disease")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"").replace(/; $/,"")
-                Omics      = $("#Profile_"+RowIdx+"_Omics")[0].innerHTML.replace(/<.+?>/g,"").replace(/\r|\n/g,"").replace(/; $/,"")
            }
                       
             verticalOffset += 0.2
@@ -1740,19 +1751,11 @@ function searchByLocation(){
 
            doc.setFontType("normal"); doc.setTextColor(150);
            var previousText = false; var CategoryText = ""
-            if(ContactFor != ""){
-               CategoryText = ContactFor.replace(/Contact for /, "").replace(/; $/,"")
-               previousText = true;
-            }
-            if(Disease != ""){  
+             if(Disease != ""){  
                Disease = Disease.replace(/Disease type /, "").replace(/&amp;/g, "&")
                if(previousText) Disease = " / " + Disease
                CategoryText  = CategoryText + Disease
                previousText = true;
-            }if(Omics != ""){  
-               Omics = Omics.replace(/Computational field /, "")
-               if(previousText) Omics = " / " + Omics
-               CategoryText  = CategoryText + Omics
             }
            if(CategoryText != "")
                addPDFcontent(CategoryText)

@@ -89,9 +89,17 @@
 		       </div>	
 		       
 		       <div class="filter">
+                <ul id="FilterCancer" class="filterOptions showContent">
+             	  <h2><b> Primary focus </b></h2>
+                  <div class='toClear'>clear</div>
+                  <div class='toggleFilterExpansion toContract'><b>&gt;</b></div>
+                  <div class='toSelectAll'>select all</div>
+             	      <li style="padding-top:5px"><input class="fil_cancer" type="checkbox" value="Cancer">Cancer</li>
+             	  	  <li class="divider"></li>
+             	</ul>
                 <ul id="FilterDisease" class="filterOptions showContent">
-             	 <h2><b> Disease type </b></h2>
-                 <div class='toClear'>clear</div>
+             	 <h2><b> Disease type </b></h2>  
+             	 <div class='toClear'>clear</div>
                  <div class='toggleFilterExpansion toContract'><b>&gt;</b></div>
                  <div class='toSelectAll'>select all</div>
              	  	<li style="padding-top:5px"><input class="fil_disease" type="checkbox" value="Bladder">Bladder</li>
@@ -130,17 +138,11 @@
 
      <div id="RightBar" class="RightBar dropFirst" > 
 
-        <div class="RightNavSection"> <b>Main Pages</b><br>
-          <span style='cursor:pointer; float:left;' class='MainTablePages' >Grants</span>
-          <span style='cursor:pointer; float:right;' class='MainTablePages' >Members</span>
-
-        </div> <!-- PopularSearchdiv -->
-
         <div class="RightNavSection" style="min-height:260px"> <b>Visualize your Query</b><br/>
-           <div style="clear:both;float:right;  opacity:0.2" > <img src="images/graphStills/PieChart.png"/> </div>
+           <div style="clear:both; float:right;" class="VisualizeSpan mapPlot" ><img src="images/graphStills/USmap2.png"  style="height:115px"/>  </div>
            <div style="float:right;"  class="VisualizeSpan barPlot"><img src="images/graphStills/BarPlot_cropped2.png"/> </div>
-           <div style="clear:both; float:right;" class="VisualizeSpan mapPlot" ><img src="images/graphStills/usMap.png"/>  </div>
-           <div style="float:right;  opacity:0.2"  ><img src="images/graphStills/Network.png"/> </div>
+           <div style="clear:both;float:right;  opacity:0.2"  ><img src="images/graphStills/Network.png"/> </div>
+           <div style="float:right;"  class="VisualizeSpan profilePlot" > <img src="images/graphStills/HutchE_profiles.png"/> </div>
         </div> <!-- /vizplots -->
        
        <div class="RightNavSection"> <b>Feedback</b><br/>
@@ -218,6 +220,7 @@
              <span id="SearchStringDiv"></span>
              <span id="FilterStringDiv">
                <span id="ReportInstFilterSpan"></span>
+               <span id="ReportCancerFilterSpan"></span>
                <span id="ReportDiseaseFilterSpan"></span>
                <span id="ReportYearFilterSpan"></span>
              </span>
@@ -455,11 +458,11 @@
 
      <div class="runningHeader"> 
     <span id="HomeSpan" class="dropThird" style="text-align:center;min-width:200px;font-size:2.5em;font-family:sans-serif;cursor:pointer; position:relative;left:10px; float:left; margin-right:25px">
-        <a href="/Default.htm"> 
+         
          <div style="height:40px; border-bottom: #60a8fa thin solid">
             <span style="color:#60a8fa;">STTR</span><span style="color:white;font-size:0.8em;">connect</span> </div>
          <div style="color:white;font-size:0.4em;">Cancer Matrix</div>
-        </a></span>
+       </span>
 
      <div id="SEARCH_BARdiv" class="searchBar" style="width:60%;padding-top:15px;">
        <div class="sitesearch">
