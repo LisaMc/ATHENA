@@ -1131,7 +1131,7 @@ function searchByLocation(){
          doc.setFontType("bold"); 
          doc.rect(0.5,0.2, 7.5,0.8, "F")
          centeredText("STTRconnect.org", 0.75)
-			doc.addImage(img.onload(), 'JPEG', 6.3, 0.2, 1.65, 0.75);
+			doc.addImage(img.onload(), 'JPEG', 6.2, 0.2, 1.755, 0.675);
 
 
 
