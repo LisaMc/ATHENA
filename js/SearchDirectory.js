@@ -115,7 +115,7 @@ $(document).ready(function() {
 
  	tableRef = $("#DataTable").dataTable();
 
-	d3.json("data/AthenaRainier_merged_byIndex_6-1-15.txt", function(json){
+	d3.json("data/AthenaRainier_merged_byIndex_9-15-15_json.txt", function(json){
 
 		 var DataTable=json
 		 tableRef.fnAddData(DataTable);
