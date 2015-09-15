@@ -140,20 +140,22 @@
 
      <div id="RightBar" class="RightBar dropFirst" > 
         
-          <div class="RightNavSection"> <b>Popular Searches</b><br>
-             <span class='PopularSearch' style='cursor:pointer; float:left; padding-left:20px ' >Summer Activities</span>            
-<!--             <span class='PopularSearch' style='cursor:pointer; float:left; padding-left:20px ' >College Scholarships</span>  -->
-             <span class='PopularSearch' style='cursor:pointer; float:left; padding-left:20px '>Wigs</span>
-             <span class='PopularSearch' style='cursor:pointer; float:left; padding-left:20px '>Nutrition</span><br/>             
+          <div class="RightNavSection" style="width:450px; text-align:justify; padding-bottom:2px"> 
+             <span style=""><b>STTRconnect: Patient Resources </b> is a searchable database of no- or low-cost resources for cancer patients and caregivers provided either online or located in 
+             Washington, Oregon, Idaho, Montana, Wyoming and Alaska.  Search or filter to find support groups, summer camps, transportation, 
+             lodging options, etc or simply learn more about a cancer type. 
+             </span>             
              
 
         </div> <!-- PopularSearchdiv -->
 
         <div class="RightNavSection"></div>
+        <span style="float:right; margin-left:20px" class="filterMap"><input id="updateListMapCheckbox" type="checkbox" value="updateByMap" class="fil_map">Filter list by Map (hides online resources)</span>      
+
         <div id="GoogleGraph" >
           <div id="googleMapDiv"></div>
           <div id="VizAddendum">
-                 <div style="margin-top:8px; font-size:1.5em ">
+                 <div style="margin-top:2px; font-size:1.5em ">
                      <input style="width:80%;float:left" type="text" name="userLocation" id="userLocation" value=''  placeholder="Find on map...">
                  	 <span style="width:15%;float:left"> <button id="locate" style="padding-top:8px; padding-bottom:8px" class='SubmitProfile'><b class='glyphicon glyphicon-search' style='color:white;'></b></button></span>
                  </div >
@@ -170,10 +172,17 @@
        	                        <option value="1609">1 mi</option>
                       </select> 
                       <span style="margin-left:20px"><input id="currentLocationCheckbox" type="checkbox" value="MyLocation">Use my Location </span>      
+
                 </div>                
              </div><!-- /Addendum -->
           </div> <!-- /GoogleGraph -->
     
+      <div class="RightNavSection" style="width:450px; text-align:justify; margin-top:20px">
+            <span ><b>Solid Tumor Translational Research (STTR)</b> is an effort based at the Fred Hutchinson Cancer Research Center 
+             with the goal to speed translational research discoveries. STTR designs programs and initiatives to create and promote 
+             collaboration between top researchers at Fred Hutch, UW Medicine and Seattle Cancer Care Alliance.</span> 
+      </div>
+
 
 
     </div> <!-- RightBar -->
@@ -204,7 +213,7 @@
          <div id="ExportDiv" style="float:right; cursor:pointer;">
            <ul class="nav navbar-nav"> <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <span style="color:black">Send to </span> <b class="caret" style="color:#60a8fa"></b> </a>
+                  <span style="color:black">Print</span> <b class="caret" style="color:#60a8fa"></b> </a>
                   <ul class="dropdown-menu">
   			         <h4 style="text-align:center;color:black; text-decoration: underline;margin:0;"> Destination </h4> 
 				     <li><a href="javascript:void(0)" onclick="exportResults()">PDF</a></li>
@@ -218,6 +227,7 @@
              <span id="FilterStringDiv">
                <span id="ReportResourceFilterSpan"></span>
                <span id="ReportDiseaseFilterSpan"></span>
+               <span id="ReportMapFilterSpan"></span>
              </span>
         </div>
 
@@ -363,10 +373,9 @@
 
        <nav><div class="utility_nav noprint">
        <ul>       
-     <li class="utility_home"><a href="/en.html">Home</a></li>
-     <li><a href="https://share.fhcrc.org/sites/cancer-center/sttr/" target="_blank" title="Link to the members site opens in a new browser window">Members</a></li>
-     <li><a href="http://sttrcancer.org/en/contact-us.html">Contact <span class="droptext">Us</span></a></li>
-      <li class="utility_donate_button"><a href="https://secure2.convio.net/fhcrc/site/Donation2?df_id=5340&5340.donation=form1" target="_blank"><img class="rolloverImage" src="images/sttr_donate_button_static.png" data-hover="images/sttr_donate_button_static.png"></a></li>
+     <li class="dropFirst">   <a href="http://www.fhcrc.org" target="_blank"><img class="dropFirst" width="235" height="80" src="images/logo-fred-hutchinson-cancer-research-center_new.png" alt="Fred Hutchinson Cancer Research Center"/></a></li>
+
+      <li class="utility_donate_button" style="margin-top:25px"><a href="https://secure2.convio.net/fhcrc/site/Donation2?df_id=5340&5340.donation=form1" target="_blank"><img class="rolloverImage" src="images/sttr_donate_button_static.png" data-hover="images/sttr_donate_button_static.png"></a></li>
     </ul>
     <div id="utility_search" class="utility_search">
      <div class="sitesearch">
@@ -381,17 +390,17 @@
        
      </div></nav><!-- /utility_nav -->
 
-     <div class="runningHeader"> 
+     <div class="runningHeader" style="width:73%"> 
     <span id="HomeSpan" class="dropThird" style="text-align:center;min-width:200px;font-size:2.5em;font-family:sans-serif;cursor:pointer; position:relative;left:10px; float:left; margin-right:25px">
         <a href="/Default.htm"> 
          <div style="height:40px; border-bottom: #60a8fa thin solid"><span style="color:#60a8fa;">STTR</span><span style="color:white;font-size:0.8em">connect</span></div>
          <div style="color:white;font-size:0.4em;">patient resources</div>
         </a></span>
 
-     <div id="SEARCH_BARdiv" class="searchBar" style="width:60%;padding-top:15px;">
+     <div id="SEARCH_BARdiv" class="searchBar" style="width:50%;padding-top:15px;">
        <div class="sitesearch">
             <form id="QueryFreeForm" record="'search', {'keyword': '', 'results':'', 'executionTime':''}" style="width:90%;float:left;border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px" >
- 		 	<input class="searchbox" maxlength="2048" id="QueryFreeInput" name="QueryText" placeholder="SEARCH for..." value="" type="text" style="color:black;;border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px "/>
+ 		 	<input class="searchbox" maxlength="2048" id="QueryFreeInput" name="QueryText" placeholder="SEARCH for ...  (wigs, summer activities, nutrition, etc)" value="" type="text" style="color:black;;border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px "/>
     		<input class="searchbutton" value="&gt;" type="submit" style="float:left;border-radius:7px;-moz-border-radius:7px;-webkit-border-radius:7px"/>    
   			</form>
          

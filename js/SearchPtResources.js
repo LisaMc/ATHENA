@@ -119,7 +119,7 @@ $(document).ready(function() {
 
  	tableRef = $("#DataTable").dataTable();
 
-	d3.json("data/All_Cancer_Patient_Resources_6-8-15_json.txt", function(json){
+	d3.json("data/All_Cancer_Patient_Resources_9-15-15_json.txt", function(json){
 
 		 var DataTable=json
 		 tableRef.fnAddData(DataTable);
@@ -182,6 +182,7 @@ $(document).ready(function() {
 
 //    $('.removableWord').click(function(){remove_searchTerm(this)})
 	$('.filterOptions :checkbox').click(function(){ toggle_selection(this.className); });	
+	$('.filterMap :checkbox').click(function(){ map_selection(); });	
     $(".toClear").click(function(){clearSelection(this, this.parentNode) })
     $(".toSelectAll").click(function(){selectAll(this, this.parentNode) })
     // update filter selections by sideNav selections
@@ -343,6 +344,29 @@ $(document).ready(function() {
         }     
         updateActiveContent();
     }
+ //----------------------------------------------------------------------------------------------------	  
+	function map_selection(){
+	    tableRef.fnFilter("", 0);    
+	    var mapIndicator = ""
+	    if($(".fil_map")[0].checked && $(".dropFirst").css("display") != "none"){ 
+	    	var mapIDs = [];
+	    	for(k in MarkerHash){ 
+	    		if(MarkerHash[k].marker.getVisible &&
+        		   GoogleMap.getBounds().contains(MarkerHash[k].marker.getPosition())){
+						mapIDs.push(k);
+		    	}
+			}
+			var idString = "^"+mapIDs.join("$|^") + "$";
+	        tableRef.fnFilter(idString, 0, true, false);    
+	        mapIndicator = "shown on map"
+       }
+
+       document.getElementById("ReportMapFilterSpan").innerHTML = mapIndicator
+
+       updateActiveContent();
+
+	}
+
  //----------------------------------------------------------------------------------------------------	  
     function clearSelection(elem, parent){
     
@@ -553,6 +577,7 @@ $(document).ready(function() {
           
          for(var i=0; i < rows.length; i++){   // then reveals ones that haven't been filtered
             var RowIdx = rows[i][0]
+            
            $("#Profile_"+RowIdx).toggleClass("FilteredProfileContent", false).toggleClass("ActiveProfileContent", true)
         }
     
@@ -844,7 +869,8 @@ $(document).ready(function() {
                       return function() { MarkerHash[innerKey].infowindow.open(GoogleMap, MarkerHash[innerKey].marker); } }(data[row][0]));
            }
        }
-
+	   GoogleMap.addListener('zoom_changed', map_selection);
+	   GoogleMap.addListener('center_changed', map_selection);
 
    }
 
@@ -982,8 +1008,8 @@ function searchByLocation(){
         service = new google.maps.places.PlacesService(GoogleMap);
         service.textSearch(request, callback);
     }
-    
-  
+
+    map_selection();  
 }
 
 
@@ -1061,7 +1087,7 @@ function searchByLocation(){
 	
           var rows = tableRef._('tr', {"filter":"applied"});   
           var doc = new jsPDF('p','in'), 
-          size = 12, lines, verticalOffset = 0.8; // inches on a 8.5 x 11 inch sheet.
+          size = 12, lines, verticalOffset = 0.9; // inches on a 8.5 x 11 inch sheet.
 
            //----------------------------------------------------------------------------------------------------
             var centeredText = function(text, y) {
@@ -1083,11 +1109,31 @@ function searchByLocation(){
 		       verticalOffset += (lines.length *1.15) * size / 72
             }
            //----------------------------------------------------------------------------------------------------
+			function getBase64Image(img) {
 
-         doc.setFontSize(34); doc.setTextColor(255)
+			    var canvas = document.createElement("canvas");
+
+			    canvas.width = img.width;
+			    canvas.height = img.height;
+			    var ctx = canvas.getContext("2d");
+
+			    ctx.drawImage(img, 0, 0);
+			    var dataURL = canvas.toDataURL("image/jpeg");	
+			    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+
+			}
+			var img = new Image();
+			img.onload = function(){    var dataURI = getBase64Image(img);    return dataURI;  }
+			img.src = "images/logo-fred-hutchinson-cancer-research-center_new.png";
+
+
+         doc.setFontSize(32); doc.setTextColor(255)
          doc.setFontType("bold"); 
-         doc.rect(0.5,0.2, 7.5,0.7, "F")
-         centeredText("STTRconnect.org", 0.8)
+         doc.rect(0.5,0.2, 7.5,0.8, "F")
+         centeredText("STTRconnect.org", 0.75)
+			doc.addImage(img.onload(), 'JPEG', 6.3, 0.2, 1.65, 0.75);
+
+
 
          doc.setFillColor(1); doc.setTextColor(96,168,250)
          doc.setFontType("normal");   doc.setFontSize(size);
