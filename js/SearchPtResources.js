@@ -883,17 +883,28 @@ function drawGoogleMap(){
     
     if(typeof GoogleMap ==="undefined")
        init_map()
+       
+    var openWindows = []
       
       for(k in MarkerHash){ 
         MarkerHash[k].marker.setVisible(false);
-        MarkerHash[k].infowindow.close()
+        if(MarkerHash[k].infowindow.getMap() !== null && typeof MarkerHash[k].infowindow.getMap() !== "undefined") 
+        	openWindows.push(k);
+//        MarkerHash[k].infowindow.close()
       } 
       for(var row=0;row<data.length; row++){
            if(data[row][13] !== "" && data[row][14] !== ""){
               MarkerHash[data[row][0]].marker.setVisible(true);
+              if(openWindows.indexOf(data[row][0]) !== -1) 
+              	openWindows.splice(openWindows.indexOf(data[row][0]), 1)
+//              	MarkerHash[data[row][0]].infowindow.open(GoogleMap, MarkerHash[data[row][0]].marker)
               LookupProfiles["Location"].count += 1
               LookupProfiles["Location"].Index.push( data[row][0])
             }
+      }
+      
+      for(var j =0;j<openWindows.length;j++){
+       	MarkerHash[openWindows[j]].infowindow.close()
       }
 
  //     toggleWaitCursor()
