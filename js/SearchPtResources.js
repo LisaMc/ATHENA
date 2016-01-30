@@ -119,7 +119,7 @@ $(document).ready(function() {
 
  	tableRef = $("#DataTable").dataTable();
 
-	d3.json("data/All_Cancer_Patient_Resources_9-15-15_json.txt", function(json){
+	d3.json("data/All_Cancer_Patient_Resources_1-29-16_json.txt", function(json){
 
 		 var DataTable=json
 		 tableRef.fnAddData(DataTable);
